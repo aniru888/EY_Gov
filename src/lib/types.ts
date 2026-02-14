@@ -102,6 +102,13 @@ export interface StateDetail {
     credit_zscore: (number | null)[];
     epfo_zscore: (number | null)[];
     n_components: number[];
+    perf_score?: (number | null)[];
+    perf_rank?: (number | null)[];
+    gst_pc_zscore?: (number | null)[];
+    electricity_pc_zscore?: (number | null)[];
+    credit_pc_zscore?: (number | null)[];
+    epfo_pc_zscore?: (number | null)[];
+    population?: (number | null)[];
   };
   monthly: {
     months: string[];
@@ -304,6 +311,80 @@ export interface EnrichedRankingEntry extends RankingEntry {
   gsdp_rank?: number | null;
   rank_gap?: number | null;
   brap_category?: string | null;
+  perf_rank?: number | null;
+  perf_score?: number | null;
+  activity_perf_gap?: number | null;
+}
+
+// Performance Index types
+export interface PerformanceRankingEntry {
+  state: string;
+  slug: string;
+  region: string;
+  perf_rank: number;
+  perf_score: number;
+  activity_rank: number | null;
+  activity_perf_gap: number | null;
+  population: number | null;
+  gst_pc_zscore: number | null;
+  electricity_pc_zscore: number | null;
+  credit_pc_zscore: number | null;
+  epfo_pc_zscore: number | null;
+}
+
+export interface PerformanceData {
+  fiscal_year: string;
+  generated_at: string;
+  count: number;
+  rankings: PerformanceRankingEntry[];
+}
+
+// Population analysis
+export interface PopulationAnalysis {
+  latest_fy: string;
+  n: number;
+  activity_rank_vs_population: {
+    spearman_rho: number;
+    p: number;
+    interpretation: string;
+  };
+  perf_rank_vs_population?: {
+    spearman_rho: number;
+    p: number;
+    interpretation: string;
+  };
+  size_bias_reduction?: number;
+  biggest_perf_risers?: Array<{
+    state: string;
+    slug: string;
+    activity_rank: number;
+    perf_rank: number;
+    gap: number;
+  }>;
+  biggest_perf_fallers?: Array<{
+    state: string;
+    slug: string;
+    activity_rank: number;
+    perf_rank: number;
+    gap: number;
+  }>;
+}
+
+// Growth z-scores
+export interface GrowthZScoresData {
+  latest_fy: string;
+  n: number;
+  rankings: Array<{
+    state: string;
+    slug: string;
+    growth_rank: number;
+    growth_composite_zscore: number;
+    activity_rank: number | null;
+    gst_yoy_pct: number | null;
+    elec_yoy_pct: number | null;
+    credit_yoy_pct: number | null;
+    epfo_yoy_pct: number | null;
+  }>;
 }
 
 // --- Electricity Analysis Types ---
@@ -489,6 +570,8 @@ export interface EnhancedRegressionData extends RegressionData {
 export interface EnhancedInsightsData extends InsightsData {
   gap_explanations?: GapExplanationsData;
   regional_analysis?: RegionalAnalysisData;
+  population_analysis?: PopulationAnalysis | null;
+  growth_zscores?: GrowthZScoresData | null;
 }
 
 // Extended StateDetail with electricity + gap explanation

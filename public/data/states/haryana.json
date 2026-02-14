@@ -145,6 +145,83 @@
       4,
       4,
       2
+    ],
+    "perf_score": [
+      0.5038966643866476,
+      0.5848402190878293,
+      0.8997250355843133,
+      0.8576362733798709,
+      1.0714516649424777,
+      0.8809668285372987,
+      0.9235257426513472,
+      0.9777598889578731,
+      null
+    ],
+    "perf_rank": [
+      6.0,
+      6.0,
+      4.0,
+      5.0,
+      5.0,
+      4.0,
+      4.0,
+      4.0,
+      null
+    ],
+    "gst_pc_zscore": [
+      1.3308785358825024,
+      1.307146346949142,
+      1.3209116200853612,
+      1.1981471902251777,
+      1.134950294476802,
+      1.2670003252797162,
+      1.3111324399883533,
+      1.479957843388716,
+      null
+    ],
+    "electricity_pc_zscore": [
+      0.16698088477639353,
+      0.15004083535124368,
+      0.23546723500386108,
+      1.3828071022964676,
+      1.1740413226559883,
+      0.23566788021008175,
+      0.16233892104443914,
+      0.204945877593047,
+      null
+    ],
+    "credit_pc_zscore": [
+      0.11524290982473963,
+      0.4115891569903072,
+      0.9768988317548774,
+      -0.265230019402514,
+      1.0514630699074066,
+      1.0214297759813142,
+      1.1503238802739797,
+      1.095307272455368,
+      null
+    ],
+    "epfo_pc_zscore": [
+      0.4024843270629548,
+      0.4705845370606245,
+      1.0656224554931533,
+      1.1148208204003525,
+      0.9253519727297144,
+      0.9997693326780827,
+      1.0703077292986167,
+      1.1308285623943617,
+      null
+    ],
+    "population": [
+      28672000.0,
+      29139000.0,
+      29606000.0,
+      30073000.0,
+      30540000.0,
+      31007000.0,
+      31474000.0,
+      31941000.0,
+      null
     ]
   },
   "monthly": {
@@ -741,10 +818,11 @@
   },
   "gap_explanation": {
     "direction": "outperformer",
-    "explanation": "Haryana ranks significantly higher on the activity index than on official GSDP. Its proximity to Delhi drives high formal employment (EPFO) and GST-registered commercial activity in the Gurgaon/NCR belt, while moderate agriculture suppresses official GSDP less than states like Punjab or MP.",
+    "explanation": "Haryana ranks significantly higher on the activity index than on official GSDP. Its proximity to Delhi drives high formal employment (EPFO) and GST-registered commercial activity in the Gurgaon/NCR belt, while moderate agriculture suppresses official GSDP less than states like Punjab or MP. Tiwari et al. (2021) found Haryana had the highest economic growth CAGR of all 18 states studied (1960-2015) and can conserve industrial electricity without hurting growth -- its economy has moved past the electricity-intensive phase.",
     "key_drivers": [
       "EPFO: NCR proximity drives formal employment",
-      "GST: Gurgaon commercial hub"
+      "GST: Gurgaon commercial hub",
+      "Post-industrial: decoupled from electricity intensity"
     ],
     "key_drags": [
       "Moderate agricultural share not captured by index"

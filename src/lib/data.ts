@@ -12,6 +12,7 @@ import type {
   EnhancedInsightsData,
   EnhancedRegressionData,
   EnhancedStateDetail,
+  PerformanceData,
 } from "./types";
 
 const DATA_DIR = path.join(process.cwd(), "public", "data");
@@ -97,6 +98,14 @@ export function getRegressionData(): RegressionData {
 export function getElectricityData(): ElectricityData {
   const raw = fs.readFileSync(
     path.join(DATA_DIR, "electricity.json"),
+    "utf-8"
+  );
+  return JSON.parse(raw);
+}
+
+export function getPerformanceData(): PerformanceData {
+  const raw = fs.readFileSync(
+    path.join(DATA_DIR, "performance.json"),
     "utf-8"
   );
   return JSON.parse(raw);

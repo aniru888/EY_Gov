@@ -909,8 +909,146 @@ export default function MethodologyPage() {
             </div>
           </Section>
 
-          {/* Section 11: Additional Caveats */}
-          <Section id="updated-limitations" title="13. Additional Caveats">
+          {/* Section 13: Per-Capita Performance */}
+          <Section id="percapita" title="13. Per-Capita Performance Index">
+            <div className="space-y-4 text-gray-700">
+              <p>
+                The Activity Index ranks states by <strong>absolute</strong>{" "}
+                values of each indicator. This makes the rankings ~83% correlated
+                with population (Spearman rho = -0.83) &mdash; essentially a
+                &ldquo;biggest state economies&rdquo; list. To answer a different
+                question &mdash; <em>which states generate the most formal
+                economic activity per person?</em> &mdash; we compute a{" "}
+                <strong>Performance Index</strong>.
+              </p>
+
+              <div className="bg-white border border-gray-200 rounded-lg p-5">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Construction
+                </h3>
+                <ol className="list-decimal pl-6 space-y-2 text-sm">
+                  <li>
+                    <strong>Population data:</strong> National Commission on
+                    Population projections (Census 2011 base, published 2020).
+                    Inter-census projections by state for calendar years
+                    2017&ndash;2025. FY mapping: FY 2023-24 uses CY 2023 population.
+                  </li>
+                  <li>
+                    <strong>Per-capita values:</strong> Each indicator is divided by
+                    state population, yielding GST per lakh people, electricity MU
+                    per million people, bank credit per lakh people, and EPFO payroll
+                    per million people.
+                  </li>
+                  <li>
+                    <strong>Z-score normalization:</strong> Cross-sectional z-scores
+                    of the per-capita values, exactly as in the Activity Index
+                    (Section 4), but using per-capita inputs instead of absolute
+                    values.
+                  </li>
+                  <li>
+                    <strong>Composite:</strong> Mean of per-capita z-scores (minimum
+                    3 of 4 required). Ranked separately from the Activity Index.
+                  </li>
+                </ol>
+              </div>
+
+              <div className="bg-white border border-gray-200 rounded-lg p-5">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Interpretation
+                </h3>
+                <p className="text-sm">
+                  City-states (Delhi, Chandigarh, Goa) naturally rank higher on
+                  per-capita measures due to their small populations and
+                  concentrated economic activity. Large states (Uttar Pradesh,
+                  Bihar) drop. <strong>Neither view is &ldquo;right&rdquo;</strong>{" "}
+                  &mdash; they answer different questions:
+                </p>
+                <ul className="list-disc pl-6 space-y-1 text-sm mt-2">
+                  <li>
+                    <strong>Activity Index:</strong> &ldquo;Where is economic
+                    activity happening?&rdquo; (useful for business location
+                    decisions, infrastructure planning)
+                  </li>
+                  <li>
+                    <strong>Performance Index:</strong> &ldquo;Where is each person
+                    most formally economically active?&rdquo; (useful for
+                    productivity comparisons, development benchmarking)
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-white border border-gray-200 rounded-lg p-5">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Activity-Performance Gap
+                </h3>
+                <p className="text-sm">
+                  The gap = Activity Rank minus Performance Rank. A positive gap
+                  means the state does <em>better</em> on per-capita measures
+                  than on absolute volume (e.g., Goa: large gap because it&apos;s
+                  small but productive). A negative gap means the state&apos;s volume
+                  ranking exceeds its per-person ranking (e.g., UP: huge economy
+                  but low per-capita activity).
+                </p>
+              </div>
+
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-sm">
+                <strong>Population source caveat:</strong> Population data is from
+                inter-census projections (NCP 2020), not actual counts. The next
+                census (due 2021, delayed) may revise these figures. Small UT
+                populations amplify measurement noise in per-capita z-scores.
+              </div>
+            </div>
+          </Section>
+
+          {/* Section 14: Size Dependency */}
+          <Section id="size-dependency" title="14. Size Dependency">
+            <div className="space-y-4 text-gray-700">
+              <p>
+                Because all four indicators (GST, electricity, bank credit, EPFO)
+                scale with population, the Activity Index is fundamentally a
+                measure of <strong>total economic volume</strong>. The Spearman
+                rank correlation between Activity rank and population is
+                approximately -0.83: bigger states rank higher.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                    Activity Index
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    Spearman rho with population: <strong>~0.83</strong>.
+                    Rankings are 83% predictable from population alone.
+                    Maharashtra, Tamil Nadu, and Gujarat rank #1-3 partly because
+                    they are among the most populous states.
+                  </p>
+                </div>
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                    Performance Index
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    Spearman rho with population: <strong>~0.11</strong>.
+                    Per-capita normalization reduces the size correlation by over
+                    85%. Rankings now reflect formal economic intensity rather
+                    than scale.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm">
+                <strong>Why not just use per-capita?</strong> Because both views
+                are useful. A state finance secretary wants to know total GST
+                collections (Activity). A development economist wants to know
+                formal employment per person (Performance). We present both
+                indices side by side and let the reader choose the lens
+                appropriate to their question.
+              </div>
+            </div>
+          </Section>
+
+          {/* Section 15: Additional Caveats */}
+          <Section id="updated-limitations" title="15. Additional Caveats">
             <div className="space-y-3">
               {[
                 {

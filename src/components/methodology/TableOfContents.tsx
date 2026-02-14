@@ -15,6 +15,8 @@ const sections = [
   { id: "panel-fe", label: "Panel Fixed Effects" },
   { id: "loglog-pca", label: "Log-Log & PCA" },
   { id: "gsdp-relationship", label: "Relationship with GSDP" },
+  { id: "percapita", label: "Per-Capita Performance" },
+  { id: "size-dependency", label: "Size Dependency" },
   { id: "updated-limitations", label: "Additional Caveats" },
 ];
 

@@ -115,6 +115,9 @@ def generate_rankings(df: pd.DataFrame, output_dir, insights_df=None):
             "credit_zscore": row["credit_zscore"],
             "epfo_zscore": row["epfo_zscore"],
             "n_components": int(row["n_components_scored"]),
+            "perf_rank": int(row["perf_rank"]) if pd.notna(row.get("perf_rank")) else None,
+            "perf_score": row.get("perf_score"),
+            "activity_perf_gap": int(row["activity_perf_gap"]) if pd.notna(row.get("activity_perf_gap")) else None,
         }
         # Enrich with insights
         ins = insights_lookup.get(row["state"])
@@ -241,6 +244,19 @@ def generate_state_files(df: pd.DataFrame, output_dir, insights_df=None,
                         for _, r in nearest.iterrows()
                     ]
 
+        # Build per-capita data if available
+        perf_data = {}
+        if "perf_rank" in annual.columns:
+            perf_data = {
+                "perf_score": annual["perf_score"].tolist() if "perf_score" in annual.columns else [],
+                "perf_rank": annual["perf_rank"].tolist() if "perf_rank" in annual.columns else [],
+                "gst_pc_zscore": annual["gst_pc_zscore"].tolist() if "gst_pc_zscore" in annual.columns else [],
+                "electricity_pc_zscore": annual["electricity_pc_zscore"].tolist() if "electricity_pc_zscore" in annual.columns else [],
+                "credit_pc_zscore": annual["credit_pc_zscore"].tolist() if "credit_pc_zscore" in annual.columns else [],
+                "epfo_pc_zscore": annual["epfo_pc_zscore"].tolist() if "epfo_pc_zscore" in annual.columns else [],
+                "population": annual["population"].tolist() if "population" in annual.columns else [],
+            }
+
         state_data = {
             "state": state,
             "slug": slug,
@@ -259,6 +275,7 @@ def generate_state_files(df: pd.DataFrame, output_dir, insights_df=None,
                 "credit_zscore": annual["credit_zscore"].tolist(),
                 "epfo_zscore": annual["epfo_zscore"].tolist(),
                 "n_components": annual["n_components_scored"].tolist(),
+                **perf_data,
             },
             "monthly": {
                 "months": monthly["month"].tolist(),
@@ -320,6 +337,55 @@ def generate_state_files(df: pd.DataFrame, output_dir, insights_df=None,
         count += 1
 
     print(f"  Generated {count} state files")
+
+
+def generate_performance(df: pd.DataFrame, output_dir):
+    """Generate performance.json with per-capita rankings."""
+    print("\nGenerating performance.json...")
+
+    annual = df[df["period_type"] == "annual"].copy()
+
+    # Check if perf_rank exists
+    if "perf_rank" not in annual.columns or annual["perf_rank"].isna().all():
+        print("  WARNING: No perf_rank data. Skipping performance.json.")
+        return
+
+    # Pick latest FY with perf_rank data
+    fys_with_perf = annual[annual["perf_rank"].notna()]["fiscal_year"].unique()
+    if len(fys_with_perf) == 0:
+        print("  WARNING: No FYs with perf_rank. Skipping performance.json.")
+        return
+
+    latest_fy = sorted(fys_with_perf)[-1]
+    latest = annual[
+        (annual["fiscal_year"] == latest_fy) & annual["perf_rank"].notna()
+    ].sort_values("perf_rank")
+
+    rankings = []
+    for _, row in latest.iterrows():
+        rankings.append({
+            "state": row["state"],
+            "slug": row["slug"],
+            "region": row["region"],
+            "perf_rank": int(row["perf_rank"]),
+            "perf_score": row["perf_score"],
+            "activity_rank": int(row["rank"]) if pd.notna(row.get("rank")) else None,
+            "activity_perf_gap": int(row["activity_perf_gap"]) if pd.notna(row.get("activity_perf_gap")) else None,
+            "population": int(row["population"]) if pd.notna(row.get("population")) else None,
+            "gst_pc_zscore": row.get("gst_pc_zscore"),
+            "electricity_pc_zscore": row.get("electricity_pc_zscore"),
+            "credit_pc_zscore": row.get("credit_pc_zscore"),
+            "epfo_pc_zscore": row.get("epfo_pc_zscore"),
+        })
+
+    data = {
+        "fiscal_year": latest_fy,
+        "generated_at": datetime.now().isoformat(),
+        "count": len(rankings),
+        "rankings": rankings,
+    }
+
+    write_json(data, output_dir / "performance.json")
 
 
 def generate_metadata(df: pd.DataFrame, output_dir):
@@ -409,6 +475,7 @@ def main():
     generate_rankings(df, output_dir, insights_df)
     generate_trends(df, output_dir)
     generate_state_files(df, output_dir, insights_df, electricity_data, insights_json)
+    generate_performance(df, output_dir)
     generate_metadata(df, output_dir)
 
     # Verify all JSON files are valid

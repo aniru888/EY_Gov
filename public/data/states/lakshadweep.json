@@ -145,6 +145,83 @@
       2,
       2,
       1
+    ],
+    "perf_score": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "perf_rank": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "gst_pc_zscore": [
+      -0.8444415624219452,
+      -0.7618889963919515,
+      -0.7468180659301829,
+      -0.807370301519003,
+      -0.7845300200084535,
+      -0.8033276501462446,
+      -0.6065321383596133,
+      -0.8557533094651036,
+      null
+    ],
+    "electricity_pc_zscore": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "credit_pc_zscore": [
+      -0.537197093608008,
+      -0.5027750394928387,
+      -0.7867830555740156,
+      -1.1104748962096667,
+      -0.840152733849048,
+      -0.5538291555528139,
+      -0.8597798645370109,
+      -0.7356925231850987,
+      null
+    ],
+    "epfo_pc_zscore": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "population": [
+      68000.0,
+      69000.0,
+      70000.0,
+      71000.0,
+      72000.0,
+      73000.0,
+      74000.0,
+      75000.0,
+      null
     ]
   },
   "monthly": {

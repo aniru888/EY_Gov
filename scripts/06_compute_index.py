@@ -33,6 +33,16 @@ COMPONENTS = {
 
 ZSCORE_COLS = list(COMPONENTS.values())
 
+# Per-capita component columns and their z-score counterparts
+PC_COMPONENTS = {
+    "gst_per_capita": "gst_pc_zscore",
+    "electricity_per_capita": "electricity_pc_zscore",
+    "credit_per_capita": "credit_pc_zscore",
+    "epfo_per_capita": "epfo_pc_zscore",
+}
+
+PC_ZSCORE_COLS = list(PC_COMPONENTS.values())
+
 
 def compute_cross_sectional_zscores(df: pd.DataFrame) -> pd.DataFrame:
     """Compute z-scores within each fiscal year (cross-sectional).
@@ -103,6 +113,99 @@ def compute_composite(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def compute_percapita_zscores(df: pd.DataFrame) -> pd.DataFrame:
+    """Compute per-capita z-scores within each fiscal year (cross-sectional).
+
+    Same method as absolute z-scores but on per-capita values.
+    Only computed for annual rows that have population data.
+    """
+    print("Computing per-capita z-scores (annual)...")
+    df = df.copy()
+
+    # Check if per-capita columns exist
+    has_pc = all(col in df.columns for col in PC_COMPONENTS.keys())
+    if not has_pc:
+        print("  WARNING: Per-capita columns not found. Skipping.")
+        for zcol in PC_ZSCORE_COLS:
+            df[zcol] = np.nan
+        df["perf_score"] = np.nan
+        df["perf_rank"] = np.nan
+        df["perf_rank_change"] = np.nan
+        df["activity_perf_gap"] = np.nan
+        return df
+
+    # Initialize per-capita z-score columns
+    for zcol in PC_ZSCORE_COLS:
+        df[zcol] = np.nan
+
+    annual_mask = df["period_type"] == "annual"
+    annual_fys = df.loc[annual_mask, "fiscal_year"].unique()
+
+    for fy in sorted(annual_fys):
+        fy_mask = annual_mask & (df["fiscal_year"] == fy)
+
+        for raw_col, z_col in PC_COMPONENTS.items():
+            values = df.loc[fy_mask, raw_col]
+            valid = values.dropna()
+
+            if len(valid) < 5:
+                continue
+
+            mean = valid.mean()
+            std = valid.std(ddof=1)
+
+            if std > 0:
+                df.loc[fy_mask, z_col] = (values - mean) / std
+
+    # Compute performance composite score (mean of per-capita z-scores, min 3)
+    df["n_pc_scored"] = df[PC_ZSCORE_COLS].notna().sum(axis=1)
+    df["perf_score"] = np.nan
+    enough = df["n_pc_scored"] >= MIN_COMPONENTS
+    if enough.any():
+        df.loc[enough, "perf_score"] = df.loc[enough, PC_ZSCORE_COLS].mean(axis=1)
+
+    # Rank by perf_score (annual only, where perf_score is not NaN)
+    df["perf_rank"] = np.nan
+    perf_mask = annual_mask & df["perf_score"].notna()
+    perf_fys = df.loc[perf_mask, "fiscal_year"].unique()
+
+    for fy in sorted(perf_fys):
+        fy_mask = perf_mask & (df["fiscal_year"] == fy)
+        df.loc[fy_mask, "perf_rank"] = df.loc[fy_mask, "perf_score"].rank(
+            ascending=False, method="min"
+        ).astype(int)
+
+    # Compute perf_rank_change
+    df["perf_rank_change"] = np.nan
+    sorted_fys = sorted(perf_fys)
+    for i in range(1, len(sorted_fys)):
+        curr_fy = sorted_fys[i]
+        prev_fy = sorted_fys[i - 1]
+
+        curr_mask = perf_mask & (df["fiscal_year"] == curr_fy)
+        prev_data = df.loc[perf_mask & (df["fiscal_year"] == prev_fy), ["state", "perf_rank"]]
+
+        if prev_data.empty:
+            continue
+
+        prev_ranks = prev_data.set_index("state")["perf_rank"]
+
+        for idx in df.loc[curr_mask].index:
+            state = df.loc[idx, "state"]
+            if state in prev_ranks.index:
+                prev_rank = prev_ranks[state]
+                curr_rank = df.loc[idx, "perf_rank"]
+                if pd.notna(prev_rank) and pd.notna(curr_rank):
+                    df.loc[idx, "perf_rank_change"] = int(prev_rank - curr_rank)
+
+    # Activity-Performance gap: rank - perf_rank (positive = better on per-capita)
+    df["activity_perf_gap"] = np.nan
+    gap_mask = df["rank"].notna() & df["perf_rank"].notna()
+    df.loc[gap_mask, "activity_perf_gap"] = df.loc[gap_mask, "rank"] - df.loc[gap_mask, "perf_rank"]
+
+    return df
+
+
 def compute_rankings(df: pd.DataFrame) -> pd.DataFrame:
     """Rank states within each FY by composite score (annual only)."""
     print("Computing rankings...")
@@ -166,6 +269,9 @@ def main():
     # Compute rankings (annual only)
     df = compute_rankings(df)
 
+    # Compute per-capita z-scores and performance index
+    df = compute_percapita_zscores(df)
+
     # Save
     output_path = DATA_PROCESSED / "index_computed.parquet"
     df.to_parquet(output_path, index=False)
@@ -197,12 +303,24 @@ def main():
         (annual["fiscal_year"] == latest_fy) & annual["rank"].notna()
     ].sort_values("rank") if latest_fy else pd.DataFrame()
 
-    print(f"\nTop 10 states ({latest_fy}):")
+    print(f"\nTop 10 Activity Index ({latest_fy}):")
     for _, row in latest.head(10).iterrows():
         rc = f" ({'+' if row['rank_change'] > 0 else ''}{int(row['rank_change'])})" \
              if pd.notna(row["rank_change"]) else ""
         print(f"  {int(row['rank']):2d}. {row['state']:25s} "
               f"score={row['composite_score']:.3f}{rc}")
+
+    # Performance Index top 10
+    if "perf_rank" in annual.columns and annual["perf_rank"].notna().any():
+        perf_latest = annual[
+            (annual["fiscal_year"] == latest_fy) & annual["perf_rank"].notna()
+        ].sort_values("perf_rank")
+        print(f"\nTop 10 Performance Index (per-capita, {latest_fy}):")
+        for _, row in perf_latest.head(10).iterrows():
+            gap = f" (gap={int(row['activity_perf_gap']):+d})" \
+                  if pd.notna(row.get("activity_perf_gap")) else ""
+            print(f"  {int(row['perf_rank']):2d}. {row['state']:25s} "
+                  f"perf={row['perf_score']:.3f}{gap}")
 
     # Verify z-score properties
     print("\nVerification:")

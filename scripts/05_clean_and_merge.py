@@ -149,6 +149,51 @@ def add_metadata(df):
     return df
 
 
+def merge_population(df):
+    """Left-join population data and compute per-capita columns."""
+    print("\nMerging population data...")
+    pop_path = DATA_PROCESSED / "population_clean.parquet"
+    if not pop_path.exists():
+        print("  WARNING: population_clean.parquet not found. Per-capita columns skipped.")
+        df["population"] = np.nan
+        for col in ["gst_per_capita", "electricity_per_capita", "credit_per_capita", "epfo_per_capita"]:
+            df[col] = np.nan
+        return df
+
+    pop = pd.read_parquet(pop_path)
+    print(f"  Population data: {len(pop)} rows, {pop['state'].nunique()} states")
+
+    df = df.merge(pop, on=["state", "fiscal_year"], how="left")
+
+    # Per-capita columns (only for annual rows with population)
+    has_pop = df["population"].notna() & (df["population"] > 0)
+
+    # GST per capita: Rs crore per lakh people
+    df["gst_per_capita"] = np.nan
+    mask = has_pop & df["gst_total"].notna()
+    df.loc[mask, "gst_per_capita"] = df.loc[mask, "gst_total"] / (df.loc[mask, "population"] / 1e5)
+
+    # Electricity per capita: MU per million people
+    df["electricity_per_capita"] = np.nan
+    mask = has_pop & df["electricity_mu"].notna()
+    df.loc[mask, "electricity_per_capita"] = df.loc[mask, "electricity_mu"] / (df.loc[mask, "population"] / 1e6)
+
+    # Credit per capita: Rs crore per lakh people
+    df["credit_per_capita"] = np.nan
+    mask = has_pop & df["bank_credit_yoy"].notna()
+    df.loc[mask, "credit_per_capita"] = df.loc[mask, "bank_credit_yoy"] / (df.loc[mask, "population"] / 1e5)
+
+    # EPFO per capita: persons per million people
+    df["epfo_per_capita"] = np.nan
+    mask = has_pop & df["epfo_payroll"].notna()
+    df.loc[mask, "epfo_per_capita"] = df.loc[mask, "epfo_payroll"] / (df.loc[mask, "population"] / 1e6)
+
+    matched = df[has_pop]["state"].nunique()
+    print(f"  States with population data: {matched}")
+
+    return df
+
+
 def compute_coverage(df):
     """Count non-NaN components per row and flag partial years."""
     print("\nComputing coverage and partial year flags...")
@@ -195,15 +240,21 @@ def main():
     # Add metadata
     merged = add_metadata(merged)
 
+    # Merge population and compute per-capita
+    merged = merge_population(merged)
+
     # Compute coverage
     merged = compute_coverage(merged)
 
     # Reorder columns
-    merged = merged[[
+    col_order = [
         "state", "slug", "region", "fiscal_year", "period_type", "month",
         "gst_total", "electricity_mu", "bank_credit_yoy", "epfo_payroll",
+        "population", "gst_per_capita", "electricity_per_capita",
+        "credit_per_capita", "epfo_per_capita",
         "n_components", "is_partial"
-    ]]
+    ]
+    merged = merged[[c for c in col_order if c in merged.columns]]
 
     # Sort
     merged = merged.sort_values(

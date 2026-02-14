@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-14T16:07:08.837911",
+  "generated_at": "2026-02-14T17:45:56.123932",
   "latest_fy": "2024-25",
   "key_findings": [
     {
@@ -1345,10 +1345,11 @@
         "gsdp_rank": 12,
         "rank_gap": 6,
         "direction": "outperformer",
-        "explanation": "Haryana ranks significantly higher on the activity index than on official GSDP. Its proximity to Delhi drives high formal employment (EPFO) and GST-registered commercial activity in the Gurgaon/NCR belt, while moderate agriculture suppresses official GSDP less than states like Punjab or MP.",
+        "explanation": "Haryana ranks significantly higher on the activity index than on official GSDP. Its proximity to Delhi drives high formal employment (EPFO) and GST-registered commercial activity in the Gurgaon/NCR belt, while moderate agriculture suppresses official GSDP less than states like Punjab or MP. Tiwari et al. (2021) found Haryana had the highest economic growth CAGR of all 18 states studied (1960-2015) and can conserve industrial electricity without hurting growth -- its economy has moved past the electricity-intensive phase.",
         "key_drivers": [
           "EPFO: NCR proximity drives formal employment",
-          "GST: Gurgaon commercial hub"
+          "GST: Gurgaon commercial hub",
+          "Post-industrial: decoupled from electricity intensity"
         ],
         "key_drags": [
           "Moderate agricultural share not captured by index"
@@ -2060,5 +2061,474 @@
         }
       ]
     }
+  },
+  "population_analysis": {
+    "latest_fy": "2024-25",
+    "n": 34,
+    "activity_rank_vs_population": {
+      "spearman_rho": -0.8292,
+      "p": 0.0,
+      "interpretation": "Activity rankings are 83% correlated with population (Spearman rho=-0.829). The index substantially tracks state size."
+    },
+    "perf_rank_vs_population": {
+      "spearman_rho": 0.1144,
+      "p": 0.519285,
+      "interpretation": "Performance rankings have rho=0.114 with population. Per-capita normalization effectively removes size bias."
+    },
+    "size_bias_reduction": 0.7147,
+    "biggest_perf_risers": [
+      {
+        "state": "Sikkim",
+        "slug": "sikkim",
+        "activity_rank": 33,
+        "perf_rank": 6,
+        "gap": 27
+      },
+      {
+        "state": "Chandigarh",
+        "slug": "chandigarh",
+        "activity_rank": 23,
+        "perf_rank": 1,
+        "gap": 22
+      },
+      {
+        "state": "Goa",
+        "slug": "goa",
+        "activity_rank": 24,
+        "perf_rank": 3,
+        "gap": 21
+      },
+      {
+        "state": "Puducherry",
+        "slug": "puducherry",
+        "activity_rank": 27,
+        "perf_rank": 8,
+        "gap": 19
+      },
+      {
+        "state": "Ladakh",
+        "slug": "ladakh",
+        "activity_rank": 26,
+        "perf_rank": 15,
+        "gap": 11
+      }
+    ],
+    "biggest_perf_fallers": [
+      {
+        "state": "Uttar Pradesh",
+        "slug": "uttar-pradesh",
+        "activity_rank": 5,
+        "perf_rank": 27,
+        "gap": -22
+      },
+      {
+        "state": "Bihar",
+        "slug": "bihar",
+        "activity_rank": 17,
+        "perf_rank": 34,
+        "gap": -17
+      },
+      {
+        "state": "West Bengal",
+        "slug": "west-bengal",
+        "activity_rank": 10,
+        "perf_rank": 25,
+        "gap": -15
+      },
+      {
+        "state": "Madhya Pradesh",
+        "slug": "madhya-pradesh",
+        "activity_rank": 11,
+        "perf_rank": 23,
+        "gap": -12
+      },
+      {
+        "state": "Rajasthan",
+        "slug": "rajasthan",
+        "activity_rank": 9,
+        "perf_rank": 21,
+        "gap": -12
+      }
+    ]
+  },
+  "growth_zscores": {
+    "latest_fy": "2024-25",
+    "n": 34,
+    "rankings": [
+      {
+        "state": "Manipur",
+        "slug": "manipur",
+        "growth_rank": 1,
+        "growth_composite_zscore": 1.6293,
+        "activity_rank": 31,
+        "gst_yoy_pct": 4.38,
+        "elec_yoy_pct": 7.81,
+        "credit_yoy_pct": 50.06,
+        "epfo_yoy_pct": 58.15
+      },
+      {
+        "state": "Jharkhand",
+        "slug": "jharkhand",
+        "growth_rank": 2,
+        "growth_composite_zscore": 1.5818,
+        "activity_rank": 18,
+        "gst_yoy_pct": 6.05,
+        "elec_yoy_pct": 22.3,
+        "credit_yoy_pct": -6.48,
+        "epfo_yoy_pct": 39.82
+      },
+      {
+        "state": "Chhattisgarh",
+        "slug": "chhattisgarh",
+        "growth_rank": 3,
+        "growth_composite_zscore": 0.6199,
+        "activity_rank": 16,
+        "gst_yoy_pct": 6.62,
+        "elec_yoy_pct": 8.44,
+        "credit_yoy_pct": 4.53,
+        "epfo_yoy_pct": 8.45
+      },
+      {
+        "state": "Haryana",
+        "slug": "haryana",
+        "growth_rank": 4,
+        "growth_composite_zscore": 0.5166,
+        "activity_rank": 6,
+        "gst_yoy_pct": 15.98,
+        "elec_yoy_pct": 10.19,
+        "credit_yoy_pct": -25.81,
+        "epfo_yoy_pct": 5.06
+      },
+      {
+        "state": "Mizoram",
+        "slug": "mizoram",
+        "growth_rank": 5,
+        "growth_composite_zscore": 0.4857,
+        "activity_rank": 34,
+        "gst_yoy_pct": 2.47,
+        "elec_yoy_pct": 5.08,
+        "credit_yoy_pct": -6.38,
+        "epfo_yoy_pct": 33.15
+      },
+      {
+        "state": "Chandigarh",
+        "slug": "chandigarh",
+        "growth_rank": 6,
+        "growth_composite_zscore": 0.4555,
+        "activity_rank": 23,
+        "gst_yoy_pct": 5.19,
+        "elec_yoy_pct": 9.33,
+        "credit_yoy_pct": -5.07,
+        "epfo_yoy_pct": 2.35
+      },
+      {
+        "state": "West Bengal",
+        "slug": "west-bengal",
+        "growth_rank": 7,
+        "growth_composite_zscore": 0.387,
+        "activity_rank": 10,
+        "gst_yoy_pct": 6.83,
+        "elec_yoy_pct": 8.29,
+        "credit_yoy_pct": -3.23,
+        "epfo_yoy_pct": -3.93
+      },
+      {
+        "state": "Himachal Pradesh",
+        "slug": "himachal-pradesh",
+        "growth_rank": 8,
+        "growth_composite_zscore": 0.3428,
+        "activity_rank": 22,
+        "gst_yoy_pct": 3.98,
+        "elec_yoy_pct": 7.78,
+        "credit_yoy_pct": -1.15,
+        "epfo_yoy_pct": -2.05
+      },
+      {
+        "state": "Delhi",
+        "slug": "delhi",
+        "growth_rank": 9,
+        "growth_composite_zscore": 0.3405,
+        "activity_rank": 8,
+        "gst_yoy_pct": 15.89,
+        "elec_yoy_pct": 8.42,
+        "credit_yoy_pct": -27.76,
+        "epfo_yoy_pct": 0.2
+      },
+      {
+        "state": "Uttar Pradesh",
+        "slug": "uttar-pradesh",
+        "growth_rank": 10,
+        "growth_composite_zscore": 0.2132,
+        "activity_rank": 5,
+        "gst_yoy_pct": 10.34,
+        "elec_yoy_pct": 10.84,
+        "credit_yoy_pct": -36.83,
+        "epfo_yoy_pct": -2.68
+      },
+      {
+        "state": "Jammu & Kashmir",
+        "slug": "jammu-kashmir",
+        "growth_rank": 11,
+        "growth_composite_zscore": 0.1812,
+        "activity_rank": 21,
+        "gst_yoy_pct": 7.02,
+        "elec_yoy_pct": 2.49,
+        "credit_yoy_pct": -6.24,
+        "epfo_yoy_pct": 9.29
+      },
+      {
+        "state": "Gujarat",
+        "slug": "gujarat",
+        "growth_rank": 12,
+        "growth_composite_zscore": 0.1228,
+        "activity_rank": 3,
+        "gst_yoy_pct": 9.25,
+        "elec_yoy_pct": 5.81,
+        "credit_yoy_pct": -20.65,
+        "epfo_yoy_pct": -1.28
+      },
+      {
+        "state": "Rajasthan",
+        "slug": "rajasthan",
+        "growth_rank": 13,
+        "growth_composite_zscore": 0.1201,
+        "activity_rank": 9,
+        "gst_yoy_pct": 9.19,
+        "elec_yoy_pct": 6.28,
+        "credit_yoy_pct": -18.24,
+        "epfo_yoy_pct": -6.37
+      },
+      {
+        "state": "Andaman & Nicobar Islands",
+        "slug": "andaman-nicobar",
+        "growth_rank": 14,
+        "growth_composite_zscore": 0.0575,
+        "activity_rank": 25,
+        "gst_yoy_pct": 12.69,
+        "elec_yoy_pct": null,
+        "credit_yoy_pct": -16.47,
+        "epfo_yoy_pct": -19.38
+      },
+      {
+        "state": "Goa",
+        "slug": "goa",
+        "growth_rank": 15,
+        "growth_composite_zscore": 0.0384,
+        "activity_rank": 24,
+        "gst_yoy_pct": 10.36,
+        "elec_yoy_pct": 6.48,
+        "credit_yoy_pct": -33.98,
+        "epfo_yoy_pct": 0.09
+      },
+      {
+        "state": "Madhya Pradesh",
+        "slug": "madhya-pradesh",
+        "growth_rank": 16,
+        "growth_composite_zscore": 0.0001,
+        "activity_rank": 11,
+        "gst_yoy_pct": 6.87,
+        "elec_yoy_pct": 6.05,
+        "credit_yoy_pct": -21.83,
+        "epfo_yoy_pct": -7.67
+      },
+      {
+        "state": "Ladakh",
+        "slug": "ladakh",
+        "growth_rank": 17,
+        "growth_composite_zscore": -0.1112,
+        "activity_rank": 26,
+        "gst_yoy_pct": 13.32,
+        "elec_yoy_pct": null,
+        "credit_yoy_pct": -29.64,
+        "epfo_yoy_pct": -17.74
+      },
+      {
+        "state": "Punjab",
+        "slug": "punjab",
+        "growth_rank": 18,
+        "growth_composite_zscore": -0.1235,
+        "activity_rank": 14,
+        "gst_yoy_pct": 11.06,
+        "elec_yoy_pct": 11.07,
+        "credit_yoy_pct": -44.36,
+        "epfo_yoy_pct": -27.66
+      },
+      {
+        "state": "Sikkim",
+        "slug": "sikkim",
+        "growth_rank": 19,
+        "growth_composite_zscore": -0.1242,
+        "activity_rank": 33,
+        "gst_yoy_pct": 9.6,
+        "elec_yoy_pct": 2.53,
+        "credit_yoy_pct": -20.77,
+        "epfo_yoy_pct": null
+      },
+      {
+        "state": "Uttarakhand",
+        "slug": "uttarakhand",
+        "growth_rank": 20,
+        "growth_composite_zscore": -0.126,
+        "activity_rank": 19,
+        "gst_yoy_pct": 7.49,
+        "elec_yoy_pct": 7.88,
+        "credit_yoy_pct": -31.24,
+        "epfo_yoy_pct": -19.24
+      },
+      {
+        "state": "Tripura",
+        "slug": "tripura",
+        "growth_rank": 21,
+        "growth_composite_zscore": -0.1696,
+        "activity_rank": 29,
+        "gst_yoy_pct": 13.29,
+        "elec_yoy_pct": 4.28,
+        "credit_yoy_pct": -40.36,
+        "epfo_yoy_pct": -6.61
+      },
+      {
+        "state": "Maharashtra",
+        "slug": "maharashtra",
+        "growth_rank": 22,
+        "growth_composite_zscore": -0.1733,
+        "activity_rank": 1,
+        "gst_yoy_pct": 12.41,
+        "elec_yoy_pct": 1.98,
+        "credit_yoy_pct": -35.16,
+        "epfo_yoy_pct": 0.59
+      },
+      {
+        "state": "Telangana",
+        "slug": "telangana",
+        "growth_rank": 23,
+        "growth_composite_zscore": -0.1915,
+        "activity_rank": 7,
+        "gst_yoy_pct": 5.08,
+        "elec_yoy_pct": 4.28,
+        "credit_yoy_pct": -36.32,
+        "epfo_yoy_pct": 3.1
+      },
+      {
+        "state": "Tamil Nadu",
+        "slug": "tamil-nadu",
+        "growth_rank": 24,
+        "growth_composite_zscore": -0.2142,
+        "activity_rank": 2,
+        "gst_yoy_pct": 8.07,
+        "elec_yoy_pct": 2.27,
+        "credit_yoy_pct": -30.14,
+        "epfo_yoy_pct": -1.52
+      },
+      {
+        "state": "Bihar",
+        "slug": "bihar",
+        "growth_rank": 25,
+        "growth_composite_zscore": -0.2281,
+        "activity_rank": 17,
+        "gst_yoy_pct": 12.14,
+        "elec_yoy_pct": 8.63,
+        "credit_yoy_pct": -38.45,
+        "epfo_yoy_pct": -33.53
+      },
+      {
+        "state": "Puducherry",
+        "slug": "puducherry",
+        "growth_rank": 26,
+        "growth_composite_zscore": -0.243,
+        "activity_rank": 27,
+        "gst_yoy_pct": 8.69,
+        "elec_yoy_pct": 2.38,
+        "credit_yoy_pct": -25.87,
+        "epfo_yoy_pct": null
+      },
+      {
+        "state": "Odisha",
+        "slug": "odisha",
+        "growth_rank": 27,
+        "growth_composite_zscore": -0.2505,
+        "activity_rank": 13,
+        "gst_yoy_pct": 11.29,
+        "elec_yoy_pct": 2.42,
+        "credit_yoy_pct": -36.97,
+        "epfo_yoy_pct": -4.48
+      },
+      {
+        "state": "Assam",
+        "slug": "assam",
+        "growth_rank": 28,
+        "growth_composite_zscore": -0.3327,
+        "activity_rank": 20,
+        "gst_yoy_pct": 11.63,
+        "elec_yoy_pct": 4.73,
+        "credit_yoy_pct": -2.07,
+        "epfo_yoy_pct": -62.32
+      },
+      {
+        "state": "Kerala",
+        "slug": "kerala",
+        "growth_rank": 29,
+        "growth_composite_zscore": -0.3806,
+        "activity_rank": 15,
+        "gst_yoy_pct": 7.93,
+        "elec_yoy_pct": 2.0,
+        "credit_yoy_pct": -42.7,
+        "epfo_yoy_pct": -1.33
+      },
+      {
+        "state": "Arunachal Pradesh",
+        "slug": "arunachal-pradesh",
+        "growth_rank": 30,
+        "growth_composite_zscore": -0.512,
+        "activity_rank": 30,
+        "gst_yoy_pct": -8.17,
+        "elec_yoy_pct": 4.2,
+        "credit_yoy_pct": 1.22,
+        "epfo_yoy_pct": -40.6
+      },
+      {
+        "state": "Karnataka",
+        "slug": "karnataka",
+        "growth_rank": 31,
+        "growth_composite_zscore": -0.5278,
+        "activity_rank": 4,
+        "gst_yoy_pct": 9.84,
+        "elec_yoy_pct": -2.45,
+        "credit_yoy_pct": -37.29,
+        "epfo_yoy_pct": -2.16
+      },
+      {
+        "state": "Nagaland",
+        "slug": "nagaland",
+        "growth_rank": 32,
+        "growth_composite_zscore": -0.5785,
+        "activity_rank": 32,
+        "gst_yoy_pct": -4.19,
+        "elec_yoy_pct": 5.29,
+        "credit_yoy_pct": -18.97,
+        "epfo_yoy_pct": -37.88
+      },
+      {
+        "state": "Andhra Pradesh",
+        "slug": "andhra-pradesh",
+        "growth_rank": 33,
+        "growth_composite_zscore": -0.7421,
+        "activity_rank": 12,
+        "gst_yoy_pct": 1.19,
+        "elec_yoy_pct": -1.66,
+        "credit_yoy_pct": -43.53,
+        "epfo_yoy_pct": -1.74
+      },
+      {
+        "state": "Meghalaya",
+        "slug": "meghalaya",
+        "growth_rank": 34,
+        "growth_composite_zscore": -1.1288,
+        "activity_rank": 28,
+        "gst_yoy_pct": -3.0,
+        "elec_yoy_pct": -0.52,
+        "credit_yoy_pct": -54.85,
+        "epfo_yoy_pct": -22.04
+      }
+    ]
   }
 }

@@ -175,6 +175,53 @@ export default async function StatePage({
         />
       </div>
 
+      {/* Per-Capita Performance card */}
+      {hasScore && ann.perf_rank && ann.perf_rank[latestIdx] !== null && (
+        <div className="mb-8 bg-purple-50 border border-purple-200 rounded-lg p-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <div>
+              <div className="text-xs text-purple-600 font-medium uppercase tracking-wide">
+                Performance Index (Per Capita)
+              </div>
+              <div className="flex items-baseline gap-3 mt-1">
+                <span className="text-2xl font-bold text-purple-900">
+                  #{Math.round(ann.perf_rank[latestIdx] as number)}
+                </span>
+                <span className="text-sm text-purple-700">
+                  vs Activity Rank #{rank !== null ? Math.round(rank) : "--"}
+                </span>
+                {ann.perf_rank[latestIdx] !== null && rank !== null && (
+                  <span
+                    className={`text-sm font-medium px-2 py-0.5 rounded-full ${
+                      (rank as number) - (ann.perf_rank[latestIdx] as number) > 0
+                        ? "bg-emerald-100 text-emerald-700"
+                        : (rank as number) - (ann.perf_rank[latestIdx] as number) < 0
+                          ? "bg-amber-100 text-amber-700"
+                          : "bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    {(rank as number) - (ann.perf_rank[latestIdx] as number) > 0 ? "+" : ""}
+                    {Math.round((rank as number) - (ann.perf_rank[latestIdx] as number))} gap
+                  </span>
+                )}
+              </div>
+            </div>
+            {ann.perf_score && ann.perf_score[latestIdx] !== null && (
+              <div className="ml-auto text-right">
+                <div className="text-xs text-purple-600">Score</div>
+                <div className="text-lg font-bold text-purple-900 tabular-nums">
+                  {(ann.perf_score[latestIdx] as number).toFixed(2)}
+                </div>
+              </div>
+            )}
+          </div>
+          <p className="mt-2 text-xs text-purple-700">
+            The Performance Index normalizes all four indicators by state population,
+            measuring formal economic activity per person rather than total volume.
+          </p>
+        </div>
+      )}
+
       {/* Insights diagnostic banner */}
       {stateData.insights && (
         <StateDiagnosticBanner

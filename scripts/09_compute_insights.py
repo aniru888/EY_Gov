@@ -382,6 +382,187 @@ def merge_brap(df: pd.DataFrame) -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------------------
+# Population Correlation Analysis
+# ---------------------------------------------------------------------------
+
+def compute_population_correlation(df: pd.DataFrame) -> dict:
+    """Compute Spearman rho of activity rank vs population, and perf_rank vs population."""
+    print("Computing population correlation analysis...")
+
+    if "population" not in df.columns or df["population"].isna().all():
+        print("  WARNING: No population data. Population correlation skipped.")
+        return {"skipped": True, "reason": "No population data"}
+
+    # Use latest FY with both rank and perf_rank
+    scored_fys = df[df["rank"].notna()]["fiscal_year"].unique()
+    if len(scored_fys) == 0:
+        return {"skipped": True, "reason": "No ranked FYs"}
+
+    latest_fy = sorted(scored_fys)[-1]
+    latest = df[(df["fiscal_year"] == latest_fy) & df["rank"].notna() & df["population"].notna()].copy()
+
+    if len(latest) < 10:
+        return {"skipped": True, "reason": f"Only {len(latest)} states with rank + population"}
+
+    # Activity rank vs population
+    rho_activity, p_activity = stats.spearmanr(latest["rank"], latest["population"])
+    # Negate because rank 1 = highest activity, and we want correlation with size
+    # Actually: rank is inversely related to activity level.
+    # If big states have low rank numbers (high activity), rho would be negative.
+    # Spearman rho of population vs rank: negative means big states rank higher.
+    # We report the absolute correlation for clarity.
+
+    result = {
+        "latest_fy": latest_fy,
+        "n": len(latest),
+        "activity_rank_vs_population": {
+            "spearman_rho": round(float(rho_activity), 4),
+            "p": round(float(p_activity), 6),
+            "interpretation": (
+                f"Activity rankings are {abs(rho_activity)*100:.0f}% correlated with population "
+                f"(Spearman rho={rho_activity:.3f}). "
+                f"{'The index substantially tracks state size.' if abs(rho_activity) > 0.7 else 'Moderate size dependency.'}"
+            ),
+        },
+    }
+
+    # Performance rank vs population (if available)
+    if "perf_rank" in latest.columns and latest["perf_rank"].notna().any():
+        perf_valid = latest[latest["perf_rank"].notna()]
+        if len(perf_valid) >= 10:
+            rho_perf, p_perf = stats.spearmanr(perf_valid["perf_rank"], perf_valid["population"])
+            result["perf_rank_vs_population"] = {
+                "spearman_rho": round(float(rho_perf), 4),
+                "p": round(float(p_perf), 6),
+                "interpretation": (
+                    f"Performance rankings have rho={rho_perf:.3f} with population. "
+                    f"{'Per-capita normalization effectively removes size bias.' if abs(rho_perf) < 0.3 else 'Some residual size dependency remains.'}"
+                ),
+            }
+            result["size_bias_reduction"] = round(abs(rho_activity) - abs(rho_perf), 4)
+
+    # Top risers/fallers between activity and performance rank
+    if "activity_perf_gap" in latest.columns:
+        gap_data = latest[latest["activity_perf_gap"].notna()].copy()
+        if len(gap_data) > 0:
+            risers = gap_data.nlargest(5, "activity_perf_gap")
+            fallers = gap_data.nsmallest(5, "activity_perf_gap")
+
+            from utils import load_state_metadata
+            meta = load_state_metadata()
+            slug_map = {row["canonical_name"]: row["slug"] for _, row in meta.iterrows()}
+
+            result["biggest_perf_risers"] = [
+                {
+                    "state": r["state"],
+                    "slug": slug_map.get(r["state"], ""),
+                    "activity_rank": int(r["rank"]),
+                    "perf_rank": int(r["perf_rank"]),
+                    "gap": int(r["activity_perf_gap"]),
+                }
+                for _, r in risers.iterrows()
+            ]
+            result["biggest_perf_fallers"] = [
+                {
+                    "state": r["state"],
+                    "slug": slug_map.get(r["state"], ""),
+                    "activity_rank": int(r["rank"]),
+                    "perf_rank": int(r["perf_rank"]),
+                    "gap": int(r["activity_perf_gap"]),
+                }
+                for _, r in fallers.iterrows()
+            ]
+
+    print(f"  Activity rho={rho_activity:.3f}")
+    if "perf_rank_vs_population" in result:
+        print(f"  Performance rho={result['perf_rank_vs_population']['spearman_rho']}")
+
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Growth Z-Scores
+# ---------------------------------------------------------------------------
+
+def compute_growth_zscores(df: pd.DataFrame) -> dict:
+    """Z-score the existing YoY growth rates and rank by growth composite."""
+    print("Computing growth z-scores...")
+
+    growth_cols = ["gst_yoy_pct", "elec_yoy_pct", "credit_yoy_pct", "epfo_yoy_pct"]
+
+    # Check which growth columns exist
+    available = [c for c in growth_cols if c in df.columns]
+    if len(available) < 3:
+        print(f"  WARNING: Only {len(available)} growth columns available. Skipping.")
+        return {"skipped": True, "reason": "Insufficient growth data"}
+
+    # Use latest FY with growth data
+    scored_fys = df[df["composite_score"].notna()]["fiscal_year"].unique()
+    if len(scored_fys) == 0:
+        return {"skipped": True}
+
+    latest_fy = sorted(scored_fys)[-1]
+    latest = df[df["fiscal_year"] == latest_fy].copy()
+
+    from utils import load_state_metadata
+    meta = load_state_metadata()
+    slug_map = {row["canonical_name"]: row["slug"] for _, row in meta.iterrows()}
+
+    # Z-score each growth rate
+    growth_zscores = {}
+    for col in available:
+        valid = latest[col].dropna()
+        if len(valid) < 5:
+            continue
+        mean = valid.mean()
+        std = valid.std(ddof=1)
+        if std > 0:
+            zcol = col.replace("_yoy_pct", "_growth_zscore")
+            latest[zcol] = (latest[col] - mean) / std
+            growth_zscores[col] = zcol
+
+    # Compute growth composite (mean of available growth z-scores)
+    z_growth_cols = list(growth_zscores.values())
+    if len(z_growth_cols) >= 3:
+        latest["n_growth_scored"] = latest[z_growth_cols].notna().sum(axis=1)
+        latest["growth_composite_zscore"] = np.nan
+        enough = latest["n_growth_scored"] >= 3
+        if enough.any():
+            latest.loc[enough, "growth_composite_zscore"] = latest.loc[enough, z_growth_cols].mean(axis=1)
+
+        # Rank by growth
+        valid_growth = latest["growth_composite_zscore"].notna()
+        latest["growth_rank"] = np.nan
+        if valid_growth.any():
+            latest.loc[valid_growth, "growth_rank"] = latest.loc[valid_growth, "growth_composite_zscore"].rank(
+                ascending=False, method="min"
+            ).astype(int)
+
+        # Build rankings list
+        rankings = []
+        for _, row in latest[latest["growth_rank"].notna()].sort_values("growth_rank").iterrows():
+            entry = {
+                "state": row["state"],
+                "slug": slug_map.get(row["state"], ""),
+                "growth_rank": int(row["growth_rank"]),
+                "growth_composite_zscore": round(float(row["growth_composite_zscore"]), 4),
+                "activity_rank": int(row["rank"]) if pd.notna(row.get("rank")) else None,
+            }
+            for col in available:
+                entry[col] = round(float(row[col]), 2) if pd.notna(row.get(col)) else None
+            rankings.append(entry)
+
+        print(f"  {len(rankings)} states ranked by growth")
+        return {
+            "latest_fy": latest_fy,
+            "n": len(rankings),
+            "rankings": rankings,
+        }
+
+    return {"skipped": True, "reason": "Insufficient growth z-score columns"}
+
+
+# ---------------------------------------------------------------------------
 # Correlations
 # ---------------------------------------------------------------------------
 
@@ -1193,9 +1374,13 @@ STATE_GAP_TEMPLATES = {
             "Haryana ranks significantly higher on the activity index than on official GSDP. "
             "Its proximity to Delhi drives high formal employment (EPFO) and GST-registered "
             "commercial activity in the Gurgaon/NCR belt, while moderate agriculture suppresses "
-            "official GSDP less than states like Punjab or MP."
+            "official GSDP less than states like Punjab or MP. "
+            "Tiwari et al. (2021) found Haryana had the highest economic growth CAGR of all 18 "
+            "states studied (1960-2015) and can conserve industrial electricity without hurting "
+            "growth -- its economy has moved past the electricity-intensive phase."
         ),
-        "key_drivers": ["EPFO: NCR proximity drives formal employment", "GST: Gurgaon commercial hub"],
+        "key_drivers": ["EPFO: NCR proximity drives formal employment", "GST: Gurgaon commercial hub",
+                        "Post-industrial: decoupled from electricity intensity"],
         "key_drags": ["Moderate agricultural share not captured by index"],
     },
     "Delhi": {
@@ -1685,6 +1870,12 @@ def main():
     # Step 7: Correlations
     correlations = compute_correlations(df)
 
+    # Step 7b: Population correlation analysis
+    population_analysis = compute_population_correlation(df)
+
+    # Step 7c: Growth z-scores
+    growth_zscores = compute_growth_zscores(df)
+
     # Step 8: OLS Regression
     regression = compute_regression(df)
 
@@ -1811,6 +2002,8 @@ def main():
         "component_diagnostics": component_diagnostics,
         "gap_explanations": gap_explanations,
         "regional_analysis": regional_analysis,
+        "population_analysis": population_analysis if not population_analysis.get("skipped") else None,
+        "growth_zscores": growth_zscores if not growth_zscores.get("skipped") else None,
     }
 
     write_json(insights_data, PUBLIC_DATA / "insights.json")

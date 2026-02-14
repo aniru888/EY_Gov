@@ -4,6 +4,7 @@ import {
   getMetadata,
   getEnhancedInsights,
   getEnhancedRegression,
+  getPerformanceData,
 } from "@/lib/data";
 
 export default function HomePage() {
@@ -21,14 +22,26 @@ export default function HomePage() {
   const fStat = cs ? cs.f_statistic : 59.3;
   const nStates = cs ? cs.n : 24;
 
+  // Stepwise regression findings
+  const stepwise = regression.stepwise;
+  const gstOnlyR2 = stepwise?.["model_1_gst_only"]?.r_squared;
+  const gstElecR2 = stepwise?.["model_2_gst_elec"]?.r_squared;
+
+  // Without Maharashtra
+  const withoutMH = cs?.without_maharashtra;
+
+  // Electricity coefficient
+  const elecCoef = cs?.coefficients?.["electricity_mu"];
+
   // Correlations
   const corr = insights.correlations;
 
   // Top 5
   const top5 = rankings.rankings.slice(0, 5);
 
-  // PCA
-  const pca = regression.pca;
+  // Maharashtra outlier data
+  const mh = rankings.rankings[0];
+  const nextBest = rankings.rankings[1];
 
   // GSDP comparison — outperformers and underperformers
   const gsdpComp = insights.gsdp_comparison || [];
@@ -50,6 +63,24 @@ export default function HomePage() {
     .map(([name, data]) => ({ name, ...data }))
     .sort((a, b) => b.mean_composite - a.mean_composite);
 
+  // Population analysis (per-capita)
+  const popAnalysis = insights.population_analysis;
+  const perfRisers = popAnalysis?.biggest_perf_risers?.slice(0, 3) || [];
+  const perfFallers = popAnalysis?.biggest_perf_fallers?.slice(0, 2) || [];
+
+  // Haryana momentum data
+  const haryanaGrowth = insights.growth_zscores?.rankings?.find(
+    (s) => s.slug === "haryana"
+  );
+  const haryanaActivity = rankings.rankings.find(
+    (s) => s.slug === "haryana"
+  );
+  const haryanaGsdp = gsdpComp.find((s) => s.slug === "haryana");
+  const performance = getPerformanceData();
+  const haryanaPerf = performance.rankings.find(
+    (s) => s.slug === "haryana"
+  );
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
       {/* Section 1: Hero */}
@@ -58,10 +89,15 @@ export default function HomePage() {
           State Economic Activity Index
         </h1>
         <p className="mt-3 text-lg text-gray-600 max-w-3xl">
-          India publishes state GDP figures 1-2 years late. This index tracks
-          state-level economic activity in near-real-time through four
-          hard-to-fake operational indicators — filling a gap no existing
-          national tracker covers at the state level.
+          India&apos;s state GDP figures arrive 1&ndash;2 years late and get
+          revised repeatedly. This index tracks state-level economic activity
+          through four hard-to-fake operational signals &mdash; GST collections,
+          electricity demand, bank credit, and formal employment &mdash; that
+          together explain{" "}
+          <span className="font-semibold text-gray-900">
+            {(rSquared * 100).toFixed(0)}%
+          </span>{" "}
+          of cross-state GDP variation anyway.
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-gray-500">
           <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full text-xs font-medium">
@@ -89,8 +125,18 @@ export default function HomePage() {
           </span>
         </div>
         <p className="mt-2 text-sm text-blue-700">
+          {gstOnlyR2 != null && gstElecR2 != null && (
+            <>
+              GST alone explains {(gstOnlyR2 * 100).toFixed(0)}%.
+              Add electricity and R&sup2; jumps to{" "}
+              {(gstElecR2 * 100).toFixed(0)}%.
+              Bank credit and EPFO together contribute less than 0.1 percentage
+              points &mdash; the two original Li Keqiang indicators do nearly
+              all the work.{" "}
+            </>
+          )}
           R&sup2;={rSquared.toFixed(3)}, F={fStat.toFixed(1)}, p&lt;0.001,
-          N={nStates} states &mdash;{" "}
+          N={nStates} states.{" "}
           <Link
             href="/insights"
             className="underline hover:text-blue-900"
@@ -107,24 +153,28 @@ export default function HomePage() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <IndicatorCard
-            name="GST Collections"
-            measures="Formal transactions"
-            correlation={corr.gst_gsdp.r}
-          />
-          <IndicatorCard
             name="Electricity Demand"
             measures="Physical output"
             correlation={corr.electricity_gsdp.r}
+            signal="primary"
+          />
+          <IndicatorCard
+            name="GST Collections"
+            measures="Formal transactions"
+            correlation={corr.gst_gsdp.r}
+            signal="primary"
           />
           <IndicatorCard
             name="Bank Credit"
             measures="Investment activity"
             correlation={corr.credit_gsdp.r}
+            signal="complementary"
           />
           <IndicatorCard
             name="EPFO Payroll"
             measures="Formal employment"
             correlation={corr.epfo_gsdp.r}
+            signal="complementary"
           />
         </div>
       </div>
@@ -180,98 +230,195 @@ export default function HomePage() {
           What the Index Reveals
         </h2>
         <div className="space-y-6">
-          {/* Insight 1: Electricity */}
+          {/* Insight 1: Electricity is the dominant predictor */}
           <div className="bg-white border border-gray-200 rounded-lg p-5">
             <h3 className="text-lg font-semibold text-gray-900">
-              Electricity is the single strongest individual predictor
+              Electricity is the only individually significant predictor of state
+              GDP
             </h3>
             <p className="mt-2 text-gray-700">
-              r={corr.electricity_gsdp.r?.toFixed(3)} with GSDP — the highest
-              of all 4 components. This mirrors the original Li Keqiang Index
-              which gave electricity the joint-highest weight (40%). A
-              ScienceDirect study of 18 Indian states over 1960-2015 confirmed
-              long-run causal links between electricity consumption and state
-              GDP.
+              r={corr.electricity_gsdp.r?.toFixed(3)} with GSDP &mdash; the
+              highest of all 4 components.{" "}
+              {elecCoef && (
+                <>
+                  In the multivariate regression, electricity carries a
+                  standardised coefficient of {elecCoef.beta?.toFixed(2)}{" "}
+                  (p&lt;0.001) &mdash; the only individually significant
+                  predictor.{" "}
+                </>
+              )}
+              {gstOnlyR2 != null && gstElecR2 != null && (
+                <>
+                  Adding electricity to a GST-only model jumps R&sup2; from{" "}
+                  {(gstOnlyR2 * 100).toFixed(0)}% to{" "}
+                  {(gstElecR2 * 100).toFixed(0)}%.
+                </>
+              )}{" "}
+              Tiwari, Eapen &amp; Nair (2021) found r=0.906 across 18 states
+              over 55 years and confirmed that economic growth Granger-causes
+              electricity demand. It is the original Li Keqiang indicator for a
+              reason.
             </p>
             <p className="mt-2 text-sm text-gray-500">
               GST r={corr.gst_gsdp.r?.toFixed(3)}, Credit r=
               {corr.credit_gsdp.r?.toFixed(3)}, EPFO r=
-              {corr.epfo_gsdp.r?.toFixed(3)}. The composite (r=
-              {corr.composite_gsdp.r?.toFixed(3)}) barely edges past
-              electricity alone.{" "}
+              {corr.epfo_gsdp.r?.toFixed(3)}. High multicollinearity (VIF
+              3&ndash;26) means individual coefficients are unreliable, but the
+              joint F-test is overwhelming.{" "}
               <Link
                 href="/electricity"
                 className="text-blue-600 hover:underline"
               >
                 Electricity deep-dive
-              </Link>
+              </Link>{" "}
+              | Ref: Tiwari et al., <em>Energy Economics</em> 94 (2021)
             </p>
           </div>
 
-          {/* Insight 2: Gap diagnostic */}
+          {/* Insight 2: Maharashtra is a 4-sigma outlier */}
           <div className="bg-white border border-gray-200 rounded-lg p-5">
             <h3 className="text-lg font-semibold text-gray-900">
-              The gap between index and GDP rank is a structural diagnostic
+              Maharashtra is a {mh.composite_score.toFixed(0)}-sigma outlier
+              &mdash; and removing it improves the model
             </h3>
             <p className="mt-2 text-gray-700">
-              {outperformers.length > 0 && (
+              Maharashtra&apos;s composite score of{" "}
+              {mh.composite_score.toFixed(2)} is nearly{" "}
+              {(mh.composite_score / nextBest.composite_score).toFixed(0)}x the
+              next-best state ({nextBest.state} at{" "}
+              {nextBest.composite_score.toFixed(2)}).{" "}
+              {withoutMH && (
                 <>
-                  {outperformers[0].state} ranks #{outperformers[0].index_rank}{" "}
-                  on our index vs #{outperformers[0].gsdp_rank} on GDP (gap ={" "}
-                  +{outperformers[0].rank_gap}).{" "}
+                  Remove it and R&sup2; <em>improves</em> from{" "}
+                  {(rSquared * 100).toFixed(1)}% to{" "}
+                  {(withoutMH.r_squared * 100).toFixed(1)}%.
                 </>
-              )}
-              {underperformers.length > 0 && (
-                <>
-                  {underperformers[0].state} ranks #
-                  {underperformers[0].index_rank} vs #
-                  {underperformers[0].gsdp_rank} on GDP (gap ={" "}
-                  {underperformers[0].rank_gap}).{" "}
-                </>
-              )}
-              The divergence maps onto economic structure: formalization,
-              industrial base, agricultural dependence.
+              )}{" "}
+              Mumbai&apos;s outsized bank credit (credit z-score{" "}
+              {mh.credit_zscore?.toFixed(1) ?? "--"} vs electricity z-score{" "}
+              {mh.electricity_zscore?.toFixed(1) ?? "--"}) inflates one component well
+              beyond its actual industrial footprint, adding noise rather than
+              signal.
             </p>
             <p className="mt-2 text-sm text-gray-500">
-              The 7% the index misses is as revealing as the 93% it captures.{" "}
+              This is not a flaw in the index &mdash; it is a finding.
+              Maharashtra&apos;s economy is uniquely financialised in a way that
+              distorts a physical-activity-based composite.{" "}
+              <Link
+                href="/states/maharashtra"
+                className="text-blue-600 hover:underline"
+              >
+                Maharashtra profile
+              </Link>{" "}
+              |{" "}
               <Link
                 href="/insights"
                 className="text-blue-600 hover:underline"
               >
-                Full gap analysis
+                Full diagnostics
               </Link>
             </p>
           </div>
 
-          {/* Insight 3: PCA */}
-          {pca && !pca.skipped && (
-            <div className="bg-white border border-gray-200 rounded-lg p-5">
-              <h3 className="text-lg font-semibold text-gray-900">
-                Equal weights are statistically justified
-              </h3>
-              <p className="mt-2 text-gray-700">
-                PCA-derived weights produce identical rankings (Spearman rho ={" "}
-                {pca.rank_correlation_with_equal_weights.toFixed(3)}). PC1
-                explains {pca.pc1_variance_explained_pct.toFixed(1)}% of
-                variance. PCA-implied weights — GST{" "}
-                {(pca.implied_weights.gst * 100).toFixed(1)}%, Electricity{" "}
-                {(pca.implied_weights.electricity * 100).toFixed(1)}%, Credit{" "}
-                {(pca.implied_weights.credit * 100).toFixed(1)}%, EPFO{" "}
-                {(pca.implied_weights.epfo * 100).toFixed(1)}% — are remarkably
-                close to equal 25%.
-              </p>
-              <p className="mt-2 text-sm text-gray-500">
-                No need for complex weighting. The data confirms simplicity
-                works.{" "}
-                <Link
-                  href="/methodology"
-                  className="text-blue-600 hover:underline"
-                >
-                  Methodology details
-                </Link>
-              </p>
-            </div>
-          )}
+          {/* Insight 3: Per-capita divergence */}
+          <div className="bg-white border border-gray-200 rounded-lg p-5">
+            <h3 className="text-lg font-semibold text-gray-900">
+              Per-capita rankings invert the picture: small states lead, big
+              states fall
+            </h3>
+            <p className="mt-2 text-gray-700">
+              {perfRisers.length > 0 && (
+                <>
+                  Normalise by population and the rankings transform:{" "}
+                  {perfRisers.map((s, i) => (
+                    <span key={s.slug}>
+                      {s.state} {s.activity_rank}&rarr;{s.perf_rank} (+
+                      {s.gap})
+                      {i < perfRisers.length - 1 ? ", " : ". "}
+                    </span>
+                  ))}
+                </>
+              )}
+              {perfFallers.length > 0 && (
+                <>
+                  Meanwhile{" "}
+                  {perfFallers.map((s, i) => (
+                    <span key={s.slug}>
+                      {s.state} drops {s.activity_rank}&rarr;{s.perf_rank} ({s.gap})
+                      {i < perfFallers.length - 1 ? ", " : ". "}
+                    </span>
+                  ))}
+                </>
+              )}
+              The Activity Index tells you <em>where</em> the economy is. The
+              Performance Index tells you how much formal economic activity each
+              person generates.
+            </p>
+            <p className="mt-2 text-sm text-gray-500">
+              {popAnalysis && (
+                <>
+                  Activity rank correlates{" "}
+                  {Math.abs(
+                    popAnalysis.activity_rank_vs_population.spearman_rho * 100
+                  ).toFixed(0)}
+                  % with population (Spearman rho=
+                  {popAnalysis.activity_rank_vs_population.spearman_rho.toFixed(
+                    2
+                  )}
+                  ).
+                  {popAnalysis.perf_rank_vs_population && (
+                    <>
+                      {" "}Per-capita normalization drops this to rho=
+                      {popAnalysis.perf_rank_vs_population.spearman_rho.toFixed(2)}.
+                    </>
+                  )}{" "}
+                </>
+              )}
+              <Link
+                href="/rankings"
+                className="text-blue-600 hover:underline"
+              >
+                View Performance rankings
+              </Link>
+            </p>
+          </div>
+
+          {/* Insight 4: What the index can't see */}
+          <div className="bg-white border border-gray-200 rounded-lg p-5">
+            <h3 className="text-lg font-semibold text-gray-900">
+              What the index cannot see &mdash; and where it partially overlaps
+            </h3>
+            <p className="mt-2 text-gray-700">
+              <strong>Agriculture:</strong> Not directly captured, but partially
+              overlaps with electricity demand in groundwater-irrigated states
+              (Punjab, Haryana, UP) where electric pump-sets drive consumption.
+              Rain-fed agriculture (Kerala, West Bengal) is truly invisible.{" "}
+              <strong>Informal economy:</strong> Not captured by EPFO or GST
+              directly, but informal businesses still consume electricity and
+              some pay GST &mdash; states with larger informal sectors (Bihar,
+              UP) are more undercounted.{" "}
+              <strong>Government spending:</strong> Infrastructure capex shows up
+              indirectly through electricity demand and bank credit, but current
+              expenditure (salaries, transfers, welfare) is invisible. NE states
+              and Bihar are systematically undercounted.{" "}
+              <strong>Remittances:</strong> Completely invisible &mdash;
+              Kerala&apos;s economy is significantly powered by Gulf remittances
+              that none of our 4 indicators capture.
+            </p>
+            <p className="mt-2 text-sm text-gray-500">
+              States where GSDP exceeds the index (Kerala, Tripura, West Bengal)
+              have GDP from channels with minimal overlap to our indicators.
+              States where the index exceeds GSDP (Haryana, Delhi) have
+              formalization momentum the GDP figures haven&apos;t caught up with
+              yet.{" "}
+              <Link
+                href="/methodology"
+                className="text-blue-600 hover:underline"
+              >
+                Methodology &amp; limitations
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
 
@@ -280,6 +427,55 @@ export default function HomePage() {
         <h2 className="text-2xl font-bold text-gray-900 mb-4">
           States to Watch
         </h2>
+
+        {/* Haryana spotlight */}
+        {haryanaActivity && (
+          <div className="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-lg font-semibold text-gray-900">
+                Haryana
+              </h3>
+              <span className="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                Momentum leader
+              </span>
+            </div>
+            <p className="text-gray-700">
+              Activity rank #{haryanaActivity.rank}
+              {haryanaPerf && <>, per-capita rank #{haryanaPerf.perf_rank}</>}
+              {haryanaGsdp?.rank_gap != null &&
+                haryanaGsdp.rank_gap > 0 && (
+                  <>
+                    , +{haryanaGsdp.rank_gap} gap vs GSDP
+                  </>
+                )}
+              .{" "}
+              {haryanaGrowth && (
+                <>
+                  GST growth{" "}
+                  {haryanaGrowth.gst_yoy_pct != null
+                    ? `+${haryanaGrowth.gst_yoy_pct.toFixed(0)}%`
+                    : "--"}
+                  , EPFO growth{" "}
+                  {haryanaGrowth.epfo_yoy_pct != null
+                    ? `+${haryanaGrowth.epfo_yoy_pct.toFixed(1)}%`
+                    : "--"}
+                  .{" "}
+                </>
+              )}
+              Tiwari et al. (2021) found Haryana had the highest economic growth
+              CAGR of all 18 states studied over 55 years. The Gurgaon/NCR belt
+              drives formal employment and GST-registered activity well beyond
+              what Haryana&apos;s GSDP rank would suggest.
+            </p>
+            <Link
+              href="/states/haryana"
+              className="mt-2 inline-block text-sm text-blue-600 hover:underline"
+            >
+              Haryana profile
+            </Link>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Outperformers */}
           <div>
@@ -424,6 +620,11 @@ export default function HomePage() {
             description="Full sortable table with all 34 states, trend charts, and component breakdowns"
           />
           <NavCard
+            href="/rankings"
+            title="Performance Rankings"
+            description="Per-capita index — which states generate the most formal activity per person?"
+          />
+          <NavCard
             href="/electricity"
             title="Electricity Deep-Dive"
             description="The strongest single predictor — intensity, elasticity, and state-level patterns"
@@ -455,14 +656,29 @@ function IndicatorCard({
   name,
   measures,
   correlation,
+  signal,
 }: {
   name: string;
   measures: string;
   correlation: number | null;
+  signal?: "primary" | "complementary";
 }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4">
-      <h3 className="font-semibold text-gray-900">{name}</h3>
+    <div
+      className={`bg-white border rounded-lg p-4 ${
+        signal === "primary"
+          ? "border-blue-300 ring-1 ring-blue-100"
+          : "border-gray-200"
+      }`}
+    >
+      <div className="flex items-center gap-2">
+        <h3 className="font-semibold text-gray-900">{name}</h3>
+        {signal === "primary" && (
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
+            Primary
+          </span>
+        )}
+      </div>
       <p className="text-sm text-gray-500 mt-1">{measures}</p>
       {correlation !== null && (
         <p className="text-sm text-gray-700 mt-2 tabular-nums">

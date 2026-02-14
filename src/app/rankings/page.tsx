@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { getRankings, getMetadata, getTrends, getTrendSubset, getInsights } from "@/lib/data";
+import { getRankings, getMetadata, getTrends, getTrendSubset, getInsights, getPerformanceData } from "@/lib/data";
 import DashboardClient from "@/components/DashboardClient";
 import DataFreshness from "@/components/common/DataFreshness";
+import RankingsToggle from "@/components/rankings/RankingsToggle";
 
 export const metadata = {
   title: "Rankings | State Economic Activity Index",
@@ -14,6 +15,7 @@ export default function RankingsPage() {
   const meta = getMetadata();
   const trends = getTrends();
   const insights = getInsights();
+  const performance = getPerformanceData();
 
   // Top 5 states for trend chart
   const topSlugs = rankings.rankings.slice(0, 5).map((r) => r.slug);
@@ -22,6 +24,9 @@ export default function RankingsPage() {
   // Slug -> state name map for chart labels
   const stateNameMap: Record<string, string> = {};
   for (const r of rankings.rankings) {
+    stateNameMap[r.slug] = r.state;
+  }
+  for (const r of performance.rankings) {
     stateNameMap[r.slug] = r.state;
   }
 
@@ -107,9 +112,10 @@ export default function RankingsPage() {
         </div>
       )}
 
-      {/* Dashboard */}
-      <DashboardClient
+      {/* Rankings Toggle + Dashboard */}
+      <RankingsToggle
         rankings={rankings.rankings}
+        performance={performance.rankings}
         trendData={trendData}
         trendSlugs={topSlugs}
         stateNameMap={stateNameMap}
