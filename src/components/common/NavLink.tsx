@@ -7,12 +7,16 @@ interface Props {
   href: string;
   children: React.ReactNode;
   onClick?: () => void;
+  exact?: boolean;
 }
 
-export default function NavLink({ href, children, onClick }: Props) {
+export default function NavLink({ href, children, onClick, exact }: Props) {
   const pathname = usePathname();
-  const isActive =
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = exact
+    ? pathname === href
+    : href === "/"
+      ? pathname === "/"
+      : pathname.startsWith(href);
 
   return (
     <Link
