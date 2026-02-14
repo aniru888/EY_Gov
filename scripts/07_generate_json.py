@@ -52,7 +52,16 @@ def write_json(data, path):
     print(f"  {path.name}: {size_kb:.1f} KB")
 
 
-def generate_rankings(df: pd.DataFrame, output_dir):
+def load_insights_for_enrichment():
+    """Load insights data for enriching rankings and state files."""
+    insights_path = DATA_PROCESSED / "insights_computed.parquet"
+    if not insights_path.exists():
+        print("  NOTE: insights_computed.parquet not found. Enrichment skipped.")
+        return None
+    return pd.read_parquet(insights_path)
+
+
+def generate_rankings(df: pd.DataFrame, output_dir, insights_df=None):
     """Generate rankings.json for the latest fiscal year."""
     print("\nGenerating rankings.json...")
 
@@ -64,9 +73,16 @@ def generate_rankings(df: pd.DataFrame, output_dir):
         (annual["fiscal_year"] == latest_fy) & annual["composite_score"].notna()
     ].sort_values("rank")
 
+    # Build insights lookup for enrichment
+    insights_lookup = {}
+    if insights_df is not None:
+        ins_latest = insights_df[insights_df["fiscal_year"] == latest_fy]
+        for _, row in ins_latest.iterrows():
+            insights_lookup[row["state"]] = row
+
     rankings = []
     for _, row in latest.iterrows():
-        rankings.append({
+        entry = {
             "state": row["state"],
             "slug": row["slug"],
             "region": row["region"],
@@ -78,7 +94,15 @@ def generate_rankings(df: pd.DataFrame, output_dir):
             "credit_zscore": row["credit_zscore"],
             "epfo_zscore": row["epfo_zscore"],
             "n_components": int(row["n_components_scored"]),
-        })
+        }
+        # Enrich with insights
+        ins = insights_lookup.get(row["state"])
+        if ins is not None:
+            entry["momentum_tier"] = ins.get("momentum_tier") if pd.notna(ins.get("momentum_tier")) else None
+            entry["gsdp_rank"] = int(ins["gsdp_rank"]) if pd.notna(ins.get("gsdp_rank")) else None
+            entry["rank_gap"] = int(ins["rank_gap"]) if pd.notna(ins.get("rank_gap")) else None
+            entry["brap_category"] = ins.get("brap_category") if pd.notna(ins.get("brap_category")) else None
+        rankings.append(entry)
 
     data = {
         "fiscal_year": latest_fy,
@@ -136,7 +160,7 @@ def generate_trends(df: pd.DataFrame, output_dir):
     write_json(data, output_dir / "trends.json")
 
 
-def generate_state_files(df: pd.DataFrame, output_dir):
+def generate_state_files(df: pd.DataFrame, output_dir, insights_df=None):
     """Generate one JSON file per state."""
     print("\nGenerating per-state JSON files...")
 
@@ -148,6 +172,17 @@ def generate_state_files(df: pd.DataFrame, output_dir):
         row["canonical_name"]: {"slug": row["slug"], "region": row["region"]}
         for _, row in meta.iterrows()
     }
+
+    # Build insights lookup (latest scored FY per state)
+    state_insights = {}
+    if insights_df is not None:
+        for state in insights_df["state"].unique():
+            state_ins = insights_df[
+                (insights_df["state"] == state) &
+                insights_df["composite_score"].notna()
+            ].sort_values("fiscal_year")
+            if not state_ins.empty:
+                state_insights[state] = state_ins.iloc[-1]
 
     count = 0
     for state in sorted(df["state"].unique()):
@@ -212,6 +247,28 @@ def generate_state_files(df: pd.DataFrame, output_dir):
             },
             "peers": peers,
         }
+
+        # Add insights block if available
+        ins = state_insights.get(state)
+        if ins is not None:
+            state_data["insights"] = {
+                "diagnostic_text": ins.get("diagnostic_text") if pd.notna(ins.get("diagnostic_text")) else None,
+                "strongest_component": ins.get("strongest_component") if pd.notna(ins.get("strongest_component")) else None,
+                "weakest_component": ins.get("weakest_component") if pd.notna(ins.get("weakest_component")) else None,
+                "divergence_score": ins.get("divergence_score"),
+                "momentum_tier": ins.get("momentum_tier") if pd.notna(ins.get("momentum_tier")) else None,
+                "rank_momentum_3yr": ins.get("rank_momentum_3yr"),
+                "gsdp_rank": int(ins["gsdp_rank"]) if pd.notna(ins.get("gsdp_rank")) else None,
+                "rank_gap": int(ins["rank_gap"]) if pd.notna(ins.get("rank_gap")) else None,
+                "gap_label": ins.get("gap_label") if pd.notna(ins.get("gap_label")) else None,
+                "brap_category": ins.get("brap_category") if pd.notna(ins.get("brap_category")) else None,
+                "covid_dip": ins.get("covid_dip"),
+                "recovery_speed": ins.get("recovery_speed"),
+                "gst_yoy_pct": ins.get("gst_yoy_pct"),
+                "elec_yoy_pct": ins.get("elec_yoy_pct"),
+                "credit_yoy_pct": ins.get("credit_yoy_pct"),
+                "epfo_yoy_pct": ins.get("epfo_yoy_pct"),
+            }
 
         write_json(state_data, states_dir / f"{slug}.json")
         count += 1
@@ -297,10 +354,13 @@ def main():
 
     output_dir = PUBLIC_DATA
 
+    # Load insights data for enrichment
+    insights_df = load_insights_for_enrichment()
+
     # Generate all JSON files
-    generate_rankings(df, output_dir)
+    generate_rankings(df, output_dir, insights_df)
     generate_trends(df, output_dir)
-    generate_state_files(df, output_dir)
+    generate_state_files(df, output_dir, insights_df)
     generate_metadata(df, output_dir)
 
     # Verify all JSON files are valid

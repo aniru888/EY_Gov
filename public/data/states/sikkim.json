@@ -713,5 +713,23 @@
       "composite_score": -0.7039554382289076,
       "rank": 31
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Sikkim: Balanced across all four components.",
+    "strongest_component": "GST",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.2885,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": null,
+    "rank_gap": null,
+    "gap_label": null,
+    "brap_category": "Emerging",
+    "covid_dip": 0.021,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 9.6011,
+    "elec_yoy_pct": 2.5294,
+    "credit_yoy_pct": -20.7736,
+    "epfo_yoy_pct": null
+  }
 }

@@ -713,5 +713,23 @@
       "composite_score": 1.0543125158303477,
       "rank": 5
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Tamil Nadu: Balanced across all four components.",
+    "strongest_component": "Credit",
+    "weakest_component": "GST",
+    "divergence_score": 0.2776,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 1.0,
+    "gsdp_rank": 2,
+    "rank_gap": 0,
+    "gap_label": "aligned",
+    "brap_category": "Top Achiever",
+    "covid_dip": -0.2947,
+    "recovery_speed": null,
+    "gst_yoy_pct": 8.0659,
+    "elec_yoy_pct": 2.2695,
+    "credit_yoy_pct": -30.1427,
+    "epfo_yoy_pct": -1.517
+  }
 }

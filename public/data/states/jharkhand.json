@@ -713,5 +713,23 @@
       "composite_score": -0.2498679253980471,
       "rank": 16
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Jharkhand: Balanced across all four components.",
+    "strongest_component": "GST",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.4984,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 18,
+    "rank_gap": 0,
+    "gap_label": "aligned",
+    "brap_category": "Aspirer",
+    "covid_dip": 0.0264,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 6.0546,
+    "elec_yoy_pct": 22.2977,
+    "credit_yoy_pct": -6.4765,
+    "epfo_yoy_pct": 39.8248
+  }
 }

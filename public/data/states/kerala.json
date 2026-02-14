@@ -713,5 +713,23 @@
       "composite_score": -0.12680983085784445,
       "rank": 14
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Kerala: Balanced across all four components.",
+    "strongest_component": "Credit",
+    "weakest_component": "EPFO",
+    "divergence_score": 0.4051,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 10,
+    "rank_gap": -5,
+    "gap_label": "underperformer",
+    "brap_category": "Achiever",
+    "covid_dip": 0.0195,
+    "recovery_speed": null,
+    "gst_yoy_pct": 7.9258,
+    "elec_yoy_pct": 2.0024,
+    "credit_yoy_pct": -42.6976,
+    "epfo_yoy_pct": -1.3332
+  }
 }

@@ -528,5 +528,23 @@
       "composite_score": -0.6206957386223032,
       "rank": 23
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Ladakh: Balanced across all four components.",
+    "strongest_component": "Credit",
+    "weakest_component": "EPFO",
+    "divergence_score": 0.0406,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": null,
+    "rank_gap": null,
+    "gap_label": null,
+    "brap_category": "Emerging",
+    "covid_dip": null,
+    "recovery_speed": null,
+    "gst_yoy_pct": 13.3231,
+    "elec_yoy_pct": null,
+    "credit_yoy_pct": -29.6364,
+    "epfo_yoy_pct": -17.7419
+  }
 }

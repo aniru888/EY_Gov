@@ -713,5 +713,23 @@
       "composite_score": -0.7014501010194437,
       "rank": 30
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Puducherry: Balanced across all four components.",
+    "strongest_component": "Credit",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.2407,
+    "momentum_tier": "rising",
+    "rank_momentum_3yr": 3.0,
+    "gsdp_rank": 24,
+    "rank_gap": -3,
+    "gap_label": "underperformer",
+    "brap_category": "Emerging",
+    "covid_dip": 0.0215,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 8.6894,
+    "elec_yoy_pct": 2.3802,
+    "credit_yoy_pct": -25.8712,
+    "epfo_yoy_pct": null
+  }
 }

@@ -25,6 +25,7 @@ export default function Header() {
           {/* Desktop nav */}
           <nav className="hidden sm:flex gap-6 text-sm font-medium">
             <NavLink href="/">Rankings</NavLink>
+            <NavLink href="/insights">Insights</NavLink>
             <NavLink href="/methodology">Methodology</NavLink>
             <NavLink href="/compare">Compare</NavLink>
           </nav>
@@ -66,6 +67,9 @@ export default function Header() {
           <div className="flex flex-col gap-2 text-sm font-medium">
             <NavLink href="/" onClick={() => setMenuOpen(false)}>
               Rankings
+            </NavLink>
+            <NavLink href="/insights" onClick={() => setMenuOpen(false)}>
+              Insights
             </NavLink>
             <NavLink href="/methodology" onClick={() => setMenuOpen(false)}>
               Methodology

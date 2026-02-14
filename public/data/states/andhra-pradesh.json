@@ -713,5 +713,23 @@
       "composite_score": -0.1228527770080384,
       "rank": 13
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Andhra Pradesh: Strongest on electricity demand (physical/industrial activity), relatively weaker on formal employment (EPFO payroll additions).",
+    "strongest_component": "Electricity",
+    "weakest_component": "EPFO",
+    "divergence_score": 0.7829,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": -2.0,
+    "gsdp_rank": 8,
+    "rank_gap": -4,
+    "gap_label": "underperformer",
+    "brap_category": "Top Achiever",
+    "covid_dip": 0.317,
+    "recovery_speed": null,
+    "gst_yoy_pct": 1.1877,
+    "elec_yoy_pct": -1.6618,
+    "credit_yoy_pct": -43.5273,
+    "epfo_yoy_pct": -1.7405
+  }
 }

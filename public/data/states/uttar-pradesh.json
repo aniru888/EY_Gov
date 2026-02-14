@@ -713,5 +713,23 @@
       "composite_score": 0.7644363439954647,
       "rank": 6
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Uttar Pradesh: Strongest on electricity demand (physical/industrial activity), relatively weaker on formal employment (EPFO payroll additions).",
+    "strongest_component": "Electricity",
+    "weakest_component": "EPFO",
+    "divergence_score": 1.417,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 3,
+    "rank_gap": -2,
+    "gap_label": "aligned",
+    "brap_category": "Achiever",
+    "covid_dip": 0.3431,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 10.3446,
+    "elec_yoy_pct": 10.8396,
+    "credit_yoy_pct": -36.8292,
+    "epfo_yoy_pct": -2.6789
+  }
 }

@@ -713,5 +713,23 @@
       "composite_score": 1.1557271331132335,
       "rank": 4
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Maharashtra: Strongest on bank credit growth (financial depth and investment), relatively weaker on electricity demand (physical/industrial activity).",
+    "strongest_component": "Credit",
+    "weakest_component": "Electricity",
+    "divergence_score": 1.8724,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 1,
+    "rank_gap": 0,
+    "gap_label": "aligned",
+    "brap_category": "Achiever",
+    "covid_dip": -1.0517,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 12.4135,
+    "elec_yoy_pct": 1.9783,
+    "credit_yoy_pct": -35.1614,
+    "epfo_yoy_pct": 0.5877
+  }
 }

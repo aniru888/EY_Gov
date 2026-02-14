@@ -713,5 +713,23 @@
       "composite_score": -0.2498679253980471,
       "rank": 16
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Punjab: Strongest on electricity demand (physical/industrial activity), relatively weaker on formal employment (EPFO payroll additions).",
+    "strongest_component": "Electricity",
+    "weakest_component": "EPFO",
+    "divergence_score": 1.003,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 15,
+    "rank_gap": 1,
+    "gap_label": "aligned",
+    "brap_category": "Top Achiever",
+    "covid_dip": 0.1628,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 11.0569,
+    "elec_yoy_pct": 11.0719,
+    "credit_yoy_pct": -44.3601,
+    "epfo_yoy_pct": -27.6628
+  }
 }

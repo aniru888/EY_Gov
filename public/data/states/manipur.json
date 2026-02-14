@@ -713,5 +713,23 @@
       "composite_score": -0.7073121423921092,
       "rank": 33
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Manipur: Balanced across all four components.",
+    "strongest_component": "Credit",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.2688,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": -2.0,
+    "gsdp_rank": null,
+    "rank_gap": null,
+    "gap_label": null,
+    "brap_category": "Emerging",
+    "covid_dip": -0.0067,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 4.3751,
+    "elec_yoy_pct": 7.813,
+    "credit_yoy_pct": 50.06,
+    "epfo_yoy_pct": 58.1513
+  }
 }

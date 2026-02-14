@@ -713,5 +713,23 @@
       "composite_score": -0.2498679253980471,
       "rank": 16
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Odisha: Strongest on GST collections (tax compliance and economic transactions), relatively weaker on formal employment (EPFO payroll additions).",
+    "strongest_component": "GST",
+    "weakest_component": "EPFO",
+    "divergence_score": 0.5024,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 14,
+    "rank_gap": 1,
+    "gap_label": "aligned",
+    "brap_category": "Achiever",
+    "covid_dip": 0.0087,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 11.2889,
+    "elec_yoy_pct": 2.4231,
+    "credit_yoy_pct": -36.9666,
+    "epfo_yoy_pct": -4.4794
+  }
 }

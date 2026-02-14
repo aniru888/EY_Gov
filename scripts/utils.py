@@ -50,6 +50,17 @@ RBI_URLS = {
     ),
 }
 
+RBI_GSDP_URLS = {
+    "rbi_gsdp_current_prices.xlsx": (
+        "https://rbidocs.rbi.org.in/rdocs/Publications/DOCs/"
+        "21T_11122025D994949B48C44B68B4465FBB9ADDFF3D.XLSX"
+    ),
+    "rbi_gsdp_constant_prices.xlsx": (
+        "https://rbidocs.rbi.org.in/rdocs/Publications/DOCs/"
+        "22T_11122025E6BC0CB35180406EAB6E0D49DE51C8E8.XLSX"
+    ),
+}
+
 # Fiscal year month mapping: month name -> (month_number, is_next_calendar_year)
 # For FY "2023-24": Apr=2023-04, ..., Dec=2023-12, Jan=2024-01, ..., Mar=2024-03
 FY_MONTH_MAP = {

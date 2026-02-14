@@ -713,5 +713,23 @@
       "composite_score": -0.46494883042514,
       "rank": 19
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Assam: Balanced across all four components.",
+    "strongest_component": "Credit",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.2883,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 16,
+    "rank_gap": -4,
+    "gap_label": "underperformer",
+    "brap_category": "Aspirer",
+    "covid_dip": 0.0443,
+    "recovery_speed": 2.0,
+    "gst_yoy_pct": 11.6252,
+    "elec_yoy_pct": 4.7346,
+    "credit_yoy_pct": -2.0733,
+    "epfo_yoy_pct": -62.3212
+  }
 }

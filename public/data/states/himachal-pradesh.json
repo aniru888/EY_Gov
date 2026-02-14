@@ -713,5 +713,23 @@
       "composite_score": -0.6206957386223032,
       "rank": 23
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Himachal Pradesh: Balanced across all four components.",
+    "strongest_component": "GST",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.1549,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 21,
+    "rank_gap": -1,
+    "gap_label": "aligned",
+    "brap_category": "Achiever",
+    "covid_dip": 0.0338,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 3.9802,
+    "elec_yoy_pct": 7.7801,
+    "credit_yoy_pct": -1.1457,
+    "epfo_yoy_pct": -2.0505
+  }
 }

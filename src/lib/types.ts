@@ -111,10 +111,197 @@ export interface StateDetail {
     electricity_zscore: (number | null)[];
   };
   peers: PeerState[];
+  insights?: StateInsights;
 }
 
 // Recharts-friendly data point for trend charts
 export interface TrendChartPoint {
   fiscal_year: string;
   [slug: string]: string | number | null;
+}
+
+// --- Insights Types ---
+
+export interface KeyFinding {
+  type: string;
+  title: string;
+  detail: string;
+  states: string[];
+}
+
+export interface CorrelationEntry {
+  r: number | null;
+  p: number | null;
+  n: number;
+  note?: string;
+}
+
+export interface CorrelationData {
+  latest_fy: string;
+  note: string;
+  gst_gsdp: CorrelationEntry;
+  electricity_gsdp: CorrelationEntry;
+  credit_gsdp: CorrelationEntry;
+  epfo_gsdp: CorrelationEntry;
+  composite_gsdp: CorrelationEntry;
+}
+
+export interface GrowthRankingEntry {
+  state: string;
+  slug: string;
+  rank: number | null;
+  momentum_tier: string | null;
+  rank_momentum_3yr: number | null;
+  gst_yoy_pct: number | null;
+  elec_yoy_pct: number | null;
+  credit_yoy_pct: number | null;
+  epfo_yoy_pct: number | null;
+}
+
+export interface GsdpComparisonEntry {
+  state: string;
+  slug: string;
+  index_rank: number | null;
+  gsdp_rank: number;
+  rank_gap: number | null;
+  gap_label: string | null;
+}
+
+export interface CovidRecoveryEntry {
+  state: string;
+  slug: string;
+  covid_dip: number;
+  recovery_speed: number | null;
+  recovery_fy: string | null;
+  never_recovered: boolean;
+  pre_covid_declining: boolean;
+}
+
+export interface ComponentDiagnostic {
+  strongest: string | null;
+  weakest: string | null;
+  divergence_score: number | null;
+  diagnostic: string | null;
+  brap_category: string | null;
+}
+
+export interface InsightsData {
+  generated_at: string;
+  latest_fy: string;
+  key_findings: KeyFinding[];
+  correlations: CorrelationData;
+  growth_rankings: GrowthRankingEntry[];
+  gsdp_comparison: GsdpComparisonEntry[];
+  covid_recovery: CovidRecoveryEntry[];
+  component_diagnostics: Record<string, ComponentDiagnostic>;
+}
+
+// --- Regression Types ---
+
+export interface CoefficientInfo {
+  coef: number;
+  se: number;
+  t: number;
+  p: number;
+  ci_low: number;
+  ci_high: number;
+  beta?: number;
+  robust_se?: number;
+  robust_t?: number;
+  robust_p?: number;
+}
+
+export interface RegressionDiagnostics {
+  vif: Record<string, number> | string;
+  vif_warning?: string;
+  breusch_pagan_stat?: number;
+  breusch_pagan_p: number | string;
+  heteroscedasticity_warning?: string;
+  robust_se_used?: boolean;
+  shapiro_wilk_stat?: number;
+  shapiro_wilk_p: number | string;
+  normality_warning?: string;
+  cooks_distance_threshold?: number;
+  cooks_distance_flagged: string[];
+  durbin_watson: number | null;
+}
+
+export interface CrossSectionalResult {
+  n: number;
+  r_squared: number;
+  adj_r_squared: number;
+  f_statistic: number;
+  f_pvalue: number;
+  degrees_of_freedom: { residual: number; model: number };
+  coefficients: Record<string, CoefficientInfo>;
+  diagnostics: RegressionDiagnostics;
+  without_maharashtra?: {
+    n: number;
+    r_squared: number;
+    adj_r_squared?: number;
+    f_statistic?: number;
+    f_pvalue?: number;
+    note?: string;
+  };
+}
+
+export interface StepwiseEntry {
+  r_squared: number;
+  adj_r_squared: number;
+  aic: number;
+  bic: number;
+  delta_r2?: number;
+  partial_f?: number;
+  partial_f_p?: number;
+}
+
+export interface RegressionData {
+  generated_at: string;
+  note: string;
+  latest_fy_with_gsdp?: string;
+  skipped?: boolean;
+  reason?: string;
+  cross_sectional?: Record<string, CrossSectionalResult>;
+  stepwise?: Record<string, StepwiseEntry>;
+  pooled_panel?: {
+    n_observations?: number;
+    n_years?: number;
+    r_squared?: number;
+    adj_r_squared?: number;
+    f_statistic?: number;
+    f_pvalue?: number;
+    note?: string;
+    skipped?: boolean;
+    reason?: string;
+  };
+  interpretation?: string;
+}
+
+// --- Enhanced State Detail with Insights ---
+
+export interface StateInsights {
+  diagnostic_text: string | null;
+  strongest_component: string | null;
+  weakest_component: string | null;
+  divergence_score: number | null;
+  momentum_tier: string | null;
+  rank_momentum_3yr: number | null;
+  gsdp_rank: number | null;
+  rank_gap: number | null;
+  gap_label: string | null;
+  brap_category: string | null;
+  covid_dip: number | null;
+  recovery_speed: number | null;
+  gst_yoy_pct: number | null;
+  elec_yoy_pct: number | null;
+  credit_yoy_pct: number | null;
+  epfo_yoy_pct: number | null;
+}
+
+// Extended RankingEntry with insight fields
+export interface EnrichedRankingEntry extends RankingEntry {
+  momentum_tier?: string | null;
+  gsdp_rank?: number | null;
+  rank_gap?: number | null;
+  brap_category?: string | null;
 }

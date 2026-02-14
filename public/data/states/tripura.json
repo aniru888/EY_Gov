@@ -713,5 +713,23 @@
       "composite_score": -0.7039554382289076,
       "rank": 31
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Tripura: Balanced across all four components.",
+    "strongest_component": "Credit",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.2608,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": -2.0,
+    "gsdp_rank": 22,
+    "rank_gap": -7,
+    "gap_label": "underperformer",
+    "brap_category": "Emerging",
+    "covid_dip": -0.0084,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 13.2926,
+    "elec_yoy_pct": 4.2753,
+    "credit_yoy_pct": -40.3648,
+    "epfo_yoy_pct": -6.61
+  }
 }

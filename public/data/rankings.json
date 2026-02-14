@@ -1,6 +1,6 @@
 {
   "fiscal_year": "2024-25",
-  "generated_at": "2026-02-14T11:48:27.416674",
+  "generated_at": "2026-02-14T14:31:25.008176",
   "count": 34,
   "rankings": [
     {
@@ -14,7 +14,11 @@
       "electricity_zscore": 2.8269704268019606,
       "credit_zscore": 4.699350077837797,
       "epfo_zscore": 4.037870057635478,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 1,
+      "rank_gap": 0,
+      "brap_category": "Achiever"
     },
     {
       "state": "Tamil Nadu",
@@ -27,7 +31,11 @@
       "electricity_zscore": 1.4170772804936254,
       "credit_zscore": 1.4886671583155153,
       "epfo_zscore": 1.3947663863722235,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 2,
+      "rank_gap": 0,
+      "brap_category": "Top Achiever"
     },
     {
       "state": "Gujarat",
@@ -40,7 +48,11 @@
       "electricity_zscore": 1.8996153860045557,
       "credit_zscore": 0.9202970340814456,
       "epfo_zscore": 1.1847711824296363,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": null,
+      "rank_gap": null,
+      "brap_category": "Top Achiever"
     },
     {
       "state": "Karnataka",
@@ -53,7 +65,11 @@
       "electricity_zscore": 0.7618539410380457,
       "credit_zscore": 0.9308256781432193,
       "epfo_zscore": 1.3125181004662485,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 4,
+      "rank_gap": 0,
+      "brap_category": "Top Achiever"
     },
     {
       "state": "Uttar Pradesh",
@@ -66,7 +82,11 @@
       "electricity_zscore": 2.032545125149023,
       "credit_zscore": 0.628321481979105,
       "epfo_zscore": 0.6155024613445184,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 3,
+      "rank_gap": -2,
+      "brap_category": "Achiever"
     },
     {
       "state": "Haryana",
@@ -79,7 +99,11 @@
       "electricity_zscore": 0.3553036583465393,
       "credit_zscore": 0.4933216532541481,
       "epfo_zscore": 1.1660388686375378,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 12,
+      "rank_gap": 6,
+      "brap_category": "Top Achiever"
     },
     {
       "state": "Telangana",
@@ -92,7 +116,11 @@
       "electricity_zscore": 0.6990107669405979,
       "credit_zscore": 0.6041668410722842,
       "epfo_zscore": 0.7479632756657437,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 7,
+      "rank_gap": 0,
+      "brap_category": "Top Achiever"
     },
     {
       "state": "Delhi",
@@ -105,7 +133,11 @@
       "electricity_zscore": -0.21743903416768995,
       "credit_zscore": 0.791056161672157,
       "epfo_zscore": 0.9155925832930611,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 11,
+      "rank_gap": 3,
+      "brap_category": "Aspirer"
     },
     {
       "state": "Rajasthan",
@@ -118,7 +150,11 @@
       "electricity_zscore": 1.1316409624031538,
       "credit_zscore": 0.3415984749008707,
       "epfo_zscore": 0.04171050365714928,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 6,
+      "rank_gap": -3,
+      "brap_category": "Achiever"
     },
     {
       "state": "West Bengal",
@@ -131,7 +167,11 @@
       "electricity_zscore": 0.3604141279397886,
       "credit_zscore": 0.12273458089192035,
       "epfo_zscore": 0.08568057109298483,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 5,
+      "rank_gap": -5,
+      "brap_category": "Achiever"
     },
     {
       "state": "Madhya Pradesh",
@@ -144,7 +184,11 @@
       "electricity_zscore": 0.9512546153752717,
       "credit_zscore": 0.086590947082543,
       "epfo_zscore": -0.19985531389591674,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 9,
+      "rank_gap": -2,
+      "brap_category": "Achiever"
     },
     {
       "state": "Andhra Pradesh",
@@ -157,7 +201,11 @@
       "electricity_zscore": 0.5202189040853622,
       "credit_zscore": 0.18296219356743543,
       "epfo_zscore": -0.2626842537061085,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 8,
+      "rank_gap": -4,
+      "brap_category": "Top Achiever"
     },
     {
       "state": "Odisha",
@@ -170,7 +218,11 @@
       "electricity_zscore": -0.14705211696665166,
       "credit_zscore": -0.25768629213203115,
       "epfo_zscore": -0.29451784618881116,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 14,
+      "rank_gap": 1,
+      "brap_category": "Achiever"
     },
     {
       "state": "Punjab",
@@ -183,7 +235,11 @@
       "electricity_zscore": 0.5023932554861841,
       "credit_zscore": -0.2279022419841278,
       "epfo_zscore": -0.5006308245301931,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 15,
+      "rank_gap": 1,
+      "brap_category": "Top Achiever"
     },
     {
       "state": "Kerala",
@@ -196,7 +252,11 @@
       "electricity_zscore": -0.33772449053023534,
       "credit_zscore": -0.012206362799133952,
       "epfo_zscore": -0.417353633786642,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 10,
+      "rank_gap": -5,
+      "brap_category": "Achiever"
     },
     {
       "state": "Chhattisgarh",
@@ -209,7 +269,11 @@
       "electricity_zscore": -0.1360828936503792,
       "credit_zscore": -0.28222957426260864,
       "epfo_zscore": -0.44959155628538894,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 17,
+      "rank_gap": 1,
+      "brap_category": "Achiever"
     },
     {
       "state": "Bihar",
@@ -222,7 +286,11 @@
       "electricity_zscore": -0.10545992834053829,
       "credit_zscore": -0.3042996849692796,
       "epfo_zscore": -0.5013819579339827,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 13,
+      "rank_gap": -4,
+      "brap_category": "Aspirer"
     },
     {
       "state": "Jharkhand",
@@ -235,7 +303,11 @@
       "electricity_zscore": -0.6348925856160856,
       "credit_zscore": -0.3925447967756219,
       "epfo_zscore": -0.36245186335604934,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 18,
+      "rank_gap": 0,
+      "brap_category": "Aspirer"
     },
     {
       "state": "Uttarakhand",
@@ -248,7 +320,11 @@
       "electricity_zscore": -0.5998348256994808,
       "credit_zscore": -0.48656064190441284,
       "epfo_zscore": -0.4058072176780615,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 19,
+      "rank_gap": 0,
+      "brap_category": "Achiever"
     },
     {
       "state": "Assam",
@@ -261,7 +337,11 @@
       "electricity_zscore": -0.6729166343713238,
       "credit_zscore": -0.3846542022326819,
       "epfo_zscore": -0.6310075312890442,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 16,
+      "rank_gap": -4,
+      "brap_category": "Aspirer"
     },
     {
       "state": "Jammu & Kashmir",
@@ -274,7 +354,11 @@
       "electricity_zscore": -0.5390290579990623,
       "credit_zscore": -0.49235492924042246,
       "epfo_zscore": -0.6085277685677551,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 20,
+      "rank_gap": -1,
+      "brap_category": "Emerging"
     },
     {
       "state": "Himachal Pradesh",
@@ -287,7 +371,11 @@
       "electricity_zscore": -0.6699768993650744,
       "credit_zscore": -0.5303711071279005,
       "epfo_zscore": -0.5372900793182043,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 21,
+      "rank_gap": -1,
+      "brap_category": "Achiever"
     },
     {
       "state": "Chandigarh",
@@ -300,7 +388,11 @@
       "electricity_zscore": -0.8681890741677922,
       "credit_zscore": -0.5319963340636106,
       "epfo_zscore": -0.46121686605563655,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": null,
+      "rank_gap": null,
+      "brap_category": "Aspirer"
     },
     {
       "state": "Goa",
@@ -313,7 +405,11 @@
       "electricity_zscore": -0.8070842810195086,
       "credit_zscore": -0.5948266652376177,
       "epfo_zscore": -0.5585404158118465,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": null,
+      "rank_gap": null,
+      "brap_category": "Aspirer"
     },
     {
       "state": "Andaman & Nicobar Islands",
@@ -326,7 +422,11 @@
       "electricity_zscore": null,
       "credit_zscore": -0.6257766390567914,
       "epfo_zscore": -0.6636990923423773,
-      "n_components": 3
+      "n_components": 3,
+      "momentum_tier": "stable",
+      "gsdp_rank": null,
+      "rank_gap": null,
+      "brap_category": "Emerging"
     },
     {
       "state": "Ladakh",
@@ -339,7 +439,11 @@
       "electricity_zscore": null,
       "credit_zscore": -0.6253997748398151,
       "epfo_zscore": -0.6660116627999962,
-      "n_components": 3
+      "n_components": 3,
+      "momentum_tier": "stable",
+      "gsdp_rank": null,
+      "rank_gap": null,
+      "brap_category": "Emerging"
     },
     {
       "state": "Puducherry",
@@ -352,7 +456,11 @@
       "electricity_zscore": -0.8393407183186933,
       "credit_zscore": -0.5986424154345021,
       "epfo_zscore": null,
-      "n_components": 3
+      "n_components": 3,
+      "momentum_tier": "rising",
+      "gsdp_rank": 24,
+      "rank_gap": -3,
+      "brap_category": "Emerging"
     },
     {
       "state": "Meghalaya",
@@ -365,7 +473,11 @@
       "electricity_zscore": -0.8661796191732725,
       "credit_zscore": -0.6170734310459963,
       "epfo_zscore": -0.6622379159835833,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 23,
+      "rank_gap": -5,
+      "brap_category": "Emerging"
     },
     {
       "state": "Tripura",
@@ -378,7 +490,11 @@
       "electricity_zscore": -0.8703309399729182,
       "credit_zscore": -0.6095479237132521,
       "epfo_zscore": -0.6608161864556229,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 22,
+      "rank_gap": -7,
+      "brap_category": "Emerging"
     },
     {
       "state": "Arunachal Pradesh",
@@ -391,7 +507,11 @@
       "electricity_zscore": -0.8843372802650807,
       "credit_zscore": -0.6113380287438892,
       "epfo_zscore": -0.6642398426483878,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": 25,
+      "rank_gap": -5,
+      "brap_category": "Emerging"
     },
     {
       "state": "Manipur",
@@ -404,7 +524,11 @@
       "electricity_zscore": -0.8840264104999901,
       "credit_zscore": -0.6152362179882371,
       "epfo_zscore": -0.6635051454241122,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": null,
+      "rank_gap": null,
+      "brap_category": "Emerging"
     },
     {
       "state": "Nagaland",
@@ -417,7 +541,11 @@
       "electricity_zscore": -0.8859061423187601,
       "credit_zscore": -0.618133361656242,
       "epfo_zscore": -0.6656171944916603,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "stable",
+      "gsdp_rank": null,
+      "rank_gap": null,
+      "brap_category": "Emerging"
     },
     {
       "state": "Sikkim",
@@ -430,7 +558,11 @@
       "electricity_zscore": -0.893519853516453,
       "credit_zscore": -0.6234447917142508,
       "epfo_zscore": null,
-      "n_components": 3
+      "n_components": 3,
+      "momentum_tier": "stable",
+      "gsdp_rank": null,
+      "rank_gap": null,
+      "brap_category": "Emerging"
     },
     {
       "state": "Mizoram",
@@ -443,7 +575,11 @@
       "electricity_zscore": -0.8901076323023974,
       "credit_zscore": -0.6180273685952175,
       "epfo_zscore": -0.6654298220452008,
-      "n_components": 4
+      "n_components": 4,
+      "momentum_tier": "declining",
+      "gsdp_rank": null,
+      "rank_gap": null,
+      "brap_category": "Emerging"
     }
   ]
 }

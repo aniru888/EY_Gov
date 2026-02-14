@@ -1,0 +1,1237 @@
+{
+  "generated_at": "2026-02-14T14:31:24.558353",
+  "latest_fy": "2024-25",
+  "key_findings": [
+    {
+      "type": "fastest_rising",
+      "title": "Fastest Rising States",
+      "detail": "Puducherry climbed 3 positions in 3 years, showing the strongest upward trajectory among all states.",
+      "states": [
+        "puducherry"
+      ]
+    },
+    {
+      "type": "outperformer",
+      "title": "Index Outperformers vs GDP",
+      "detail": "Haryana ranks 6 positions higher on our activity index than on official GSDP, suggesting stronger recent economic momentum.",
+      "states": [
+        "haryana",
+        "delhi"
+      ]
+    },
+    {
+      "type": "underperformer",
+      "title": "GDP Outperformers vs Index",
+      "detail": "Tripura ranks 7 positions higher on official GSDP than on our index, possibly due to agriculture or informal sector activity.",
+      "states": [
+        "tripura",
+        "arunachal-pradesh",
+        "kerala"
+      ]
+    },
+    {
+      "type": "fastest_recovery",
+      "title": "Fastest COVID Recovery",
+      "detail": "Andaman & Nicobar Islands recovered to pre-COVID activity levels in 1 year(s) after FY 2020-21.",
+      "states": [
+        "andaman-nicobar"
+      ]
+    },
+    {
+      "type": "most_unbalanced",
+      "title": "Most Unbalanced Economic Profile",
+      "detail": "Maharashtra shows the widest gap between its strongest component (Credit) and weakest (Electricity), with a divergence score of 1.87.",
+      "states": [
+        "maharashtra"
+      ]
+    },
+    {
+      "type": "strongest_correlation",
+      "title": "Electricity Most Correlated with GDP",
+      "detail": "Electricity shows the strongest association with state GSDP (r=0.94, p<0.001), suggesting states with higher electricity also have higher economic output. Correlation does not imply causation.",
+      "states": []
+    }
+  ],
+  "correlations": {
+    "latest_fy": "2024-25",
+    "note": "Cross-sectional Pearson r (across states, same FY).",
+    "gst_gsdp": {
+      "r": 0.8966,
+      "p": 0.0,
+      "n": 25
+    },
+    "electricity_gsdp": {
+      "r": 0.937,
+      "p": 0.0,
+      "n": 25
+    },
+    "credit_gsdp": {
+      "r": 0.8911,
+      "p": 0.0,
+      "n": 25
+    },
+    "epfo_gsdp": {
+      "r": 0.8719,
+      "p": 0.0,
+      "n": 24
+    },
+    "composite_gsdp": {
+      "r": 0.9357,
+      "p": 0.0,
+      "n": 25
+    }
+  },
+  "growth_rankings": [
+    {
+      "state": "Maharashtra",
+      "slug": "maharashtra",
+      "rank": 1,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 12.413548753011572,
+      "elec_yoy_pct": 1.978308694507147,
+      "credit_yoy_pct": -35.16135225830117,
+      "epfo_yoy_pct": 0.5876914091204499
+    },
+    {
+      "state": "Tamil Nadu",
+      "slug": "tamil-nadu",
+      "rank": 2,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 1.0,
+      "gst_yoy_pct": 8.065929108026904,
+      "elec_yoy_pct": 2.2694759223857552,
+      "credit_yoy_pct": -30.142747303101146,
+      "epfo_yoy_pct": -1.5170218346234998
+    },
+    {
+      "state": "Gujarat",
+      "slug": "gujarat",
+      "rank": 3,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": -1.0,
+      "gst_yoy_pct": 9.251410719816832,
+      "elec_yoy_pct": 5.811255796815451,
+      "credit_yoy_pct": -20.652698075902975,
+      "epfo_yoy_pct": -1.2766386348398107
+    },
+    {
+      "state": "Karnataka",
+      "slug": "karnataka",
+      "rank": 4,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 9.842579011494035,
+      "elec_yoy_pct": -2.4459097337862556,
+      "credit_yoy_pct": -37.28860076657361,
+      "epfo_yoy_pct": -2.1605379650153744
+    },
+    {
+      "state": "Uttar Pradesh",
+      "slug": "uttar-pradesh",
+      "rank": 5,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 10.344560045580508,
+      "elec_yoy_pct": 10.839596170381993,
+      "credit_yoy_pct": -36.82922214601613,
+      "epfo_yoy_pct": -2.678910070865359
+    },
+    {
+      "state": "Haryana",
+      "slug": "haryana",
+      "rank": 6,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 15.981991257593918,
+      "elec_yoy_pct": 10.189640856264859,
+      "credit_yoy_pct": -25.8149320598278,
+      "epfo_yoy_pct": 5.059624763498483
+    },
+    {
+      "state": "Telangana",
+      "slug": "telangana",
+      "rank": 7,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 5.0787498846808,
+      "elec_yoy_pct": 4.2826357684983885,
+      "credit_yoy_pct": -36.3193300801546,
+      "epfo_yoy_pct": 3.101284095496748
+    },
+    {
+      "state": "Delhi",
+      "slug": "delhi",
+      "rank": 8,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 15.888160186884303,
+      "elec_yoy_pct": 8.420647710318608,
+      "credit_yoy_pct": -27.758452428707425,
+      "epfo_yoy_pct": 0.19776689944177583
+    },
+    {
+      "state": "Rajasthan",
+      "slug": "rajasthan",
+      "rank": 9,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 9.189143402671895,
+      "elec_yoy_pct": 6.277606635858302,
+      "credit_yoy_pct": -18.2398414271556,
+      "epfo_yoy_pct": -6.366581422583961
+    },
+    {
+      "state": "West Bengal",
+      "slug": "west-bengal",
+      "rank": 10,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 2.0,
+      "gst_yoy_pct": 6.8344912398383695,
+      "elec_yoy_pct": 8.293596313234408,
+      "credit_yoy_pct": -3.2310813675317185,
+      "epfo_yoy_pct": -3.933766967019914
+    },
+    {
+      "state": "Madhya Pradesh",
+      "slug": "madhya-pradesh",
+      "rank": 11,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 6.871899298927087,
+      "elec_yoy_pct": 6.050941904514828,
+      "credit_yoy_pct": -21.827782917052108,
+      "epfo_yoy_pct": -7.6720746496732435
+    },
+    {
+      "state": "Andhra Pradesh",
+      "slug": "andhra-pradesh",
+      "rank": 12,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": -2.0,
+      "gst_yoy_pct": 1.1877414874952308,
+      "elec_yoy_pct": -1.6617599512002257,
+      "credit_yoy_pct": -43.527313485343086,
+      "epfo_yoy_pct": -1.7405037984806082
+    },
+    {
+      "state": "Odisha",
+      "slug": "odisha",
+      "rank": 13,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 11.288948247761521,
+      "elec_yoy_pct": 2.423073094205641,
+      "credit_yoy_pct": -36.96657892637793,
+      "epfo_yoy_pct": -4.47941939703369
+    },
+    {
+      "state": "Punjab",
+      "slug": "punjab",
+      "rank": 14,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 11.056864885892438,
+      "elec_yoy_pct": 11.071911420970837,
+      "credit_yoy_pct": -44.36005671724498,
+      "epfo_yoy_pct": -27.6627600435555
+    },
+    {
+      "state": "Kerala",
+      "slug": "kerala",
+      "rank": 15,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 7.925750768811524,
+      "elec_yoy_pct": 2.002401239724838,
+      "credit_yoy_pct": -42.69764799702859,
+      "epfo_yoy_pct": -1.3331771778805845
+    },
+    {
+      "state": "Chhattisgarh",
+      "slug": "chhattisgarh",
+      "rank": 16,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 6.62067245035336,
+      "elec_yoy_pct": 8.444976112911394,
+      "credit_yoy_pct": 4.531615095942798,
+      "epfo_yoy_pct": 8.452439625431252
+    },
+    {
+      "state": "Bihar",
+      "slug": "bihar",
+      "rank": 17,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 12.135749122268669,
+      "elec_yoy_pct": 8.629668991855443,
+      "credit_yoy_pct": -38.45400520821741,
+      "epfo_yoy_pct": -33.53346469709192
+    },
+    {
+      "state": "Jharkhand",
+      "slug": "jharkhand",
+      "rank": 18,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 6.054581741776066,
+      "elec_yoy_pct": 22.297719551316742,
+      "credit_yoy_pct": -6.476455578752027,
+      "epfo_yoy_pct": 39.82484774296897
+    },
+    {
+      "state": "Uttarakhand",
+      "slug": "uttarakhand",
+      "rank": 19,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 7.486993351724225,
+      "elec_yoy_pct": 7.882713992554802,
+      "credit_yoy_pct": -31.244000225873847,
+      "epfo_yoy_pct": -19.23885436231021
+    },
+    {
+      "state": "Assam",
+      "slug": "assam",
+      "rank": 20,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 11.625156795720404,
+      "elec_yoy_pct": 4.73463707633921,
+      "credit_yoy_pct": -2.0733427362482404,
+      "epfo_yoy_pct": -62.321211066643464
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "slug": "jammu-kashmir",
+      "rank": 21,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 7.023102073936194,
+      "elec_yoy_pct": 2.4909657553344733,
+      "credit_yoy_pct": -6.242978655111542,
+      "epfo_yoy_pct": 9.292541838092006
+    },
+    {
+      "state": "Himachal Pradesh",
+      "slug": "himachal-pradesh",
+      "rank": 22,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 3.980220435869608,
+      "elec_yoy_pct": 7.780071050045501,
+      "credit_yoy_pct": -1.1456628477905073,
+      "epfo_yoy_pct": -2.0505478087649354
+    },
+    {
+      "state": "Chandigarh",
+      "slug": "chandigarh",
+      "rank": 23,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 1.0,
+      "gst_yoy_pct": 5.19303842004033,
+      "elec_yoy_pct": 9.330635605535576,
+      "credit_yoy_pct": -5.067336224606256,
+      "epfo_yoy_pct": 2.3524593520907633
+    },
+    {
+      "state": "Goa",
+      "slug": "goa",
+      "rank": 24,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": -1.0,
+      "gst_yoy_pct": 10.362705503517411,
+      "elec_yoy_pct": 6.477257226208999,
+      "credit_yoy_pct": -33.975210270030985,
+      "epfo_yoy_pct": 0.08525149190110604
+    },
+    {
+      "state": "Andaman & Nicobar Islands",
+      "slug": "andaman-nicobar",
+      "rank": 25,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 12.694482081951119,
+      "elec_yoy_pct": null,
+      "credit_yoy_pct": -16.470588235294116,
+      "epfo_yoy_pct": -19.378427787934182
+    },
+    {
+      "state": "Ladakh",
+      "slug": "ladakh",
+      "rank": 26,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 13.323085870965045,
+      "elec_yoy_pct": null,
+      "credit_yoy_pct": -29.63636363636364,
+      "epfo_yoy_pct": -17.741935483870964
+    },
+    {
+      "state": "Puducherry",
+      "slug": "puducherry",
+      "rank": 27,
+      "momentum_tier": "rising",
+      "rank_momentum_3yr": 3.0,
+      "gst_yoy_pct": 8.689368449402757,
+      "elec_yoy_pct": 2.3802483312997946,
+      "credit_yoy_pct": -25.871201561193203,
+      "epfo_yoy_pct": null
+    },
+    {
+      "state": "Meghalaya",
+      "slug": "meghalaya",
+      "rank": 28,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": -2.9961983244303103,
+      "elec_yoy_pct": -0.5228173458001417,
+      "credit_yoy_pct": -54.84936029715228,
+      "epfo_yoy_pct": -22.03937702027623
+    },
+    {
+      "state": "Tripura",
+      "slug": "tripura",
+      "rank": 29,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": -2.0,
+      "gst_yoy_pct": 13.29263545652195,
+      "elec_yoy_pct": 4.275348330172712,
+      "credit_yoy_pct": -40.364762560220235,
+      "epfo_yoy_pct": -6.610034510220331
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "slug": "arunachal-pradesh",
+      "rank": 30,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 2.0,
+      "gst_yoy_pct": -8.16507586882036,
+      "elec_yoy_pct": 4.195065094134609,
+      "credit_yoy_pct": 1.2163892445582691,
+      "epfo_yoy_pct": -40.60430463576159
+    },
+    {
+      "state": "Manipur",
+      "slug": "manipur",
+      "rank": 31,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": -2.0,
+      "gst_yoy_pct": 4.375149271554801,
+      "elec_yoy_pct": 7.8129713423831015,
+      "credit_yoy_pct": 50.06002400960383,
+      "epfo_yoy_pct": 58.15126050420167
+    },
+    {
+      "state": "Nagaland",
+      "slug": "nagaland",
+      "rank": 32,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 2.0,
+      "gst_yoy_pct": -4.19431013156416,
+      "elec_yoy_pct": 5.286703239289436,
+      "credit_yoy_pct": -18.96690879741727,
+      "epfo_yoy_pct": -37.87721123829344
+    },
+    {
+      "state": "Sikkim",
+      "slug": "sikkim",
+      "rank": 33,
+      "momentum_tier": "stable",
+      "rank_momentum_3yr": 0.0,
+      "gst_yoy_pct": 9.601124307760367,
+      "elec_yoy_pct": 2.5293961964535594,
+      "credit_yoy_pct": -20.77363896848138,
+      "epfo_yoy_pct": null
+    },
+    {
+      "state": "Mizoram",
+      "slug": "mizoram",
+      "rank": 34,
+      "momentum_tier": "declining",
+      "rank_momentum_3yr": -3.0,
+      "gst_yoy_pct": 2.4668387251665314,
+      "elec_yoy_pct": 5.08353050835304,
+      "credit_yoy_pct": -6.377079482439929,
+      "epfo_yoy_pct": 33.14606741573034
+    },
+    {
+      "state": "Dadra & Nagar Haveli and Daman & Diu",
+      "slug": "dadra-nagar-haveli-daman-diu",
+      "rank": null,
+      "momentum_tier": null,
+      "rank_momentum_3yr": null,
+      "gst_yoy_pct": 1.7360558159716266,
+      "elec_yoy_pct": 3.6268540409858163,
+      "credit_yoy_pct": null,
+      "epfo_yoy_pct": null
+    },
+    {
+      "state": "Lakshadweep",
+      "slug": "lakshadweep",
+      "rank": null,
+      "momentum_tier": null,
+      "rank_momentum_3yr": null,
+      "gst_yoy_pct": -54.14462081128748,
+      "elec_yoy_pct": null,
+      "credit_yoy_pct": 17.391304347826097,
+      "epfo_yoy_pct": null
+    }
+  ],
+  "gsdp_comparison": [
+    {
+      "state": "Maharashtra",
+      "slug": "maharashtra",
+      "index_rank": 1,
+      "gsdp_rank": 1,
+      "rank_gap": 0,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Tamil Nadu",
+      "slug": "tamil-nadu",
+      "index_rank": 2,
+      "gsdp_rank": 2,
+      "rank_gap": 0,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Karnataka",
+      "slug": "karnataka",
+      "index_rank": 4,
+      "gsdp_rank": 4,
+      "rank_gap": 0,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Uttar Pradesh",
+      "slug": "uttar-pradesh",
+      "index_rank": 5,
+      "gsdp_rank": 3,
+      "rank_gap": -2,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Haryana",
+      "slug": "haryana",
+      "index_rank": 6,
+      "gsdp_rank": 12,
+      "rank_gap": 6,
+      "gap_label": "outperformer"
+    },
+    {
+      "state": "Telangana",
+      "slug": "telangana",
+      "index_rank": 7,
+      "gsdp_rank": 7,
+      "rank_gap": 0,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Delhi",
+      "slug": "delhi",
+      "index_rank": 8,
+      "gsdp_rank": 11,
+      "rank_gap": 3,
+      "gap_label": "outperformer"
+    },
+    {
+      "state": "Rajasthan",
+      "slug": "rajasthan",
+      "index_rank": 9,
+      "gsdp_rank": 6,
+      "rank_gap": -3,
+      "gap_label": "underperformer"
+    },
+    {
+      "state": "West Bengal",
+      "slug": "west-bengal",
+      "index_rank": 10,
+      "gsdp_rank": 5,
+      "rank_gap": -5,
+      "gap_label": "underperformer"
+    },
+    {
+      "state": "Madhya Pradesh",
+      "slug": "madhya-pradesh",
+      "index_rank": 11,
+      "gsdp_rank": 9,
+      "rank_gap": -2,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Andhra Pradesh",
+      "slug": "andhra-pradesh",
+      "index_rank": 12,
+      "gsdp_rank": 8,
+      "rank_gap": -4,
+      "gap_label": "underperformer"
+    },
+    {
+      "state": "Odisha",
+      "slug": "odisha",
+      "index_rank": 13,
+      "gsdp_rank": 14,
+      "rank_gap": 1,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Punjab",
+      "slug": "punjab",
+      "index_rank": 14,
+      "gsdp_rank": 15,
+      "rank_gap": 1,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Kerala",
+      "slug": "kerala",
+      "index_rank": 15,
+      "gsdp_rank": 10,
+      "rank_gap": -5,
+      "gap_label": "underperformer"
+    },
+    {
+      "state": "Chhattisgarh",
+      "slug": "chhattisgarh",
+      "index_rank": 16,
+      "gsdp_rank": 17,
+      "rank_gap": 1,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Bihar",
+      "slug": "bihar",
+      "index_rank": 17,
+      "gsdp_rank": 13,
+      "rank_gap": -4,
+      "gap_label": "underperformer"
+    },
+    {
+      "state": "Jharkhand",
+      "slug": "jharkhand",
+      "index_rank": 18,
+      "gsdp_rank": 18,
+      "rank_gap": 0,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Uttarakhand",
+      "slug": "uttarakhand",
+      "index_rank": 19,
+      "gsdp_rank": 19,
+      "rank_gap": 0,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Assam",
+      "slug": "assam",
+      "index_rank": 20,
+      "gsdp_rank": 16,
+      "rank_gap": -4,
+      "gap_label": "underperformer"
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "slug": "jammu-kashmir",
+      "index_rank": 21,
+      "gsdp_rank": 20,
+      "rank_gap": -1,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Himachal Pradesh",
+      "slug": "himachal-pradesh",
+      "index_rank": 22,
+      "gsdp_rank": 21,
+      "rank_gap": -1,
+      "gap_label": "aligned"
+    },
+    {
+      "state": "Puducherry",
+      "slug": "puducherry",
+      "index_rank": 27,
+      "gsdp_rank": 24,
+      "rank_gap": -3,
+      "gap_label": "underperformer"
+    },
+    {
+      "state": "Meghalaya",
+      "slug": "meghalaya",
+      "index_rank": 28,
+      "gsdp_rank": 23,
+      "rank_gap": -5,
+      "gap_label": "underperformer"
+    },
+    {
+      "state": "Tripura",
+      "slug": "tripura",
+      "index_rank": 29,
+      "gsdp_rank": 22,
+      "rank_gap": -7,
+      "gap_label": "underperformer"
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "slug": "arunachal-pradesh",
+      "index_rank": 30,
+      "gsdp_rank": 25,
+      "rank_gap": -5,
+      "gap_label": "underperformer"
+    }
+  ],
+  "covid_recovery": [
+    {
+      "state": "Maharashtra",
+      "slug": "maharashtra",
+      "covid_dip": -1.0517483818328857,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": false
+    },
+    {
+      "state": "Gujarat",
+      "slug": "gujarat",
+      "covid_dip": 0.4315485760120066,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Karnataka",
+      "slug": "karnataka",
+      "covid_dip": 0.06716478962492367,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Uttar Pradesh",
+      "slug": "uttar-pradesh",
+      "covid_dip": 0.3431102560288284,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": false
+    },
+    {
+      "state": "Telangana",
+      "slug": "telangana",
+      "covid_dip": 0.25325650806103506,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Rajasthan",
+      "slug": "rajasthan",
+      "covid_dip": 0.21343426414615918,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Odisha",
+      "slug": "odisha",
+      "covid_dip": 0.008744684065603692,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": false
+    },
+    {
+      "state": "Punjab",
+      "slug": "punjab",
+      "covid_dip": 0.16280689389135117,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Chhattisgarh",
+      "slug": "chhattisgarh",
+      "covid_dip": 0.0485125842205521,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Bihar",
+      "slug": "bihar",
+      "covid_dip": 0.3659545333884342,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Jharkhand",
+      "slug": "jharkhand",
+      "covid_dip": 0.026441931717993195,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Himachal Pradesh",
+      "slug": "himachal-pradesh",
+      "covid_dip": 0.03375220598737849,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Chandigarh",
+      "slug": "chandigarh",
+      "covid_dip": 0.042720236008593315,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Goa",
+      "slug": "goa",
+      "covid_dip": 0.007202527385648638,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Andaman & Nicobar Islands",
+      "slug": "andaman-nicobar",
+      "covid_dip": -0.014697094214804585,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Puducherry",
+      "slug": "puducherry",
+      "covid_dip": 0.021473903247493764,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Meghalaya",
+      "slug": "meghalaya",
+      "covid_dip": -0.005117397284176595,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Tripura",
+      "slug": "tripura",
+      "covid_dip": -0.00838026850513951,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "slug": "arunachal-pradesh",
+      "covid_dip": 0.005298371669220092,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Manipur",
+      "slug": "manipur",
+      "covid_dip": -0.006662248691540085,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Nagaland",
+      "slug": "nagaland",
+      "covid_dip": 0.014255761109431941,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Sikkim",
+      "slug": "sikkim",
+      "covid_dip": 0.020991676186735142,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Mizoram",
+      "slug": "mizoram",
+      "covid_dip": -0.0020803079224118726,
+      "recovery_speed": 1.0,
+      "recovery_fy": "2021-22",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Uttarakhand",
+      "slug": "uttarakhand",
+      "covid_dip": 0.03278071205993166,
+      "recovery_speed": 2.0,
+      "recovery_fy": "2022-23",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Assam",
+      "slug": "assam",
+      "covid_dip": 0.04433210955902378,
+      "recovery_speed": 2.0,
+      "recovery_fy": "2022-23",
+      "never_recovered": false,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "Jammu & Kashmir",
+      "slug": "jammu-kashmir",
+      "covid_dip": 0.04488214431474924,
+      "recovery_speed": 2.0,
+      "recovery_fy": "2022-23",
+      "never_recovered": false,
+      "pre_covid_declining": false
+    },
+    {
+      "state": "Haryana",
+      "slug": "haryana",
+      "covid_dip": -0.0077380284970740565,
+      "recovery_speed": 3.0,
+      "recovery_fy": "2023-24",
+      "never_recovered": false,
+      "pre_covid_declining": false
+    },
+    {
+      "state": "Tamil Nadu",
+      "slug": "tamil-nadu",
+      "covid_dip": -0.2947268123806044,
+      "recovery_speed": null,
+      "recovery_fy": null,
+      "never_recovered": true,
+      "pre_covid_declining": false
+    },
+    {
+      "state": "Delhi",
+      "slug": "delhi",
+      "covid_dip": -0.8881598138066866,
+      "recovery_speed": null,
+      "recovery_fy": null,
+      "never_recovered": true,
+      "pre_covid_declining": true
+    },
+    {
+      "state": "West Bengal",
+      "slug": "west-bengal",
+      "covid_dip": -0.20237893418294,
+      "recovery_speed": null,
+      "recovery_fy": null,
+      "never_recovered": true,
+      "pre_covid_declining": false
+    },
+    {
+      "state": "Madhya Pradesh",
+      "slug": "madhya-pradesh",
+      "covid_dip": 0.19471461937495493,
+      "recovery_speed": null,
+      "recovery_fy": null,
+      "never_recovered": true,
+      "pre_covid_declining": false
+    },
+    {
+      "state": "Andhra Pradesh",
+      "slug": "andhra-pradesh",
+      "covid_dip": 0.3169852893732875,
+      "recovery_speed": null,
+      "recovery_fy": null,
+      "never_recovered": true,
+      "pre_covid_declining": false
+    },
+    {
+      "state": "Kerala",
+      "slug": "kerala",
+      "covid_dip": 0.019480187584516542,
+      "recovery_speed": null,
+      "recovery_fy": null,
+      "never_recovered": true,
+      "pre_covid_declining": false
+    }
+  ],
+  "component_diagnostics": {
+    "andaman-nicobar": {
+      "strongest": "Credit",
+      "weakest": "EPFO",
+      "divergence_score": 0.037922453285585966,
+      "diagnostic": "Andaman & Nicobar Islands: Balanced across all four components.",
+      "brap_category": "Emerging"
+    },
+    "andhra-pradesh": {
+      "strongest": "Electricity",
+      "weakest": "EPFO",
+      "divergence_score": 0.7829031577914707,
+      "diagnostic": "Andhra Pradesh: Strongest on electricity demand (physical/industrial activity), relatively weaker on formal employment (EPFO payroll additions).",
+      "brap_category": "Top Achiever"
+    },
+    "arunachal-pradesh": {
+      "strongest": "Credit",
+      "weakest": "Electricity",
+      "divergence_score": 0.27299925152119153,
+      "diagnostic": "Arunachal Pradesh: Balanced across all four components.",
+      "brap_category": "Emerging"
+    },
+    "assam": {
+      "strongest": "Credit",
+      "weakest": "Electricity",
+      "divergence_score": 0.2882624321386419,
+      "diagnostic": "Assam: Balanced across all four components.",
+      "brap_category": "Aspirer"
+    },
+    "bihar": {
+      "strongest": "Electricity",
+      "weakest": "EPFO",
+      "divergence_score": 0.39592202959344436,
+      "diagnostic": "Bihar: Balanced across all four components.",
+      "brap_category": "Aspirer"
+    },
+    "chandigarh": {
+      "strongest": "EPFO",
+      "weakest": "Electricity",
+      "divergence_score": 0.4069722081121557,
+      "diagnostic": "Chandigarh: Balanced across all four components.",
+      "brap_category": "Aspirer"
+    },
+    "chhattisgarh": {
+      "strongest": "GST",
+      "weakest": "EPFO",
+      "divergence_score": 0.31802387889157724,
+      "diagnostic": "Chhattisgarh: Balanced across all four components.",
+      "brap_category": "Achiever"
+    },
+    "dadra-nagar-haveli-daman-diu": {
+      "strongest": null,
+      "weakest": null,
+      "divergence_score": null,
+      "diagnostic": null,
+      "brap_category": "Emerging"
+    },
+    "delhi": {
+      "strongest": "EPFO",
+      "weakest": "Electricity",
+      "divergence_score": 1.133031617460751,
+      "diagnostic": "Delhi: Strongest on formal employment (EPFO payroll additions), relatively weaker on electricity demand (physical/industrial activity).",
+      "brap_category": "Aspirer"
+    },
+    "goa": {
+      "strongest": "EPFO",
+      "weakest": "Electricity",
+      "divergence_score": 0.24854386520766203,
+      "diagnostic": "Goa: Balanced across all four components.",
+      "brap_category": "Aspirer"
+    },
+    "gujarat": {
+      "strongest": "Electricity",
+      "weakest": "Credit",
+      "divergence_score": 0.9793183519231101,
+      "diagnostic": "Gujarat: Strongest on electricity demand (physical/industrial activity), relatively weaker on bank credit growth (financial depth and investment).",
+      "brap_category": "Top Achiever"
+    },
+    "haryana": {
+      "strongest": "EPFO",
+      "weakest": "Electricity",
+      "divergence_score": 0.8107352102909985,
+      "diagnostic": "Haryana: Strongest on formal employment (EPFO payroll additions), relatively weaker on electricity demand (physical/industrial activity).",
+      "brap_category": "Top Achiever"
+    },
+    "himachal-pradesh": {
+      "strongest": "GST",
+      "weakest": "Electricity",
+      "divergence_score": 0.1548967149704834,
+      "diagnostic": "Himachal Pradesh: Balanced across all four components.",
+      "brap_category": "Achiever"
+    },
+    "jammu-kashmir": {
+      "strongest": "Credit",
+      "weakest": "EPFO",
+      "divergence_score": 0.11617283932733269,
+      "diagnostic": "Jammu & Kashmir: Balanced across all four components.",
+      "brap_category": "Emerging"
+    },
+    "jharkhand": {
+      "strongest": "GST",
+      "weakest": "Electricity",
+      "divergence_score": 0.49844203244619756,
+      "diagnostic": "Jharkhand: Balanced across all four components.",
+      "brap_category": "Aspirer"
+    },
+    "karnataka": {
+      "strongest": "GST",
+      "weakest": "Electricity",
+      "divergence_score": 0.8558568717673752,
+      "diagnostic": "Karnataka: Strongest on GST collections (tax compliance and economic transactions), relatively weaker on electricity demand (physical/industrial activity).",
+      "brap_category": "Top Achiever"
+    },
+    "kerala": {
+      "strongest": "Credit",
+      "weakest": "EPFO",
+      "divergence_score": 0.405147270987508,
+      "diagnostic": "Kerala: Balanced across all four components.",
+      "brap_category": "Achiever"
+    },
+    "ladakh": {
+      "strongest": "Credit",
+      "weakest": "EPFO",
+      "divergence_score": 0.040611887960181114,
+      "diagnostic": "Ladakh: Balanced across all four components.",
+      "brap_category": "Emerging"
+    },
+    "lakshadweep": {
+      "strongest": null,
+      "weakest": null,
+      "divergence_score": null,
+      "diagnostic": null,
+      "brap_category": "Emerging"
+    },
+    "madhya-pradesh": {
+      "strongest": "Electricity",
+      "weakest": "EPFO",
+      "divergence_score": 1.1511099292711884,
+      "diagnostic": "Madhya Pradesh: Strongest on electricity demand (physical/industrial activity), relatively weaker on formal employment (EPFO payroll additions).",
+      "brap_category": "Achiever"
+    },
+    "maharashtra": {
+      "strongest": "Credit",
+      "weakest": "Electricity",
+      "divergence_score": 1.872379651035836,
+      "diagnostic": "Maharashtra: Strongest on bank credit growth (financial depth and investment), relatively weaker on electricity demand (physical/industrial activity).",
+      "brap_category": "Achiever"
+    },
+    "manipur": {
+      "strongest": "Credit",
+      "weakest": "Electricity",
+      "divergence_score": 0.26879019251175296,
+      "diagnostic": "Manipur: Balanced across all four components.",
+      "brap_category": "Emerging"
+    },
+    "meghalaya": {
+      "strongest": "Credit",
+      "weakest": "Electricity",
+      "divergence_score": 0.24910618812727614,
+      "diagnostic": "Meghalaya: Balanced across all four components.",
+      "brap_category": "Emerging"
+    },
+    "mizoram": {
+      "strongest": "Credit",
+      "weakest": "Electricity",
+      "divergence_score": 0.27208026370717997,
+      "diagnostic": "Mizoram: Balanced across all four components.",
+      "brap_category": "Emerging"
+    },
+    "nagaland": {
+      "strongest": "Credit",
+      "weakest": "Electricity",
+      "divergence_score": 0.2677727806625181,
+      "diagnostic": "Nagaland: Balanced across all four components.",
+      "brap_category": "Emerging"
+    },
+    "odisha": {
+      "strongest": "GST",
+      "weakest": "EPFO",
+      "divergence_score": 0.5023629934441516,
+      "diagnostic": "Odisha: Strongest on GST collections (tax compliance and economic transactions), relatively weaker on formal employment (EPFO payroll additions).",
+      "brap_category": "Achiever"
+    },
+    "puducherry": {
+      "strongest": "Credit",
+      "weakest": "Electricity",
+      "divergence_score": 0.24069830288419114,
+      "diagnostic": "Puducherry: Balanced across all four components.",
+      "brap_category": "Emerging"
+    },
+    "punjab": {
+      "strongest": "Electricity",
+      "weakest": "EPFO",
+      "divergence_score": 1.0030240800163772,
+      "diagnostic": "Punjab: Strongest on electricity demand (physical/industrial activity), relatively weaker on formal employment (EPFO payroll additions).",
+      "brap_category": "Top Achiever"
+    },
+    "rajasthan": {
+      "strongest": "Electricity",
+      "weakest": "EPFO",
+      "divergence_score": 1.0899304587460046,
+      "diagnostic": "Rajasthan: Strongest on electricity demand (physical/industrial activity), relatively weaker on formal employment (EPFO payroll additions).",
+      "brap_category": "Achiever"
+    },
+    "sikkim": {
+      "strongest": "GST",
+      "weakest": "Electricity",
+      "divergence_score": 0.2885480715708292,
+      "diagnostic": "Sikkim: Balanced across all four components.",
+      "brap_category": "Emerging"
+    },
+    "tamil-nadu": {
+      "strongest": "Credit",
+      "weakest": "GST",
+      "divergence_score": 0.27758922142665177,
+      "diagnostic": "Tamil Nadu: Balanced across all four components.",
+      "brap_category": "Top Achiever"
+    },
+    "telangana": {
+      "strongest": "EPFO",
+      "weakest": "GST",
+      "divergence_score": 0.5106989483701163,
+      "diagnostic": "Telangana: Strongest on formal employment (EPFO payroll additions), relatively weaker on GST collections (tax compliance and economic transactions).",
+      "brap_category": "Top Achiever"
+    },
+    "tripura": {
+      "strongest": "Credit",
+      "weakest": "Electricity",
+      "divergence_score": 0.26078301625966616,
+      "diagnostic": "Tripura: Balanced across all four components.",
+      "brap_category": "Emerging"
+    },
+    "uttar-pradesh": {
+      "strongest": "Electricity",
+      "weakest": "EPFO",
+      "divergence_score": 1.4170426638045046,
+      "diagnostic": "Uttar Pradesh: Strongest on electricity demand (physical/industrial activity), relatively weaker on formal employment (EPFO payroll additions).",
+      "brap_category": "Achiever"
+    },
+    "uttarakhand": {
+      "strongest": "GST",
+      "weakest": "Electricity",
+      "divergence_score": 0.23224218928087603,
+      "diagnostic": "Uttarakhand: Balanced across all four components.",
+      "brap_category": "Achiever"
+    },
+    "west-bengal": {
+      "strongest": "Electricity",
+      "weakest": "EPFO",
+      "divergence_score": 0.2747335568468038,
+      "diagnostic": "West Bengal: Balanced across all four components.",
+      "brap_category": "Achiever"
+    }
+  }
+}

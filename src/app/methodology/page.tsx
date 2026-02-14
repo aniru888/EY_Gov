@@ -550,6 +550,293 @@ export default function MethodologyPage() {
               </div>
             </div>
           </Section>
+          {/* Section 8: Analytical Metrics */}
+          <Section id="analytical-metrics" title="8. Analytical Metrics">
+            <div className="space-y-4 text-gray-700">
+              <p>
+                Beyond static rankings, the index computes several derived metrics
+                to surface dynamics and trends.
+              </p>
+
+              <div className="space-y-3">
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                    Growth Rates (YoY %)
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    Year-over-year percentage change in each component&apos;s{" "}
+                    <strong>raw value</strong> (not z-scores). Z-scores are
+                    cross-sectional and change when peers change &mdash; raw values
+                    reflect actual growth in that state&apos;s economy. Formula:{" "}
+                    <code className="text-xs bg-gray-100 px-1 rounded">
+                      (value[t] / value[t-1]) - 1
+                    </code>
+                  </p>
+                </div>
+
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                    Rank Momentum (3-Year)
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    How many rank positions a state has moved over 3 fiscal years:{" "}
+                    <code className="text-xs bg-gray-100 px-1 rounded">
+                      rank[t-3] - rank[t]
+                    </code>
+                    . Positive = improved. Thresholds: &ge;+3 = &ldquo;rising&rdquo;,
+                    &le;-3 = &ldquo;declining&rdquo;, within &plusmn;2 = &ldquo;stable&rdquo;.
+                    A &plusmn;1 or &plusmn;2 shift is within noise for 34 states.
+                  </p>
+                </div>
+
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                    COVID Recovery Speed
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    The COVID dip is measured as composite_score[FY 2020-21] minus
+                    composite_score[FY 2019-20]. Recovery speed is the number of
+                    fiscal years after 2020-21 until composite_score returns to the
+                    pre-COVID level. States that never recovered are flagged as
+                    &ldquo;Not yet recovered&rdquo;. States already declining before COVID
+                    are noted separately.
+                  </p>
+                </div>
+
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                    Component Diagnostics
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    For each state, the strongest and weakest z-score components are
+                    identified. The divergence score (max z minus min z) flags states
+                    with unbalanced economic profiles. A state with high GST but low
+                    EPFO may have a large informal workforce.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Section>
+
+          {/* Section 9: Statistical Validation */}
+          <Section id="statistical-validation" title="9. Statistical Validation">
+            <div className="space-y-4 text-gray-700">
+              <p>
+                To validate whether our four indicators have explanatory power for
+                official economic output, we run cross-sectional OLS regressions of
+                state GSDP on the four activity indicators. This is a validation
+                exercise, <strong>not a predictive model</strong>.
+              </p>
+
+              <div className="bg-white border border-gray-200 rounded-lg p-4">
+                <h4 className="font-semibold text-gray-900 text-sm mb-2">
+                  Cross-Sectional OLS
+                </h4>
+                <p className="text-sm text-gray-600">
+                  For each fiscal year with both GSDP and index data:
+                </p>
+                <div className="mt-2 font-mono text-xs bg-gray-50 border rounded p-3">
+                  GSDP ~ beta_1*GST + beta_2*Electricity + beta_3*Credit +
+                  beta_4*EPFO + constant
+                </div>
+                <p className="text-sm text-gray-600 mt-2">
+                  Using <code className="text-xs bg-gray-100 px-1 rounded">statsmodels.OLS</code>{" "}
+                  with full diagnostics. Standardized coefficients (beta weights)
+                  allow direct comparison of each component&apos;s marginal association.
+                </p>
+              </div>
+
+              <div className="bg-white border border-gray-200 rounded-lg p-4">
+                <h4 className="font-semibold text-gray-900 text-sm mb-2">
+                  Stepwise Model Comparison
+                </h4>
+                <p className="text-sm text-gray-600">
+                  Models built incrementally (GST only &rarr; +Electricity &rarr;
+                  +Credit &rarr; +EPFO) with partial F-tests at each step. This tests
+                  whether each additional component adds significant explanatory power
+                  beyond what&apos;s already captured.
+                </p>
+              </div>
+
+              <div className="bg-white border border-gray-200 rounded-lg p-4">
+                <h4 className="font-semibold text-gray-900 text-sm mb-2">
+                  Diagnostic Tests
+                </h4>
+                <div className="overflow-x-auto">
+                  <table className="text-sm w-full mt-2">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-2 pr-4 font-medium text-gray-700">
+                          Test
+                        </th>
+                        <th className="text-left py-2 pr-4 font-medium text-gray-700">
+                          Purpose
+                        </th>
+                        <th className="text-left py-2 font-medium text-gray-700">
+                          Concern If Fails
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-gray-600 divide-y divide-gray-100">
+                      <tr>
+                        <td className="py-2 pr-4 font-medium">VIF</td>
+                        <td className="py-2 pr-4">Multicollinearity</td>
+                        <td className="py-2">
+                          VIF &gt; 10 means components are too correlated; individual
+                          coefficients unreliable
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="py-2 pr-4 font-medium">Breusch-Pagan</td>
+                        <td className="py-2 pr-4">Heteroscedasticity</td>
+                        <td className="py-2">
+                          If significant, use robust (HC3) standard errors
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="py-2 pr-4 font-medium">Shapiro-Wilk</td>
+                        <td className="py-2 pr-4">Normality of residuals</td>
+                        <td className="py-2">
+                          If non-normal, t-tests and F-tests are approximate
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="py-2 pr-4 font-medium">Cook&apos;s Distance</td>
+                        <td className="py-2 pr-4">Influential observations</td>
+                        <td className="py-2">
+                          Flag states with D &gt; 4/N (Maharashtra expected)
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm">
+                <strong>Critical caveats:</strong> GST is mechanically related to
+                GDP (it is a tax on economic transactions that also constitute GDP).
+                A high R&sup2; is partly tautological. Results are sensitive to
+                Maharashtra&apos;s inclusion. With N~34, degrees of freedom are limited.
+                These are cross-sectional associations &mdash; not causal
+                relationships. See the{" "}
+                <a href="/insights" className="text-blue-600 hover:underline">
+                  Insights page
+                </a>{" "}
+                for full regression results.
+              </div>
+            </div>
+          </Section>
+
+          {/* Section 10: Relationship with GSDP */}
+          <Section id="gsdp-relationship" title="10. Relationship with Official GSDP">
+            <div className="space-y-4 text-gray-700">
+              <p>
+                We compare our index rankings to official GSDP rankings (RBI
+                Handbook Tables 21 &amp; 22) to understand where and why they
+                diverge.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                    Agriculture gap
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    None of our 4 components capture agricultural output. Farm-heavy
+                    states like Punjab and Madhya Pradesh may rank lower on our index
+                    than on GSDP.
+                  </p>
+                </div>
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                    Formalization signal
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    EPFO payroll captures formal employment that GSDP may not fully
+                    reflect. States with rapid formalization may outperform their GDP
+                    rank on our index.
+                  </p>
+                </div>
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                    Financial hub bias
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    Maharashtra&apos;s bank credit is inflated by Mumbai&apos;s role as a
+                    financial capital. Corporate HQs book credit there even when
+                    spending occurs elsewhere.
+                  </p>
+                </div>
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                    Time lag
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    GSDP estimates lag 1-2 years and are frequently revised. Our index
+                    uses more recent data (GST: monthly, electricity: daily), so it
+                    may capture momentum that GSDP hasn&apos;t reflected yet.
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-sm">
+                Pearson correlations between each component and GSDP, plus the
+                full scatter plot comparison, are available on the{" "}
+                <a href="/insights" className="text-blue-600 hover:underline">
+                  Insights page
+                </a>
+                .
+              </p>
+            </div>
+          </Section>
+
+          {/* Section 11: Additional Caveats */}
+          <Section id="updated-limitations" title="11. Additional Caveats">
+            <div className="space-y-3">
+              {[
+                {
+                  title: "GSDP data lags 1-2 years",
+                  detail:
+                    "RBI publishes GSDP with a 1-2 year lag. Our cross-sectional regressions use the latest available GSDP year, which may be 1-2 years behind our most recent index year.",
+                },
+                {
+                  title: "Correlation is not causation",
+                  detail:
+                    "A high R-squared between our index and GSDP validates that the chosen indicators covary with official output — it does not establish that one causes the other.",
+                },
+                {
+                  title: "Mechanical GST-GDP relationship",
+                  detail:
+                    "GST is a tax on the same economic transactions that constitute GDP. The GST coefficient in regression partially reflects this mechanical, not causal, relationship.",
+                },
+                {
+                  title: "Small sample size (N~34)",
+                  detail:
+                    "With ~34 states and 4 regressors plus a constant, we have ~29 degrees of freedom. Marginal but usable. Pooled panel regression across years provides more observations.",
+                },
+                {
+                  title: "Maharashtra influence",
+                  detail:
+                    "Maharashtra is an extreme outlier (composite score 4.01 when the next is ~1.4). Regression results with and without Maharashtra are both reported for transparency.",
+                },
+                {
+                  title: "BRAP methodology changes",
+                  detail:
+                    "BRAP (Business Reform Action Plan) scoring methodology changed across editions (2015-2022). We show only the latest edition (2020) as a categorical label, not a time series.",
+                },
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="bg-white border border-gray-200 rounded-lg p-4"
+                >
+                  <h4 className="font-medium text-gray-900 text-sm">
+                    {item.title}
+                  </h4>
+                  <p className="text-sm text-gray-600 mt-1">{item.detail}</p>
+                </div>
+              ))}
+            </div>
+          </Section>
         </div>
 
         {/* Sidebar TOC — desktop only */}

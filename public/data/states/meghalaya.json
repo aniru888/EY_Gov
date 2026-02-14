@@ -713,5 +713,23 @@
       "composite_score": -0.6866920708936832,
       "rank": 27
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Meghalaya: Balanced across all four components.",
+    "strongest_component": "Credit",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.2491,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 23,
+    "rank_gap": -5,
+    "gap_label": "underperformer",
+    "brap_category": "Emerging",
+    "covid_dip": -0.0051,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": -2.9962,
+    "elec_yoy_pct": -0.5228,
+    "credit_yoy_pct": -54.8494,
+    "epfo_yoy_pct": -22.0394
+  }
 }

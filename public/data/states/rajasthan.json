@@ -713,5 +713,23 @@
       "composite_score": 0.21547996321636237,
       "rank": 10
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Rajasthan: Strongest on electricity demand (physical/industrial activity), relatively weaker on formal employment (EPFO payroll additions).",
+    "strongest_component": "Electricity",
+    "weakest_component": "EPFO",
+    "divergence_score": 1.0899,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 6,
+    "rank_gap": -3,
+    "gap_label": "underperformer",
+    "brap_category": "Achiever",
+    "covid_dip": 0.2134,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 9.1891,
+    "elec_yoy_pct": 6.2776,
+    "credit_yoy_pct": -18.2398,
+    "epfo_yoy_pct": -6.3666
+  }
 }

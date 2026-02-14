@@ -713,5 +713,23 @@
       "composite_score": -0.5501007319781213,
       "rank": 21
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Uttarakhand: Balanced across all four components.",
+    "strongest_component": "GST",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.2322,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 19,
+    "rank_gap": 0,
+    "gap_label": "aligned",
+    "brap_category": "Achiever",
+    "covid_dip": 0.0328,
+    "recovery_speed": 2.0,
+    "gst_yoy_pct": 7.487,
+    "elec_yoy_pct": 7.8827,
+    "credit_yoy_pct": -31.244,
+    "epfo_yoy_pct": -19.2389
+  }
 }

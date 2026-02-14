@@ -713,5 +713,23 @@
       "composite_score": 0.21547996321636237,
       "rank": 10
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Delhi: Strongest on formal employment (EPFO payroll additions), relatively weaker on electricity demand (physical/industrial activity).",
+    "strongest_component": "EPFO",
+    "weakest_component": "Electricity",
+    "divergence_score": 1.133,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 11,
+    "rank_gap": 3,
+    "gap_label": "outperformer",
+    "brap_category": "Aspirer",
+    "covid_dip": -0.8882,
+    "recovery_speed": null,
+    "gst_yoy_pct": 15.8882,
+    "elec_yoy_pct": 8.4206,
+    "credit_yoy_pct": -27.7585,
+    "epfo_yoy_pct": 0.1978
+  }
 }

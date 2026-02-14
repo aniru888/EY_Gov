@@ -713,5 +713,23 @@
       "composite_score": -0.23927197539782658,
       "rank": 15
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Bihar: Balanced across all four components.",
+    "strongest_component": "Electricity",
+    "weakest_component": "EPFO",
+    "divergence_score": 0.3959,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 13,
+    "rank_gap": -4,
+    "gap_label": "underperformer",
+    "brap_category": "Aspirer",
+    "covid_dip": 0.366,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 12.1357,
+    "elec_yoy_pct": 8.6297,
+    "credit_yoy_pct": -38.454,
+    "epfo_yoy_pct": -33.5335
+  }
 }

@@ -713,5 +713,23 @@
       "composite_score": -0.12680983085784445,
       "rank": 14
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Chhattisgarh: Balanced across all four components.",
+    "strongest_component": "GST",
+    "weakest_component": "EPFO",
+    "divergence_score": 0.318,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 17,
+    "rank_gap": 1,
+    "gap_label": "aligned",
+    "brap_category": "Achiever",
+    "covid_dip": 0.0485,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 6.6207,
+    "elec_yoy_pct": 8.445,
+    "credit_yoy_pct": 4.5316,
+    "epfo_yoy_pct": 8.4524
+  }
 }

@@ -1,0 +1,137 @@
+{
+  "generated_at": "2026-02-14T14:31:24.542592",
+  "note": "Cross-sectional OLS: GSDP regressed on 4 activity indicators. NOT a causal model.",
+  "latest_fy_with_gsdp": "2024-25",
+  "cross_sectional": {
+    "2024-25": {
+      "n": 24,
+      "r_squared": 0.9258,
+      "adj_r_squared": 0.9102,
+      "f_statistic": 59.2575,
+      "f_pvalue": 0.0,
+      "degrees_of_freedom": {
+        "residual": 19,
+        "model": 4
+      },
+      "coefficients": {
+        "const": {
+          "coef": 136621.667126,
+          "se": 109937.27264,
+          "t": 1.2427,
+          "p": 0.229089,
+          "ci_low": -93479.689,
+          "ci_high": 366723.0232
+        },
+        "gst_total": {
+          "coef": 4.966437,
+          "se": 4.660499,
+          "t": 1.0656,
+          "p": 0.299939,
+          "ci_low": -4.7881,
+          "ci_high": 14.721,
+          "beta": 0.3363
+        },
+        "electricity_mu": {
+          "coef": 12.756071,
+          "se": 2.355702,
+          "t": 5.415,
+          "p": 3.2e-05,
+          "ci_low": 7.8255,
+          "ci_high": 17.6866,
+          "beta": 0.61
+        },
+        "bank_credit_yoy": {
+          "coef": 0.062683,
+          "se": 3.576578,
+          "t": 0.0175,
+          "p": 0.9862,
+          "ci_low": -7.4232,
+          "ci_high": 7.5485,
+          "beta": 0.0052
+        },
+        "epfo_payroll": {
+          "coef": 0.100799,
+          "se": 0.553978,
+          "t": 0.182,
+          "p": 0.857545,
+          "ci_low": -1.0587,
+          "ci_high": 1.2603,
+          "beta": 0.0581
+        }
+      },
+      "diagnostics": {
+        "vif": {
+          "gst_total": 25.5,
+          "electricity_mu": 3.25,
+          "bank_credit_yoy": 22.71,
+          "epfo_payroll": 26.1
+        },
+        "vif_warning": "VIF > 10 for gst_total, bank_credit_yoy, epfo_payroll. Individual coefficient estimates unreliable.",
+        "breusch_pagan_stat": 6.7775,
+        "breusch_pagan_p": 0.1481,
+        "shapiro_wilk_stat": 0.9561,
+        "shapiro_wilk_p": 0.3658,
+        "cooks_distance_threshold": 0.1667,
+        "cooks_distance_flagged": [
+          "Haryana",
+          "Karnataka",
+          "Maharashtra"
+        ],
+        "durbin_watson": 1.6829
+      },
+      "without_maharashtra": {
+        "n": 23,
+        "r_squared": 0.9533,
+        "adj_r_squared": 0.9429,
+        "f_statistic": 91.8331,
+        "f_pvalue": 0.0,
+        "note": "R-squared increases by 0.027 without Maharashtra. Maharashtra is an outlier (likely due to Mumbai's inflated bank credit) that slightly worsens overall model fit."
+      }
+    }
+  },
+  "stepwise": {
+    "model_1_gst_only": {
+      "r_squared": 0.8003,
+      "adj_r_squared": 0.7912,
+      "aic": 701.51,
+      "bic": 703.87
+    },
+    "model_2_gst_elec": {
+      "r_squared": 0.9256,
+      "adj_r_squared": 0.9185,
+      "aic": 679.82,
+      "bic": 683.35,
+      "delta_r2": 0.1253,
+      "partial_f": 35.3664,
+      "partial_f_p": 7e-06
+    },
+    "model_3_gst_elec_credit": {
+      "r_squared": 0.9257,
+      "adj_r_squared": 0.9145,
+      "aic": 681.8,
+      "bic": 686.51,
+      "delta_r2": 0.0001,
+      "partial_f": 0.0154,
+      "partial_f_p": 0.902328
+    },
+    "model_4_full": {
+      "r_squared": 0.9258,
+      "adj_r_squared": 0.9102,
+      "aic": 683.76,
+      "bic": 689.65,
+      "delta_r2": 0.0001,
+      "partial_f": 0.0331,
+      "partial_f_p": 0.857545
+    }
+  },
+  "pooled_panel": {
+    "n_observations": 233,
+    "n_years": 8,
+    "r_squared": 0.9443,
+    "adj_r_squared": 0.9415,
+    "f_statistic": 340.6907,
+    "f_pvalue": 0.0,
+    "note": "Year dummies included to absorb national trends."
+  },
+  "interpretation": "The four activity indicators jointly explain ~93% of cross-sectional variation in state GSDP (F=59.3, p<0.001). 1 of 3 additional components significantly improve fit (partial F-test, p<0.05). VIF values (3.2-26.1) indicate high multicollinearity; individual coefficient estimates are unreliable, but joint significance (F-test) remains valid. R-squared increases to 0.95 without Maharashtra, indicating it is an outlier that slightly worsens fit (likely due to Mumbai's inflated bank credit). These are associations, not causal relationships."
+}

@@ -713,5 +713,23 @@
       "composite_score": 1.0543125158303477,
       "rank": 5
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Gujarat: Strongest on electricity demand (physical/industrial activity), relatively weaker on bank credit growth (financial depth and investment).",
+    "strongest_component": "Electricity",
+    "weakest_component": "Credit",
+    "divergence_score": 0.9793,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": -1.0,
+    "gsdp_rank": null,
+    "rank_gap": null,
+    "gap_label": null,
+    "brap_category": "Top Achiever",
+    "covid_dip": 0.4315,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 9.2514,
+    "elec_yoy_pct": 5.8113,
+    "credit_yoy_pct": -20.6527,
+    "epfo_yoy_pct": -1.2766
+  }
 }

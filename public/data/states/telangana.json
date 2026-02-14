@@ -713,5 +713,23 @@
       "composite_score": 0.7644363439954647,
       "rank": 6
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Telangana: Strongest on formal employment (EPFO payroll additions), relatively weaker on GST collections (tax compliance and economic transactions).",
+    "strongest_component": "EPFO",
+    "weakest_component": "GST",
+    "divergence_score": 0.5107,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 7,
+    "rank_gap": 0,
+    "gap_label": "aligned",
+    "brap_category": "Top Achiever",
+    "covid_dip": 0.2533,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 5.0787,
+    "elec_yoy_pct": 4.2826,
+    "credit_yoy_pct": -36.3193,
+    "epfo_yoy_pct": 3.1013
+  }
 }

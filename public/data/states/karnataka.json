@@ -713,5 +713,23 @@
       "composite_score": 1.377897190517557,
       "rank": 2
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Karnataka: Strongest on GST collections (tax compliance and economic transactions), relatively weaker on electricity demand (physical/industrial activity).",
+    "strongest_component": "GST",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.8559,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 4,
+    "rank_gap": 0,
+    "gap_label": "aligned",
+    "brap_category": "Top Achiever",
+    "covid_dip": 0.0672,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 9.8426,
+    "elec_yoy_pct": -2.4459,
+    "credit_yoy_pct": -37.2886,
+    "epfo_yoy_pct": -2.1605
+  }
 }

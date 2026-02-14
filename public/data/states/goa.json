@@ -713,5 +713,23 @@
       "composite_score": -0.6488873105783006,
       "rank": 26
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Goa: Balanced across all four components.",
+    "strongest_component": "EPFO",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.2485,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": -1.0,
+    "gsdp_rank": null,
+    "rank_gap": null,
+    "gap_label": null,
+    "brap_category": "Aspirer",
+    "covid_dip": 0.0072,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 10.3627,
+    "elec_yoy_pct": 6.4773,
+    "credit_yoy_pct": -33.9752,
+    "epfo_yoy_pct": 0.0853
+  }
 }

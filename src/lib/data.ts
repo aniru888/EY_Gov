@@ -6,6 +6,8 @@ import type {
   TrendsData,
   StateDetail,
   TrendChartPoint,
+  InsightsData,
+  RegressionData,
 } from "./types";
 
 const DATA_DIR = path.join(process.cwd(), "public", "data");
@@ -73,6 +75,19 @@ export function getTrendSubset(
     }
     return point;
   });
+}
+
+export function getInsights(): InsightsData {
+  const raw = fs.readFileSync(path.join(DATA_DIR, "insights.json"), "utf-8");
+  return JSON.parse(raw);
+}
+
+export function getRegressionData(): RegressionData {
+  const raw = fs.readFileSync(
+    path.join(DATA_DIR, "regression.json"),
+    "utf-8"
+  );
+  return JSON.parse(raw);
 }
 
 /** Format number in Indian lakh/crore notation */

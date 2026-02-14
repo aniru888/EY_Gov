@@ -6,6 +6,7 @@ import Breadcrumbs from "@/components/common/Breadcrumbs";
 import MetricCard from "@/components/common/MetricCard";
 import StateDetailClient from "@/components/StateDetailClient";
 import PeerComparison from "@/components/charts/PeerComparison";
+import StateDiagnosticBanner from "@/components/StateDiagnosticBanner";
 
 export async function generateStaticParams() {
   const slugs = getAllStateSlugs();
@@ -173,6 +174,15 @@ export default async function StatePage({
           }
         />
       </div>
+
+      {/* Insights diagnostic banner */}
+      {stateData.insights && (
+        <StateDiagnosticBanner
+          state={stateData.state}
+          insights={stateData.insights}
+          latestFy={latestFy}
+        />
+      )}
 
       {/* Charts */}
       <StateDetailClient stateData={stateData} />

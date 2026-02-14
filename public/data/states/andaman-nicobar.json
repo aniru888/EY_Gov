@@ -678,5 +678,23 @@
       "composite_score": -0.6206957386223032,
       "rank": 23
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Andaman & Nicobar Islands: Balanced across all four components.",
+    "strongest_component": "Credit",
+    "weakest_component": "EPFO",
+    "divergence_score": 0.0379,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": null,
+    "rank_gap": null,
+    "gap_label": null,
+    "brap_category": "Emerging",
+    "covid_dip": -0.0147,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 12.6945,
+    "elec_yoy_pct": null,
+    "credit_yoy_pct": -16.4706,
+    "epfo_yoy_pct": -19.3784
+  }
 }

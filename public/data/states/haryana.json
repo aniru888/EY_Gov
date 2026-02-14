@@ -713,5 +713,23 @@
       "composite_score": 1.0543125158303477,
       "rank": 5
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Haryana: Strongest on formal employment (EPFO payroll additions), relatively weaker on electricity demand (physical/industrial activity).",
+    "strongest_component": "EPFO",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.8107,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 12,
+    "rank_gap": 6,
+    "gap_label": "outperformer",
+    "brap_category": "Top Achiever",
+    "covid_dip": -0.0077,
+    "recovery_speed": 3.0,
+    "gst_yoy_pct": 15.982,
+    "elec_yoy_pct": 10.1896,
+    "credit_yoy_pct": -25.8149,
+    "epfo_yoy_pct": 5.0596
+  }
 }

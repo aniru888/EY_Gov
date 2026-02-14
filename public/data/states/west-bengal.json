@@ -713,5 +713,23 @@
       "composite_score": 0.40874444862479087,
       "rank": 9
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "West Bengal: Balanced across all four components.",
+    "strongest_component": "Electricity",
+    "weakest_component": "EPFO",
+    "divergence_score": 0.2747,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 2.0,
+    "gsdp_rank": 5,
+    "rank_gap": -5,
+    "gap_label": "underperformer",
+    "brap_category": "Achiever",
+    "covid_dip": -0.2024,
+    "recovery_speed": null,
+    "gst_yoy_pct": 6.8345,
+    "elec_yoy_pct": 8.2936,
+    "credit_yoy_pct": -3.2311,
+    "epfo_yoy_pct": -3.9338
+  }
 }

@@ -10,6 +10,10 @@ const sections = [
   { id: "sources", label: "Data Sources" },
   { id: "limitations", label: "Known Limitations" },
   { id: "validation", label: "Validation" },
+  { id: "analytical-metrics", label: "Analytical Metrics" },
+  { id: "statistical-validation", label: "Statistical Validation" },
+  { id: "gsdp-relationship", label: "Relationship with GSDP" },
+  { id: "updated-limitations", label: "Additional Caveats" },
 ];
 
 export default function TableOfContents() {

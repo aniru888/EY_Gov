@@ -713,5 +713,23 @@
       "composite_score": 0.40874444862479087,
       "rank": 9
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Madhya Pradesh: Strongest on electricity demand (physical/industrial activity), relatively weaker on formal employment (EPFO payroll additions).",
+    "strongest_component": "Electricity",
+    "weakest_component": "EPFO",
+    "divergence_score": 1.1511,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 9,
+    "rank_gap": -2,
+    "gap_label": "aligned",
+    "brap_category": "Achiever",
+    "covid_dip": 0.1947,
+    "recovery_speed": null,
+    "gst_yoy_pct": 6.8719,
+    "elec_yoy_pct": 6.0509,
+    "credit_yoy_pct": -21.8278,
+    "epfo_yoy_pct": -7.6721
+  }
 }

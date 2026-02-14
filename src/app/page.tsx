@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getRankings, getMetadata, getTrends, getTrendSubset } from "@/lib/data";
+import { getRankings, getMetadata, getTrends, getTrendSubset, getInsights } from "@/lib/data";
 import DashboardClient from "@/components/DashboardClient";
 import DataFreshness from "@/components/common/DataFreshness";
 
@@ -7,6 +7,7 @@ export default function HomePage() {
   const rankings = getRankings();
   const metadata = getMetadata();
   const trends = getTrends();
+  const insights = getInsights();
 
   // Top 5 states for trend chart
   const topSlugs = rankings.rankings.slice(0, 5).map((r) => r.slug);
@@ -80,6 +81,26 @@ export default function HomePage() {
 
         <DataFreshness metadata={metadata} />
       </div>
+
+      {/* Key Insight Callout */}
+      {insights.key_findings.length > 0 && (
+        <div className="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start justify-between gap-4">
+          <div>
+            <h3 className="text-sm font-semibold text-blue-900">
+              {insights.key_findings[0].title}
+            </h3>
+            <p className="text-sm text-blue-800 mt-0.5">
+              {insights.key_findings[0].detail}
+            </p>
+          </div>
+          <Link
+            href="/insights"
+            className="shrink-0 text-sm font-medium text-blue-600 hover:underline"
+          >
+            All insights &rarr;
+          </Link>
+        </div>
+      )}
 
       {/* Dashboard */}
       <DashboardClient

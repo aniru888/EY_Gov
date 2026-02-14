@@ -17,8 +17,10 @@ STEPS = [
     ("02_fetch_electricity.py", "Parse POSOCO electricity CSV"),
     ("03_fetch_rbi.py", "Parse RBI credit Excel"),
     ("04_fetch_epfo.py", "Parse EPFO payroll Excel"),
+    ("08_fetch_gsdp.py", "Parse RBI GSDP Excel"),
     ("05_clean_and_merge.py", "Merge all 4 components"),
     ("06_compute_index.py", "Compute z-scores and composite index"),
+    ("09_compute_insights.py", "Compute insights, regression, diagnostics"),
     ("07_generate_json.py", "Generate JSON for dashboard"),
 ]
 

@@ -713,5 +713,23 @@
       "composite_score": -0.7039554382289076,
       "rank": 31
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Mizoram: Balanced across all four components.",
+    "strongest_component": "Credit",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.2721,
+    "momentum_tier": "declining",
+    "rank_momentum_3yr": -3.0,
+    "gsdp_rank": null,
+    "rank_gap": null,
+    "gap_label": null,
+    "brap_category": "Emerging",
+    "covid_dip": -0.0021,
+    "recovery_speed": 1.0,
+    "gst_yoy_pct": 2.4668,
+    "elec_yoy_pct": 5.0835,
+    "credit_yoy_pct": -6.3771,
+    "epfo_yoy_pct": 33.1461
+  }
 }

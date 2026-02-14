@@ -1,41 +1,31 @@
-# State Economic Activity Index
+# State Economic Activity Index for India
 
-A composite index tracking economic activity across Indian states, inspired by the [Li Keqiang Index](https://en.wikipedia.org/wiki/Li_Keqiang_index) — the idea that hard data like electricity consumption, freight volumes, and bank lending reveal more about real economic activity than headline GDP alone.
+A Li Keqiang-style composite tracking real economic activity across 34 Indian states using four hard-to-fake indicators: GST collections, electricity demand, bank credit growth, and formal employment (EPFO payroll).
 
 **[Live Dashboard](https://eygovindex.vercel.app)** &nbsp;&middot;&nbsp; Built for EY Government Advisory
 
-<!-- Screenshot: replace with actual screenshot -->
-<!-- ![Dashboard Screenshot](docs/screenshot.png) -->
-
 ---
 
-## What is this?
+## Key Findings (FY 2024-25)
 
-India's state-level GDP estimates lag by 1-2 years and are frequently revised. This project constructs a near-real-time composite index from four independently collected, hard-to-manipulate data sources: GST tax collections, electricity consumption, bank credit growth, and formal employment (EPFO payroll). The result is a single score per state per fiscal year that tracks observable economic activity patterns.
+- **93% of cross-state GDP variation** is explained by our four indicators (R&sup2;=0.926, F=59.3, p<0.001, N=24 states)
+- **Electricity demand** has the strongest correlation with state GDP (r=0.94), followed by the composite index itself (r=0.94) and GST (r=0.90)
+- **Each additional indicator adds value**: GST alone explains 80% of GDP variation; adding electricity jumps to 93%
+- The **top 5** (Maharashtra, Tamil Nadu, Gujarat, Karnataka, Uttar Pradesh) are stable across all 8 fiscal years
+- Several states rank significantly **higher on our index than on official GDP** &mdash; potentially reflecting formalization and recent momentum that lagging GDP estimates haven't captured
 
-This is a **descriptive composite indicator** — it tracks patterns in observable data, not a predictive model of GDP.
+## How the Index Relates to Official GDP
 
-## Key Numbers
+Our index rankings correlate strongly with official GSDP (r=0.94) but diverge for specific states. Key reasons for gaps:
 
-| Metric | Value |
-|--------|-------|
-| States & UTs ranked | 34 |
-| Fiscal years covered | 9 (FY 2017-18 to FY 2025-26) |
-| Index components | 4 |
-| Static JSON output | ~1 MB across 39 files |
-| Pipeline runtime | 3.5 seconds end-to-end |
-| Dashboard pages | 42 (statically generated) |
+| Factor | Effect |
+|--------|--------|
+| **Agriculture** | GSDP captures it; our index doesn't. Farm-heavy states (Punjab, MP) rank lower on our index |
+| **Formalization** | EPFO captures formal jobs that GSDP may undercount. Rapidly formalizing states outperform their GDP rank |
+| **Financial hub bias** | Maharashtra's bank credit is inflated by Mumbai's HQ role |
+| **Time lag** | GSDP lags 1-2 years; our index uses more recent data (GST monthly, electricity daily) |
 
-## The Four Components
-
-Each component receives equal weight (0.25) in the composite score. Values are z-score normalized within each fiscal year.
-
-| Component | Source | Frequency | Unit | Coverage |
-|-----------|--------|-----------|------|----------|
-| **GST Collections** | [gst.gov.in](https://gst.gov.in) | Monthly | INR crore | 2017-18 onwards |
-| **Electricity Demand** | [POSOCO/Grid India](https://robbieandrew.github.io/india/) via Robbie Andrew | Daily (aggregated monthly) | Million Units (MU) | 2013 onwards |
-| **Bank Credit (YoY)** | [RBI Handbook of Statistics](https://rbi.org.in), Table 156 | Annual | INR crore (year-over-year change) | 2004 onwards |
-| **EPFO Net Payroll** | [epfindia.gov.in](https://www.epfindia.gov.in) | Annual | Number of persons | 2017-18 onwards |
+See the [Insights page](https://eygovindex.vercel.app/insights) for the full scatter plot, regression results, and COVID recovery analysis.
 
 ## Top 5 States (FY 2024-25)
 
@@ -47,14 +37,37 @@ Each component receives equal weight (0.25) in the composite score. Values are z
 | 4 | Karnataka | 1.16 |
 | 5 | Uttar Pradesh | 1.05 |
 
-## Pages
+## The Four Components
+
+Each component receives equal weight (0.25) in the composite score. Values are z-score normalized within each fiscal year.
+
+| Component | Source | Frequency | Unit | Coverage |
+|-----------|--------|-----------|------|----------|
+| **GST Collections** | [gst.gov.in](https://gst.gov.in) | Monthly | INR crore | 2017-18 onwards |
+| **Electricity Demand** | [POSOCO/Grid India](https://robbieandrew.github.io/india/) via Robbie Andrew | Daily | Million Units (MU) | 2013 onwards |
+| **Bank Credit (YoY)** | [RBI Handbook](https://rbi.org.in), Table 156 | Annual | INR crore (YoY delta) | 2004 onwards |
+| **EPFO Net Payroll** | [epfindia.gov.in](https://www.epfindia.gov.in) | Annual | Persons | 2017-18 onwards |
+
+## Dashboard Pages
 
 | Route | Description |
 |-------|-------------|
 | `/` | Rankings table (sortable, color-coded tiers), trend chart, radar breakdown |
-| `/methodology` | Full methodology — data sources, normalization, weights, limitations |
-| `/states/[slug]` | State detail — score trend, component breakdown, peer comparison (36 states) |
-| `/compare` | Side-by-side multi-state comparison with component-level drill-down |
+| `/insights` | Key findings, GSDP scatter plot, regression validation, COVID recovery, growth dynamics |
+| `/methodology` | Data sources, normalization, statistical validation, limitations |
+| `/states/[slug]` | State detail with diagnostics, growth metrics, component trends, peer comparison |
+| `/compare` | Side-by-side multi-state comparison |
+
+## Key Numbers
+
+| Metric | Value |
+|--------|-------|
+| States & UTs ranked | 34 |
+| Fiscal years covered | 9 (FY 2017-18 to FY 2025-26) |
+| Index components | 4 |
+| Static JSON output | ~1 MB across 41 files |
+| Pipeline runtime | ~6 seconds end-to-end |
+| Dashboard pages | ~43 (statically generated) |
 
 ## Tech Stack
 
@@ -63,60 +76,24 @@ Each component receives equal weight (0.25) in the composite score. Values are z
 | **Framework** | [Next.js](https://nextjs.org) 16.1.6 (App Router, Turbopack) |
 | **UI** | React 19, [Tailwind CSS](https://tailwindcss.com) v4 |
 | **Charts** | [Recharts](https://recharts.org) 3.7.0 |
-| **Data Pipeline** | Python 3.10+, pandas, numpy, scipy, openpyxl |
+| **Data Pipeline** | Python 3.10+, pandas, numpy, scipy, statsmodels, openpyxl |
 | **Data Storage** | Static JSON files (no database) |
 | **Deployment** | [Vercel](https://vercel.com) |
 
-## Project Structure
-
-```
-state-economic-index/
-├── scripts/                  # Python data pipeline (run in order)
-│   ├── 01_fetch_gst.py       # Download GST state collections
-│   ├── 02_fetch_electricity.py
-│   ├── 03_fetch_rbi.py       # Download RBI bank credit data
-│   ├── 04_fetch_epfo.py      # Download EPFO payroll data
-│   ├── 05_clean_and_merge.py # Standardize names, merge on state x time
-│   ├── 06_compute_index.py   # Z-score normalization, composite index
-│   ├── 07_generate_json.py   # Produce 39 JSON files for frontend
-│   ├── run_pipeline.py       # Run all steps in sequence
-│   └── utils.py              # State name mapping, shared helpers
-├── src/
-│   ├── app/                  # Next.js App Router pages
-│   │   ├── page.tsx          # Dashboard home
-│   │   ├── methodology/      # Methodology explainer
-│   │   ├── states/[slug]/    # Per-state detail (36 states)
-│   │   └── compare/          # Multi-state comparison
-│   ├── components/           # 19 React components
-│   │   ├── charts/           # TrendChart, ComponentBreakdown, PeerComparison, ...
-│   │   ├── rankings/         # RankingsTable
-│   │   ├── methodology/      # PipelineDiagram, TableOfContents
-│   │   ├── comparison/       # ComparisonTable
-│   │   └── common/           # Header, Footer, MetricCard, Breadcrumbs, ...
-│   └── lib/                  # Types, constants, data loading utilities
-├── public/data/              # Static JSON consumed by frontend
-│   ├── rankings.json         # Latest fiscal year rankings
-│   ├── trends.json           # Multi-year time series (all states)
-│   ├── metadata.json         # Data freshness, methodology metadata
-│   └── states/               # 36 per-state detail files
-├── data/
-│   ├── raw/                  # Downloaded source files (read-only)
-│   └── processed/            # Cleaned parquet files, computed index
-└── requirements.txt          # Python dependencies
-```
-
 ## Data Pipeline
 
-Seven scripts run in strict sequence. Each is idempotent — re-running produces the same output.
+Nine scripts run in strict sequence. Each is idempotent.
 
 ```
-01_fetch_gst → 02_fetch_electricity → 03_fetch_rbi → 04_fetch_epfo
-                                                          ↓
-                        05_clean_and_merge (standardize state names, merge)
-                                                          ↓
-                        06_compute_index (z-score normalize, equal-weight composite)
-                                                          ↓
-                        07_generate_json (39 JSON files → public/data/)
+01_fetch_gst → 02_fetch_electricity → 03_fetch_rbi → 04_fetch_epfo → 08_fetch_gsdp
+                                                                          ↓
+                              05_clean_and_merge (standardize names, merge)
+                                                                          ↓
+                              06_compute_index (z-score normalize, composite)
+                                                                          ↓
+                              09_compute_insights (growth, regression, diagnostics)
+                                                                          ↓
+                              07_generate_json (41 JSON files → public/data/)
 ```
 
 Raw government data goes in, static JSON comes out. Python never touches React. React never runs pandas.
@@ -140,14 +117,14 @@ pip install -r requirements.txt
 python scripts/run_pipeline.py
 ```
 
-This re-runs all 7 pipeline steps and regenerates the JSON files in `public/data/`.
+This re-runs all 9 pipeline steps and regenerates the JSON files in `public/data/`.
 
 > **Note**: EPFO data requires manual browser download due to WAF restrictions. See `scripts/04_fetch_epfo.py` for details.
 
 ### Build for production
 
 ```bash
-npm run build    # Statically generates all 42 pages
+npm run build    # Statically generates all pages
 npm run start    # Serve locally
 ```
 
@@ -157,8 +134,10 @@ npm run start    # Serve locally
 |--------|-----|---------|
 | GST State Collections | [gst.gov.in](https://gst.gov.in/download/gststatistics) | Government of India Open Data |
 | Electricity Demand (POSOCO) | [robbieandrew.github.io/india](https://robbieandrew.github.io/india/) | CC-BY-4.0 |
-| RBI Bank Credit | [rbi.org.in](https://rbi.org.in) — Handbook Table 156 | Government of India Open Data |
+| RBI Bank Credit (Table 156) | [rbi.org.in](https://rbi.org.in) | Government of India Open Data |
+| RBI GSDP (Tables 21 & 22) | [rbi.org.in](https://rbi.org.in) | Government of India Open Data |
 | EPFO Net Payroll | [epfindia.gov.in](https://www.epfindia.gov.in/site_en/Estimate_of_Payroll.php) | Government of India Open Data |
+| BRAP Categories | [DPIIT](https://dpiit.gov.in) via PIB press releases | Government of India Open Data |
 
 ### Attribution
 
@@ -166,8 +145,8 @@ Electricity demand data sourced from [Robbie Andrew's compilation](https://robbi
 
 ## Methodology
 
-The index uses **cross-sectional z-score normalization** within each fiscal year — each state's raw value is compared to the mean and standard deviation across all states in that year. This prevents older periods with lower absolute values from dominating.
+The index uses **cross-sectional z-score normalization** within each fiscal year. The four z-scores are combined with **equal weights (0.25 each)** into a single composite score. States with fewer than 3 available components are excluded.
 
-The four z-scores are combined with **equal weights (0.25 each)** into a single composite score. States with fewer than 3 available components are excluded. Partial indices (3 of 4 components) are flagged.
+Statistical validation via OLS regression shows the four indicators jointly explain 93% of cross-state GDP variation. Each component adds incremental explanatory power (partial F-tests significant). Results are sensitive to Maharashtra's inclusion and are associations, not causal claims.
 
-For the full methodology including data collection details, normalization math, handling of missing data, and known limitations, see the [Methodology page](https://eygovindex.vercel.app/methodology).
+For the full methodology, see the [Methodology page](https://eygovindex.vercel.app/methodology).

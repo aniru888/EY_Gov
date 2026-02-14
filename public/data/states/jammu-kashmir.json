@@ -713,5 +713,23 @@
       "composite_score": -0.6206957386223032,
       "rank": 23
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Jammu & Kashmir: Balanced across all four components.",
+    "strongest_component": "Credit",
+    "weakest_component": "EPFO",
+    "divergence_score": 0.1162,
+    "momentum_tier": "stable",
+    "rank_momentum_3yr": 0.0,
+    "gsdp_rank": 20,
+    "rank_gap": -1,
+    "gap_label": "aligned",
+    "brap_category": "Emerging",
+    "covid_dip": 0.0449,
+    "recovery_speed": 2.0,
+    "gst_yoy_pct": 7.0231,
+    "elec_yoy_pct": 2.491,
+    "credit_yoy_pct": -6.243,
+    "epfo_yoy_pct": 9.2925
+  }
 }

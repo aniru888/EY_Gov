@@ -713,5 +713,23 @@
       "composite_score": -0.7000265158072427,
       "rank": 28
     }
-  ]
+  ],
+  "insights": {
+    "diagnostic_text": "Dadra & Nagar Haveli and Daman & Diu: Balanced across all four components.",
+    "strongest_component": "Credit",
+    "weakest_component": "Electricity",
+    "divergence_score": 0.0399,
+    "momentum_tier": null,
+    "rank_momentum_3yr": null,
+    "gsdp_rank": null,
+    "rank_gap": null,
+    "gap_label": null,
+    "brap_category": "Emerging",
+    "covid_dip": null,
+    "recovery_speed": null,
+    "gst_yoy_pct": 27.521,
+    "elec_yoy_pct": 2.1158,
+    "credit_yoy_pct": -10.9375,
+    "epfo_yoy_pct": null
+  }
 }
