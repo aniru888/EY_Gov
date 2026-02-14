@@ -12,6 +12,8 @@ const sections = [
   { id: "validation", label: "Validation" },
   { id: "analytical-metrics", label: "Analytical Metrics" },
   { id: "statistical-validation", label: "Statistical Validation" },
+  { id: "panel-fe", label: "Panel Fixed Effects" },
+  { id: "loglog-pca", label: "Log-Log & PCA" },
   { id: "gsdp-relationship", label: "Relationship with GSDP" },
   { id: "updated-limitations", label: "Additional Caveats" },
 ];

@@ -731,5 +731,18 @@
     "elec_yoy_pct": 8.445,
     "credit_yoy_pct": 4.5316,
     "epfo_yoy_pct": 8.4524
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0754,
+    "national_share_pct": 2.5068,
+    "elasticity": 1.6778,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2447
+  },
+  "gap_explanation": {
+    "direction": "aligned",
+    "explanation": "Chhattisgarh is closely aligned between the activity index and official GSDP rankings.",
+    "key_drivers": [],
+    "key_drags": []
   }
 }

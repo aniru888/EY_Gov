@@ -731,5 +731,22 @@
     "elec_yoy_pct": 1.9783,
     "credit_yoy_pct": -35.1614,
     "epfo_yoy_pct": 0.5877
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0459,
+    "national_share_pct": 12.2146,
+    "elasticity": 1.9352,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2201
+  },
+  "gap_explanation": {
+    "direction": "aligned",
+    "explanation": "Maharashtra ranks #1 on both the activity index and official GSDP. Mumbai's role as India's financial capital inflates bank credit (corporate HQs book credit here), but its genuinely massive GST, electricity, and EPFO numbers make it the clear leader.",
+    "key_drivers": [
+      "All 4 components: dominant across the board"
+    ],
+    "key_drags": [
+      "Bank credit inflated by Mumbai financial hub effect"
+    ]
   }
 }

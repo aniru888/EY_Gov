@@ -731,5 +731,21 @@
     "elec_yoy_pct": 2.4231,
     "credit_yoy_pct": -36.9666,
     "epfo_yoy_pct": -4.4794
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0474,
+    "national_share_pct": 2.5963,
+    "elasticity": 1.3733,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2486
+  },
+  "gap_explanation": {
+    "direction": "outperformer",
+    "explanation": "Odisha outperforms its GDP rank on our index. Its heavy industry base (steel, aluminium, mining) drives high electricity intensity, and industrial expansion shows in GST and credit growth.",
+    "key_drivers": [
+      "Electricity: heavy industry (steel, aluminium)",
+      "Credit: industrial investment"
+    ],
+    "key_drags": []
   }
 }

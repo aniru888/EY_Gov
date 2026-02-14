@@ -731,5 +731,22 @@
     "elec_yoy_pct": 8.2936,
     "credit_yoy_pct": -3.2311,
     "epfo_yoy_pct": -3.9338
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0389,
+    "national_share_pct": 4.3848,
+    "elasticity": 1.5889,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2825
+  },
+  "gap_explanation": {
+    "direction": "underperformer",
+    "explanation": "West Bengal ranks lower on our index than on GDP. Its large informal economy, significant agricultural base, and small-enterprise-dominated manufacturing are underrepresented by formal indicators like GST and EPFO.",
+    "key_drivers": [],
+    "key_drags": [
+      "Large informal economy",
+      "Small-enterprise manufacturing",
+      "Agricultural base"
+    ]
   }
 }

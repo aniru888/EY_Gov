@@ -731,5 +731,23 @@
     "elec_yoy_pct": 6.2776,
     "credit_yoy_pct": -18.2398,
     "epfo_yoy_pct": -6.3666
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0666,
+    "national_share_pct": 6.6794,
+    "elasticity": 1.5914,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2217
+  },
+  "gap_explanation": {
+    "direction": "outperformer",
+    "explanation": "Rajasthan ranks higher on the activity index than on GDP. Strong mining and industrial activity drives electricity demand, while recent GST growth suggests increasing formalization of its economy.",
+    "key_drivers": [
+      "Electricity: mining and industrial activity",
+      "GST growth"
+    ],
+    "key_drags": [
+      "Large agricultural sector partially invisible to index"
+    ]
   }
 }

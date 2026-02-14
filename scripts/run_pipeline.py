@@ -20,7 +20,8 @@ STEPS = [
     ("08_fetch_gsdp.py", "Parse RBI GSDP Excel"),
     ("05_clean_and_merge.py", "Merge all 4 components"),
     ("06_compute_index.py", "Compute z-scores and composite index"),
-    ("09_compute_insights.py", "Compute insights, regression, diagnostics"),
+    ("09_compute_insights.py", "Compute insights, regression, panel FE, PCA, gap explanations"),
+    ("10_compute_electricity_analysis.py", "Compute electricity deep-dive analysis"),
     ("07_generate_json.py", "Generate JSON for dashboard"),
 ]
 

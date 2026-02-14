@@ -731,5 +731,21 @@
     "elec_yoy_pct": 4.2826,
     "credit_yoy_pct": -36.3193,
     "epfo_yoy_pct": 3.1013
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0545,
+    "national_share_pct": 5.0534,
+    "elasticity": 2.0496,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2232
+  },
+  "gap_explanation": {
+    "direction": "outperformer",
+    "explanation": "Telangana outperforms its GSDP rank on our index. Hyderabad's IT corridor drives high GST collections and EPFO registrations, while the state's rapid industrialization shows in electricity demand growth.",
+    "key_drivers": [
+      "GST: Hyderabad services economy",
+      "EPFO: IT sector formalization"
+    ],
+    "key_drags": []
   }
 }

@@ -731,5 +731,21 @@
     "elec_yoy_pct": 11.0719,
     "credit_yoy_pct": -44.3601,
     "epfo_yoy_pct": -27.6628
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0935,
+    "national_share_pct": 4.7434,
+    "elasticity": 1.498,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.3805
+  },
+  "gap_explanation": {
+    "direction": "underperformer",
+    "explanation": "Punjab's GSDP rank exceeds its index rank because agriculture (which our index doesn't capture) contributes significantly to its economy. Farm power is subsidized and partly unmeasured, and agricultural transactions are largely GST-exempt.",
+    "key_drivers": [],
+    "key_drags": [
+      "Agriculture invisible to all 4 components",
+      "Subsidized farm electricity unmeasured"
+    ]
   }
 }

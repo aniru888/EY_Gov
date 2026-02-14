@@ -731,5 +731,22 @@
     "elec_yoy_pct": 10.8396,
     "credit_yoy_pct": -36.8292,
     "epfo_yoy_pct": -2.6789
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.055,
+    "national_share_pct": 9.9929,
+    "elasticity": 1.936,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.3073
+  },
+  "gap_explanation": {
+    "direction": "aligned",
+    "explanation": "Uttar Pradesh is roughly aligned despite being India's most populous state. Its sheer scale in electricity demand, GST, and EPFO numbers places it in the top 5, though per-capita metrics would tell a different story.",
+    "key_drivers": [
+      "Scale: India's largest population"
+    ],
+    "key_drags": [
+      "Per-capita metrics would rank much lower"
+    ]
   }
 }

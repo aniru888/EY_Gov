@@ -731,5 +731,21 @@
     "elec_yoy_pct": 5.8113,
     "credit_yoy_pct": -20.6527,
     "epfo_yoy_pct": -1.2766
+  },
+  "electricity": {
+    "intensity_mu_per_crore": null,
+    "national_share_pct": 9.5395,
+    "elasticity": 2.0038,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2216
+  },
+  "gap_explanation": {
+    "direction": "aligned",
+    "explanation": "Gujarat is well-aligned between index and GDP ranks. Its industrial economy -- refining, chemicals, textiles -- drives high electricity demand and GST collections. Strong formal sector presence shows in EPFO numbers.",
+    "key_drivers": [
+      "Electricity: heavy industry",
+      "GST: manufacturing + trade"
+    ],
+    "key_drags": []
   }
 }

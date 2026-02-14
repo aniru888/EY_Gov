@@ -731,5 +731,21 @@
     "elec_yoy_pct": 8.4206,
     "credit_yoy_pct": -27.7585,
     "epfo_yoy_pct": 0.1978
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0315,
+    "national_share_pct": 2.3901,
+    "elasticity": 2.1551,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.3302
+  },
+  "gap_explanation": {
+    "direction": "outperformer",
+    "explanation": "Delhi ranks higher on our index than on GSDP. As a city-state with near-zero agriculture, all four index components capture its activity well. High GST (services + retail), concentrated bank credit, and large formal workforce make it an index-friendly economy.",
+    "key_drivers": [
+      "All 4 components well-represented",
+      "No agriculture dilution"
+    ],
+    "key_drags": []
   }
 }

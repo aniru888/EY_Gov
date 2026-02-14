@@ -731,5 +731,21 @@
     "elec_yoy_pct": 6.0509,
     "credit_yoy_pct": -21.8278,
     "epfo_yoy_pct": -7.6721
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0688,
+    "national_share_pct": 6.0942,
+    "elasticity": 1.7653,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2476
+  },
+  "gap_explanation": {
+    "direction": "underperformer",
+    "explanation": "Madhya Pradesh ranks lower on our index than on GSDP. Its large agricultural sector (~25% of GSDP) is invisible to our four indicators. Additionally, its economy has a significant informal component that GST and EPFO don't capture.",
+    "key_drivers": [],
+    "key_drags": [
+      "Large agricultural share (~25% GSDP)",
+      "Informal sector activity"
+    ]
   }
 }

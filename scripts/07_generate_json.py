@@ -61,6 +61,27 @@ def load_insights_for_enrichment():
     return pd.read_parquet(insights_path)
 
 
+def load_electricity_profiles():
+    """Load electricity analysis data for enriching state files."""
+    elec_path = PUBLIC_DATA / "electricity.json"
+    if not elec_path.exists():
+        print("  NOTE: electricity.json not found. Electricity enrichment skipped.")
+        return None
+    import json as json_mod
+    with open(elec_path, "r", encoding="utf-8") as f:
+        return json_mod.load(f)
+
+
+def load_insights_json():
+    """Load insights.json for gap explanations and regional analysis."""
+    ins_path = PUBLIC_DATA / "insights.json"
+    if not ins_path.exists():
+        return None
+    import json as json_mod
+    with open(ins_path, "r", encoding="utf-8") as f:
+        return json_mod.load(f)
+
+
 def generate_rankings(df: pd.DataFrame, output_dir, insights_df=None):
     """Generate rankings.json for the latest fiscal year."""
     print("\nGenerating rankings.json...")
@@ -160,7 +181,8 @@ def generate_trends(df: pd.DataFrame, output_dir):
     write_json(data, output_dir / "trends.json")
 
 
-def generate_state_files(df: pd.DataFrame, output_dir, insights_df=None):
+def generate_state_files(df: pd.DataFrame, output_dir, insights_df=None,
+                         electricity_data=None, insights_json=None):
     """Generate one JSON file per state."""
     print("\nGenerating per-state JSON files...")
 
@@ -270,6 +292,30 @@ def generate_state_files(df: pd.DataFrame, output_dir, insights_df=None):
                 "epfo_yoy_pct": ins.get("epfo_yoy_pct"),
             }
 
+        # Add electricity enrichment if available
+        if electricity_data and "state_profiles" in electricity_data:
+            elec_profile = electricity_data["state_profiles"].get(slug)
+            if elec_profile:
+                state_data["electricity"] = {
+                    "intensity_mu_per_crore": elec_profile.get("intensity_mu_per_crore"),
+                    "national_share_pct": elec_profile.get("national_share_pct"),
+                    "elasticity": elec_profile.get("elasticity"),
+                    "elasticity_label": elec_profile.get("elasticity_label"),
+                    "volatility_cov": elec_profile.get("volatility_cov"),
+                }
+
+        # Add gap explanation if available
+        if insights_json and "gap_explanations" in insights_json:
+            gap_all = insights_json["gap_explanations"].get("all", {})
+            gap_entry = gap_all.get(slug)
+            if gap_entry:
+                state_data["gap_explanation"] = {
+                    "direction": gap_entry.get("direction"),
+                    "explanation": gap_entry.get("explanation"),
+                    "key_drivers": gap_entry.get("key_drivers", []),
+                    "key_drags": gap_entry.get("key_drags", []),
+                }
+
         write_json(state_data, states_dir / f"{slug}.json")
         count += 1
 
@@ -356,11 +402,13 @@ def main():
 
     # Load insights data for enrichment
     insights_df = load_insights_for_enrichment()
+    electricity_data = load_electricity_profiles()
+    insights_json = load_insights_json()
 
     # Generate all JSON files
     generate_rankings(df, output_dir, insights_df)
     generate_trends(df, output_dir)
-    generate_state_files(df, output_dir, insights_df)
+    generate_state_files(df, output_dir, insights_df, electricity_data, insights_json)
     generate_metadata(df, output_dir)
 
     # Verify all JSON files are valid

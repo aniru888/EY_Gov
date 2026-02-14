@@ -731,5 +731,18 @@
     "elec_yoy_pct": 22.2977,
     "credit_yoy_pct": -6.4765,
     "epfo_yoy_pct": 39.8248
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.029,
+    "national_share_pct": 0.9194,
+    "elasticity": 1.1254,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2311
+  },
+  "gap_explanation": {
+    "direction": "aligned",
+    "explanation": "Jharkhand is closely aligned between the activity index and official GSDP rankings.",
+    "key_drivers": [],
+    "key_drags": []
   }
 }

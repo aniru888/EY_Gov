@@ -731,5 +731,18 @@
     "elec_yoy_pct": 7.7801,
     "credit_yoy_pct": -1.1457,
     "epfo_yoy_pct": -2.0505
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0562,
+    "national_share_pct": 0.787,
+    "elasticity": 1.5746,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2192
+  },
+  "gap_explanation": {
+    "direction": "aligned",
+    "explanation": "Himachal Pradesh is closely aligned between the activity index and official GSDP rankings.",
+    "key_drivers": [],
+    "key_drags": []
   }
 }

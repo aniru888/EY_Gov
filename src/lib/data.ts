@@ -8,6 +8,10 @@ import type {
   TrendChartPoint,
   InsightsData,
   RegressionData,
+  ElectricityData,
+  EnhancedInsightsData,
+  EnhancedRegressionData,
+  EnhancedStateDetail,
 } from "./types";
 
 const DATA_DIR = path.join(process.cwd(), "public", "data");
@@ -85,6 +89,35 @@ export function getInsights(): InsightsData {
 export function getRegressionData(): RegressionData {
   const raw = fs.readFileSync(
     path.join(DATA_DIR, "regression.json"),
+    "utf-8"
+  );
+  return JSON.parse(raw);
+}
+
+export function getElectricityData(): ElectricityData {
+  const raw = fs.readFileSync(
+    path.join(DATA_DIR, "electricity.json"),
+    "utf-8"
+  );
+  return JSON.parse(raw);
+}
+
+export function getEnhancedInsights(): EnhancedInsightsData {
+  const raw = fs.readFileSync(path.join(DATA_DIR, "insights.json"), "utf-8");
+  return JSON.parse(raw);
+}
+
+export function getEnhancedRegression(): EnhancedRegressionData {
+  const raw = fs.readFileSync(
+    path.join(DATA_DIR, "regression.json"),
+    "utf-8"
+  );
+  return JSON.parse(raw);
+}
+
+export function getEnhancedStateData(slug: string): EnhancedStateDetail {
+  const raw = fs.readFileSync(
+    path.join(DATA_DIR, "states", `${slug}.json`),
     "utf-8"
   );
   return JSON.parse(raw);

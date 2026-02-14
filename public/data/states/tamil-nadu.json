@@ -731,5 +731,21 @@
     "elec_yoy_pct": 2.2695,
     "credit_yoy_pct": -30.1427,
     "epfo_yoy_pct": -1.517
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0415,
+    "national_share_pct": 7.8321,
+    "elasticity": 2.9133,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2337
+  },
+  "gap_explanation": {
+    "direction": "aligned",
+    "explanation": "Tamil Nadu is well-aligned between index and GDP ranks. Its diversified economy -- strong manufacturing (autos, electronics), services, and formal employment -- is well-captured by all four indicators.",
+    "key_drivers": [
+      "EPFO: #1 in formal employment",
+      "Diversified economy"
+    ],
+    "key_drags": []
   }
 }

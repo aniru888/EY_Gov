@@ -2,8 +2,10 @@
 09_compute_insights.py
 ======================
 Compute growth metrics, momentum tiers, COVID recovery, GSDP comparison,
-component diagnostics, auto-generated insight text, correlations, and
-OLS regression with full diagnostics.
+component diagnostics, auto-generated insight text, correlations,
+OLS regression with full diagnostics, panel fixed-effects regression,
+log-log elasticities, lagged panel correlation, PCA weights robustness,
+state gap explanations, and regional analysis.
 
 Inputs:
   - data/processed/index_computed.parquet
@@ -13,6 +15,7 @@ Inputs:
 Outputs:
   - data/processed/insights_computed.parquet
   - public/data/regression.json
+  - public/data/insights.json
 """
 
 import json
@@ -715,6 +718,835 @@ def compute_regression(df: pd.DataFrame) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Panel Fixed-Effects Regression
+# ---------------------------------------------------------------------------
+
+def compute_panel_fe_regression(df: pd.DataFrame) -> dict:
+    """Run state FE and RE panel regressions with Hausman test."""
+    print("Computing panel fixed-effects regression...")
+
+    regressors = ["gst_total", "electricity_mu", "bank_credit_yoy", "epfo_payroll"]
+
+    if "gsdp_current_crore" not in df.columns or df["gsdp_current_crore"].isna().all():
+        print("  WARNING: No GSDP data. Panel FE skipped.")
+        return {"skipped": True, "reason": "No GSDP data"}
+
+    # Build panel dataset: all FYs with GSDP + all 4 regressors
+    panel = df[["state", "fiscal_year"] + regressors + ["gsdp_current_crore"]].dropna().copy()
+    if len(panel) < 30:
+        print(f"  WARNING: Only {len(panel)} complete obs. Need 30+. Panel FE skipped.")
+        return {"skipped": True, "reason": f"Only {len(panel)} complete observations"}
+
+    n_states = panel["state"].nunique()
+    n_years = panel["fiscal_year"].nunique()
+    print(f"  Panel: {len(panel)} obs, {n_states} states, {n_years} years")
+
+    try:
+        from linearmodels.panel import PanelOLS, RandomEffects
+    except ImportError:
+        print("  WARNING: linearmodels not installed. Falling back to manual FE.")
+        return _manual_panel_fe(panel, regressors)
+
+    # Set up panel index — linearmodels needs numeric or date-like time index
+    # Convert fiscal_year "2023-24" -> 2023 (start year)
+    panel["year_num"] = panel["fiscal_year"].apply(lambda fy: int(fy.split("-")[0]))
+    panel = panel.set_index(["state", "year_num"])
+
+    y = panel["gsdp_current_crore"]
+    X = panel[regressors]
+
+    # Fixed Effects
+    fe_model = PanelOLS(y, X, entity_effects=True, time_effects=True,
+                        check_rank=False).fit(cov_type="clustered", cluster_entity=True)
+
+    # Random Effects
+    try:
+        re_model = RandomEffects(y, X, check_rank=False).fit()
+        re_r2 = round(float(re_model.rsquared), 4)
+    except Exception:
+        re_model = None
+        re_r2 = None
+
+    result = {
+        "n": len(panel),
+        "n_states": n_states,
+        "n_years": n_years,
+        "within_r_squared": round(float(fe_model.rsquared_within), 4),
+        "between_r_squared": round(float(fe_model.rsquared_between), 4),
+        "overall_r_squared": round(float(fe_model.rsquared_overall), 4),
+        "coefficients": {},
+        "note": "State FE absorbs time-invariant state characteristics. "
+                "Year FE absorbs national trends. Clustered SEs by state.",
+    }
+
+    for var in regressors:
+        if var in fe_model.params.index:
+            result["coefficients"][var] = {
+                "coef": round(float(fe_model.params[var]), 4),
+                "se": round(float(fe_model.std_errors[var]), 4),
+                "t": round(float(fe_model.tstats[var]), 4),
+                "p": round(float(fe_model.pvalues[var]), 6),
+            }
+
+    # Hausman test (FE vs RE)
+    if re_model is not None:
+        try:
+            # Manual Hausman: H = (b_FE - b_RE)' [V_FE - V_RE]^-1 (b_FE - b_RE)
+            common_vars = [v for v in regressors if v in fe_model.params.index and v in re_model.params.index]
+            b_fe = fe_model.params[common_vars].values
+            b_re = re_model.params[common_vars].values
+            v_fe = fe_model.cov[common_vars].loc[common_vars].values
+            v_re = re_model.cov[common_vars].loc[common_vars].values
+            diff = b_fe - b_re
+            v_diff = v_fe - v_re
+            try:
+                h_stat = float(diff @ np.linalg.inv(v_diff) @ diff)
+                h_p = float(1 - stats.chi2.cdf(h_stat, len(common_vars)))
+                result["hausman_test"] = {
+                    "stat": round(h_stat, 4),
+                    "p": round(h_p, 4),
+                    "preferred": "FE" if h_p < 0.05 else "RE",
+                    "note": "p<0.05 favors FE (systematic differences between states)."
+                }
+            except np.linalg.LinAlgError:
+                result["hausman_test"] = {"note": "Could not compute (singular covariance difference)."}
+        except Exception as e:
+            result["hausman_test"] = {"note": f"Could not compute: {str(e)[:100]}"}
+
+    return result
+
+
+def _manual_panel_fe(panel: pd.DataFrame, regressors: list) -> dict:
+    """Fallback panel FE using statsmodels OLS with dummy variables."""
+    import statsmodels.api as sm
+
+    n_states = panel["state"].nunique()
+    n_years = panel["fiscal_year"].nunique()
+
+    y = panel["gsdp_current_crore"].values
+    X = panel[regressors].values
+
+    # Add state dummies
+    state_dummies = pd.get_dummies(panel["state"], drop_first=True, dtype=float)
+    year_dummies = pd.get_dummies(panel["fiscal_year"], drop_first=True, dtype=float)
+    X_full = np.column_stack([X, state_dummies.values, year_dummies.values])
+    X_full = sm.add_constant(X_full)
+
+    model = sm.OLS(y, X_full).fit(cov_type="HC1")
+
+    result = {
+        "n": len(panel),
+        "n_states": n_states,
+        "n_years": n_years,
+        "within_r_squared": round(float(model.rsquared), 4),
+        "between_r_squared": None,
+        "overall_r_squared": round(float(model.rsquared), 4),
+        "coefficients": {},
+        "note": "Manual FE via state+year dummies (linearmodels not available). HC1 robust SEs.",
+    }
+
+    for i, var in enumerate(regressors):
+        result["coefficients"][var] = {
+            "coef": round(float(model.params[i + 1]), 4),
+            "se": round(float(model.bse[i + 1]), 4),
+            "t": round(float(model.tvalues[i + 1]), 4),
+            "p": round(float(model.pvalues[i + 1]), 6),
+        }
+
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Log-Log Regression
+# ---------------------------------------------------------------------------
+
+def compute_log_log_regression(df: pd.DataFrame) -> dict:
+    """Run log-log regression: coefficients are elasticities."""
+    print("Computing log-log regression...")
+
+    import statsmodels.api as sm
+
+    regressors = ["gst_total", "electricity_mu", "bank_credit_yoy", "epfo_payroll"]
+
+    if "gsdp_current_crore" not in df.columns or df["gsdp_current_crore"].isna().all():
+        return {"skipped": True, "reason": "No GSDP data"}
+
+    # Filter to positive values only (log requires >0)
+    panel = df[["state", "fiscal_year"] + regressors + ["gsdp_current_crore"]].dropna().copy()
+    for col in regressors + ["gsdp_current_crore"]:
+        panel = panel[panel[col] > 0]
+
+    if len(panel) < 20:
+        return {"skipped": True, "reason": f"Only {len(panel)} obs with all positive values"}
+
+    # Log transform
+    log_cols = {}
+    for col in regressors + ["gsdp_current_crore"]:
+        log_name = f"log_{col}"
+        panel[log_name] = np.log(panel[col])
+        log_cols[col] = log_name
+
+    result = {}
+
+    # --- Cross-sectional (latest FY) ---
+    fys_sorted = sorted(panel["fiscal_year"].unique())
+    for fy in reversed(fys_sorted):
+        fy_data = panel[panel["fiscal_year"] == fy]
+        if len(fy_data) >= 15:
+            y = fy_data[log_cols["gsdp_current_crore"]].values
+            X = fy_data[[log_cols[r] for r in regressors]].values
+            X_c = sm.add_constant(X)
+            m = sm.OLS(y, X_c).fit()
+            elasticities = {}
+            for i, r in enumerate(regressors):
+                elasticities[r] = {
+                    "elasticity": round(float(m.params[i + 1]), 4),
+                    "p": round(float(m.pvalues[i + 1]), 6),
+                }
+            result["cross_sectional"] = {
+                "n": len(fy_data),
+                "fiscal_year": fy,
+                "r_squared": round(float(m.rsquared), 4),
+                "adj_r_squared": round(float(m.rsquared_adj), 4),
+                "elasticities": elasticities,
+                "note": "Log-log coefficients = elasticities. A 1% increase in X is associated with beta% increase in GSDP.",
+            }
+            break
+
+    # --- Panel (all FYs, with year dummies) ---
+    if len(panel) >= 50:
+        y_panel = panel[log_cols["gsdp_current_crore"]].values
+        X_vars = [log_cols[r] for r in regressors]
+        X_panel = panel[X_vars].values
+        year_dummies = pd.get_dummies(panel["fiscal_year"], drop_first=True, dtype=float)
+        X_full = np.column_stack([X_panel, year_dummies.values])
+        X_full = sm.add_constant(X_full)
+        m_panel = sm.OLS(y_panel, X_full).fit()
+
+        panel_elasticities = {}
+        for i, r in enumerate(regressors):
+            panel_elasticities[r] = {
+                "elasticity": round(float(m_panel.params[i + 1]), 4),
+                "p": round(float(m_panel.pvalues[i + 1]), 6),
+            }
+
+        result["panel"] = {
+            "n": len(panel),
+            "n_years": panel["fiscal_year"].nunique(),
+            "r_squared": round(float(m_panel.rsquared), 4),
+            "elasticities": panel_elasticities,
+            "note": "Pooled log-log with year dummies.",
+        }
+
+    print(f"  Cross-sectional R2: {result.get('cross_sectional', {}).get('r_squared', 'N/A')}")
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Lagged Panel Correlation
+# ---------------------------------------------------------------------------
+
+def compute_lagged_correlation(df: pd.DataFrame) -> dict:
+    """Test if electricity growth leads GSDP growth by 1 year."""
+    print("Computing 1-year lagged panel correlation...")
+
+    import statsmodels.api as sm
+
+    if "gsdp_current_crore" not in df.columns or df["gsdp_current_crore"].isna().all():
+        return {"skipped": True, "reason": "No GSDP data"}
+
+    gsdp_path = DATA_PROCESSED / "gsdp_clean.parquet"
+    if not gsdp_path.exists():
+        return {"skipped": True, "reason": "gsdp_clean.parquet not found"}
+
+    gsdp = pd.read_parquet(gsdp_path)
+
+    # Compute electricity YoY growth per state
+    annual = df[df["period_type"] == "annual"][["state", "fiscal_year", "electricity_mu"]].dropna().copy()
+    annual = annual.sort_values(["state", "fiscal_year"])
+    annual["elec_growth"] = annual.groupby("state")["electricity_mu"].pct_change(fill_method=None) * 100
+
+    # Merge GSDP growth
+    if "gsdp_growth_pct" in gsdp.columns:
+        growth_merge = gsdp[["state", "fiscal_year", "gsdp_growth_pct"]].dropna()
+    else:
+        return {"skipped": True, "reason": "No GSDP growth data"}
+
+    merged = annual.merge(growth_merge, on=["state", "fiscal_year"], how="inner")
+
+    # Create lagged variable: electricity growth at t-1 vs GSDP growth at t
+    sorted_fys = sorted(merged["fiscal_year"].unique())
+    fy_to_idx = {fy: i for i, fy in enumerate(sorted_fys)}
+
+    lagged_rows = []
+    for state in merged["state"].unique():
+        state_data = merged[merged["state"] == state].sort_values("fiscal_year")
+        for _, row in state_data.iterrows():
+            fy = row["fiscal_year"]
+            idx = fy_to_idx.get(fy)
+            if idx is None or idx == 0:
+                continue
+            prev_fy = sorted_fys[idx - 1]
+            prev = state_data[state_data["fiscal_year"] == prev_fy]
+            if prev.empty:
+                continue
+            prev_elec_growth = prev.iloc[0]["elec_growth"]
+            if pd.notna(prev_elec_growth) and pd.notna(row["gsdp_growth_pct"]):
+                lagged_rows.append({
+                    "state": state,
+                    "fiscal_year": fy,
+                    "elec_growth_lag1": prev_elec_growth,
+                    "gsdp_growth": row["gsdp_growth_pct"],
+                })
+
+    if len(lagged_rows) < 20:
+        return {"skipped": True, "reason": f"Only {len(lagged_rows)} lagged obs (need 20+)"}
+
+    lag_df = pd.DataFrame(lagged_rows)
+    n = len(lag_df)
+    n_states = lag_df["state"].nunique()
+    print(f"  Lagged panel: {n} obs, {n_states} states")
+
+    # Simple pooled regression with state FE
+    y = lag_df["gsdp_growth"].values
+    X = lag_df["elec_growth_lag1"].values.reshape(-1, 1)
+
+    # Add state dummies for FE
+    state_dummies = pd.get_dummies(lag_df["state"], drop_first=True, dtype=float)
+    X_full = np.column_stack([X, state_dummies.values])
+    X_full = sm.add_constant(X_full)
+
+    model = sm.OLS(y, X_full).fit()
+
+    # Also simple correlation without FE
+    r, p_corr = stats.pearsonr(lag_df["elec_growth_lag1"], lag_df["gsdp_growth"])
+
+    result = {
+        "n": n,
+        "n_states": n_states,
+        "lag_years": 1,
+        "simple_correlation": {"r": round(float(r), 4), "p": round(float(p_corr), 4)},
+        "panel_fe": {
+            "electricity_growth_coef": round(float(model.params[1]), 4),
+            "se": round(float(model.bse[1]), 4),
+            "t": round(float(model.tvalues[1]), 4),
+            "p": round(float(model.pvalues[1]), 6),
+        },
+        "note": "Lagged correlation, not a causal test. "
+                "Tests whether electricity growth in year t-1 is associated with GSDP growth in year t. "
+                "Reverse causality remains possible.",
+    }
+
+    if model.pvalues[1] < 0.05:
+        result["interpretation"] = (
+            f"States where electricity grew faster had significantly higher GSDP growth "
+            f"the following year (coef={model.params[1]:.2f}, p={model.pvalues[1]:.3f}). "
+            f"This is consistent with electricity being a leading indicator, but is not a causal claim."
+        )
+    else:
+        result["interpretation"] = (
+            f"No significant leading relationship detected between electricity growth and "
+            f"subsequent GSDP growth (p={model.pvalues[1]:.3f}). Limited time depth ({n} obs) "
+            f"may reduce statistical power."
+        )
+
+    print(f"  Lagged coef: {model.params[1]:.4f}, p={model.pvalues[1]:.4f}")
+    return result
+
+
+# ---------------------------------------------------------------------------
+# PCA Weights Robustness Check
+# ---------------------------------------------------------------------------
+
+def compute_pca_weights(df: pd.DataFrame) -> dict:
+    """Check if PCA-derived weights validate equal-weight approach."""
+    print("Computing PCA weights robustness check...")
+
+    z_cols = list(ZSCORE_COLS.keys())
+
+    # Use latest FY with full data
+    scored_fys = df[df["composite_score"].notna()]["fiscal_year"].unique()
+    if len(scored_fys) == 0:
+        return {"skipped": True, "reason": "No scored FYs"}
+
+    latest_fy = sorted(scored_fys)[-1]
+    latest = df[(df["fiscal_year"] == latest_fy) & df["composite_score"].notna()].copy()
+
+    # Need at least 10 states with all 4 z-scores
+    complete = latest[z_cols].dropna()
+    if len(complete) < 10:
+        return {"skipped": True, "reason": f"Only {len(complete)} states with all 4 z-scores"}
+
+    from sklearn.decomposition import PCA as SklearnPCA
+
+    try:
+        X = complete[z_cols].values
+        pca = SklearnPCA(n_components=min(4, X.shape[1]))
+        pca.fit(X)
+
+        pc1_loadings = {}
+        for i, col in enumerate(z_cols):
+            short = ZSCORE_SHORT[col].lower()
+            pc1_loadings[short] = round(float(pca.components_[0][i]), 4)
+
+        pc1_var = round(float(pca.explained_variance_ratio_[0]) * 100, 1)
+        all_var = [round(float(v) * 100, 1) for v in pca.explained_variance_ratio_]
+
+        # Compute PCA-weighted composite score
+        weights = np.abs(pca.components_[0])
+        weights = weights / weights.sum()
+        pca_scores = X @ weights
+        equal_scores = latest.loc[complete.index, "composite_score"].values
+
+        # Rank correlation
+        from scipy.stats import spearmanr
+        rho, rho_p = spearmanr(pca_scores, equal_scores)
+
+        # Build implied weights
+        implied_weights = {}
+        for i, col in enumerate(z_cols):
+            short = ZSCORE_SHORT[col].lower()
+            implied_weights[short] = round(float(weights[i]), 4)
+
+        result = {
+            "n": len(complete),
+            "fiscal_year": latest_fy,
+            "pc1_loadings": pc1_loadings,
+            "pc1_variance_explained_pct": pc1_var,
+            "all_variance_explained_pct": all_var,
+            "implied_weights": implied_weights,
+            "rank_correlation_with_equal_weights": round(float(rho), 4),
+            "rank_correlation_p": round(float(rho_p), 6),
+        }
+
+        if rho > 0.95:
+            result["interpretation"] = (
+                f"PCA and equal weights produce nearly identical rankings (Spearman rho={rho:.3f}). "
+                f"The equal-weight approach is validated by the data."
+            )
+        elif rho > 0.85:
+            result["interpretation"] = (
+                f"PCA and equal weights produce similar but not identical rankings (Spearman rho={rho:.3f}). "
+                f"Moderate sensitivity to weighting scheme."
+            )
+        else:
+            result["interpretation"] = (
+                f"PCA weights diverge meaningfully from equal weights (Spearman rho={rho:.3f}). "
+                f"PC1 loads most heavily on {max(pc1_loadings, key=pc1_loadings.get)}."
+            )
+
+        print(f"  PC1 explains {pc1_var}% of variance. Rank correlation with equal weights: {rho:.3f}")
+        return result
+
+    except ImportError:
+        # Fallback using numpy eigendecomposition
+        print("  sklearn not available, using numpy PCA fallback")
+        X = complete[z_cols].values
+        X_centered = X - X.mean(axis=0)
+        cov_matrix = np.cov(X_centered.T)
+        eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
+        # Sort descending
+        idx = np.argsort(eigenvalues)[::-1]
+        eigenvalues = eigenvalues[idx]
+        eigenvectors = eigenvectors[:, idx]
+
+        total_var = eigenvalues.sum()
+        pc1_loadings = {}
+        for i, col in enumerate(z_cols):
+            short = ZSCORE_SHORT[col].lower()
+            pc1_loadings[short] = round(float(eigenvectors[i, 0]), 4)
+
+        pc1_var = round(float(eigenvalues[0] / total_var * 100), 1)
+
+        weights = np.abs(eigenvectors[:, 0])
+        weights = weights / weights.sum()
+        pca_scores = X @ weights
+        equal_scores = latest.loc[complete.index, "composite_score"].values
+        rho, rho_p = stats.spearmanr(pca_scores, equal_scores)
+
+        implied_weights = {}
+        for i, col in enumerate(z_cols):
+            short = ZSCORE_SHORT[col].lower()
+            implied_weights[short] = round(float(weights[i]), 4)
+
+        return {
+            "n": len(complete),
+            "fiscal_year": latest_fy,
+            "pc1_loadings": pc1_loadings,
+            "pc1_variance_explained_pct": pc1_var,
+            "implied_weights": implied_weights,
+            "rank_correlation_with_equal_weights": round(float(rho), 4),
+            "rank_correlation_p": round(float(rho_p), 6),
+            "interpretation": f"Spearman rho={rho:.3f} between PCA and equal-weight rankings.",
+        }
+
+
+# ---------------------------------------------------------------------------
+# State Gap Explanations (Curated Narratives)
+# ---------------------------------------------------------------------------
+
+# Domain-knowledge explanations for states with |rank_gap| >= 3
+STATE_GAP_TEMPLATES = {
+    "Haryana": {
+        "direction": "outperformer",
+        "explanation": (
+            "Haryana ranks significantly higher on the activity index than on official GSDP. "
+            "Its proximity to Delhi drives high formal employment (EPFO) and GST-registered "
+            "commercial activity in the Gurgaon/NCR belt, while moderate agriculture suppresses "
+            "official GSDP less than states like Punjab or MP."
+        ),
+        "key_drivers": ["EPFO: NCR proximity drives formal employment", "GST: Gurgaon commercial hub"],
+        "key_drags": ["Moderate agricultural share not captured by index"],
+    },
+    "Delhi": {
+        "direction": "outperformer",
+        "explanation": (
+            "Delhi ranks higher on our index than on GSDP. As a city-state with near-zero agriculture, "
+            "all four index components capture its activity well. High GST (services + retail), "
+            "concentrated bank credit, and large formal workforce make it an index-friendly economy."
+        ),
+        "key_drivers": ["All 4 components well-represented", "No agriculture dilution"],
+        "key_drags": [],
+    },
+    "Telangana": {
+        "direction": "outperformer",
+        "explanation": (
+            "Telangana outperforms its GSDP rank on our index. Hyderabad's IT corridor drives "
+            "high GST collections and EPFO registrations, while the state's rapid industrialization "
+            "shows in electricity demand growth."
+        ),
+        "key_drivers": ["GST: Hyderabad services economy", "EPFO: IT sector formalization"],
+        "key_drags": [],
+    },
+    "Rajasthan": {
+        "direction": "outperformer",
+        "explanation": (
+            "Rajasthan ranks higher on the activity index than on GDP. Strong mining and "
+            "industrial activity drives electricity demand, while recent GST growth suggests "
+            "increasing formalization of its economy."
+        ),
+        "key_drivers": ["Electricity: mining and industrial activity", "GST growth"],
+        "key_drags": ["Large agricultural sector partially invisible to index"],
+    },
+    "Odisha": {
+        "direction": "outperformer",
+        "explanation": (
+            "Odisha outperforms its GDP rank on our index. Its heavy industry base (steel, aluminium, mining) "
+            "drives high electricity intensity, and industrial expansion shows in GST and credit growth."
+        ),
+        "key_drivers": ["Electricity: heavy industry (steel, aluminium)", "Credit: industrial investment"],
+        "key_drags": [],
+    },
+    "Kerala": {
+        "direction": "underperformer",
+        "explanation": (
+            "Kerala ranks lower on our index than on official GSDP. Its economy is remittance-driven "
+            "and services-heavy (tourism, healthcare, education) -- sectors that don't register "
+            "strongly in GST collections or electricity demand. The index misses Kerala's large "
+            "informal services sector and NRI remittance economy."
+        ),
+        "key_drivers": [],
+        "key_drags": ["Remittance economy invisible to index", "Services-heavy (low electricity intensity)"],
+    },
+    "Punjab": {
+        "direction": "underperformer",
+        "explanation": (
+            "Punjab's GSDP rank exceeds its index rank because agriculture (which our index doesn't "
+            "capture) contributes significantly to its economy. Farm power is subsidized and partly "
+            "unmeasured, and agricultural transactions are largely GST-exempt."
+        ),
+        "key_drivers": [],
+        "key_drags": ["Agriculture invisible to all 4 components", "Subsidized farm electricity unmeasured"],
+    },
+    "Madhya Pradesh": {
+        "direction": "underperformer",
+        "explanation": (
+            "Madhya Pradesh ranks lower on our index than on GSDP. Its large agricultural sector "
+            "(~25% of GSDP) is invisible to our four indicators. Additionally, its economy has a "
+            "significant informal component that GST and EPFO don't capture."
+        ),
+        "key_drivers": [],
+        "key_drags": ["Large agricultural share (~25% GSDP)", "Informal sector activity"],
+    },
+    "West Bengal": {
+        "direction": "underperformer",
+        "explanation": (
+            "West Bengal ranks lower on our index than on GDP. Its large informal economy, "
+            "significant agricultural base, and small-enterprise-dominated manufacturing "
+            "are underrepresented by formal indicators like GST and EPFO."
+        ),
+        "key_drivers": [],
+        "key_drags": ["Large informal economy", "Small-enterprise manufacturing", "Agricultural base"],
+    },
+    "Tripura": {
+        "direction": "underperformer",
+        "explanation": (
+            "Tripura shows the largest negative gap between GDP rank and index rank. "
+            "As a small northeastern state, its economy relies heavily on government spending, "
+            "agriculture, and informal activity -- none of which our four indicators capture well."
+        ),
+        "key_drivers": [],
+        "key_drags": ["Government-spending driven", "Agriculture", "Very small formal sector"],
+    },
+    "Arunachal Pradesh": {
+        "direction": "underperformer",
+        "explanation": (
+            "Arunachal Pradesh ranks much lower on our index than on GDP. Its economy is dominated "
+            "by government expenditure and hydropower revenue that flow through channels our index "
+            "doesn't fully capture. Very low formal sector presence limits EPFO and GST signals."
+        ),
+        "key_drivers": [],
+        "key_drags": ["Government expenditure-driven", "Hydropower revenue accounting", "Minimal formal sector"],
+    },
+    "Maharashtra": {
+        "direction": "aligned",
+        "explanation": (
+            "Maharashtra ranks #1 on both the activity index and official GSDP. Mumbai's role as "
+            "India's financial capital inflates bank credit (corporate HQs book credit here), "
+            "but its genuinely massive GST, electricity, and EPFO numbers make it the clear leader."
+        ),
+        "key_drivers": ["All 4 components: dominant across the board"],
+        "key_drags": ["Bank credit inflated by Mumbai financial hub effect"],
+    },
+    "Tamil Nadu": {
+        "direction": "aligned",
+        "explanation": (
+            "Tamil Nadu is well-aligned between index and GDP ranks. Its diversified economy -- "
+            "strong manufacturing (autos, electronics), services, and formal employment -- is "
+            "well-captured by all four indicators."
+        ),
+        "key_drivers": ["EPFO: #1 in formal employment", "Diversified economy"],
+        "key_drags": [],
+    },
+    "Gujarat": {
+        "direction": "aligned",
+        "explanation": (
+            "Gujarat is well-aligned between index and GDP ranks. Its industrial economy -- "
+            "refining, chemicals, textiles -- drives high electricity demand and GST collections. "
+            "Strong formal sector presence shows in EPFO numbers."
+        ),
+        "key_drivers": ["Electricity: heavy industry", "GST: manufacturing + trade"],
+        "key_drags": [],
+    },
+    "Karnataka": {
+        "direction": "aligned",
+        "explanation": (
+            "Karnataka is roughly aligned between index and GDP. Bangalore's IT sector drives "
+            "EPFO and GST, while southern Karnataka's industry supports electricity demand. "
+            "Slight divergence possible as IT services are less electricity-intensive."
+        ),
+        "key_drivers": ["EPFO: Bangalore IT employment", "GST: services economy"],
+        "key_drags": ["IT services less electricity-intensive"],
+    },
+    "Uttar Pradesh": {
+        "direction": "aligned",
+        "explanation": (
+            "Uttar Pradesh is roughly aligned despite being India's most populous state. "
+            "Its sheer scale in electricity demand, GST, and EPFO numbers places it in the top 5, "
+            "though per-capita metrics would tell a different story."
+        ),
+        "key_drivers": ["Scale: India's largest population"],
+        "key_drags": ["Per-capita metrics would rank much lower"],
+    },
+}
+
+
+def generate_gap_explanations(df: pd.DataFrame) -> dict:
+    """Generate curated gap explanations for each state."""
+    print("Generating state gap explanations...")
+
+    meta = load_state_metadata()
+    slug_map = {row["canonical_name"]: row["slug"] for _, row in meta.iterrows()}
+
+    # Get latest FY with scores
+    scored_fys = df[df["composite_score"].notna()]["fiscal_year"].unique()
+    if len(scored_fys) == 0:
+        return {}
+
+    latest_fy = sorted(scored_fys)[-1]
+    latest = df[df["fiscal_year"] == latest_fy].copy()
+
+    explanations = {}
+    for _, row in latest.iterrows():
+        state = row["state"]
+        slug = slug_map.get(state, "")
+        if not slug:
+            continue
+
+        rank_gap = row.get("rank_gap")
+        index_rank = row.get("rank")
+        gsdp_rank = row.get("gsdp_rank")
+
+        template = STATE_GAP_TEMPLATES.get(state)
+
+        if template:
+            entry = {
+                "state": state,
+                "slug": slug,
+                "index_rank": int(index_rank) if pd.notna(index_rank) else None,
+                "gsdp_rank": int(gsdp_rank) if pd.notna(gsdp_rank) else None,
+                "rank_gap": int(rank_gap) if pd.notna(rank_gap) else None,
+                "direction": template["direction"],
+                "explanation": template["explanation"],
+                "key_drivers": template["key_drivers"],
+                "key_drags": template["key_drags"],
+                "strongest_component": row.get("strongest_component") if pd.notna(row.get("strongest_component")) else None,
+                "weakest_component": row.get("weakest_component") if pd.notna(row.get("weakest_component")) else None,
+            }
+        elif pd.notna(rank_gap) and abs(rank_gap) >= 3:
+            # Auto-generate for uncurated states with large gap
+            direction = "outperformer" if rank_gap > 0 else "underperformer"
+            strongest = row.get("strongest_component", "")
+            weakest = row.get("weakest_component", "")
+            if direction == "outperformer":
+                explanation = (
+                    f"{state} ranks {int(abs(rank_gap))} positions higher on the activity index "
+                    f"than on official GSDP. "
+                    f"Strongest on {strongest.lower() if strongest else 'N/A'}, "
+                    f"suggesting higher formal economic activity than GDP estimates capture."
+                )
+            else:
+                explanation = (
+                    f"{state} ranks {int(abs(rank_gap))} positions lower on the activity index "
+                    f"than on official GSDP. "
+                    f"The gap likely reflects economic activity (agriculture, informal sector, "
+                    f"government spending) that our four indicators do not capture."
+                )
+            entry = {
+                "state": state,
+                "slug": slug,
+                "index_rank": int(index_rank) if pd.notna(index_rank) else None,
+                "gsdp_rank": int(gsdp_rank) if pd.notna(gsdp_rank) else None,
+                "rank_gap": int(rank_gap) if pd.notna(rank_gap) else None,
+                "direction": direction,
+                "explanation": explanation,
+                "key_drivers": [],
+                "key_drags": [],
+                "strongest_component": strongest if pd.notna(row.get("strongest_component")) else None,
+                "weakest_component": weakest if pd.notna(row.get("weakest_component")) else None,
+            }
+        elif pd.notna(rank_gap):
+            # Aligned state — short note
+            entry = {
+                "state": state,
+                "slug": slug,
+                "index_rank": int(index_rank) if pd.notna(index_rank) else None,
+                "gsdp_rank": int(gsdp_rank) if pd.notna(gsdp_rank) else None,
+                "rank_gap": int(rank_gap) if pd.notna(rank_gap) else None,
+                "direction": "aligned",
+                "explanation": f"{state} is closely aligned between the activity index and official GSDP rankings.",
+                "key_drivers": [],
+                "key_drags": [],
+                "strongest_component": row.get("strongest_component") if pd.notna(row.get("strongest_component")) else None,
+                "weakest_component": row.get("weakest_component") if pd.notna(row.get("weakest_component")) else None,
+            }
+        else:
+            continue
+
+        explanations[slug] = entry
+
+    outperformers = sorted(
+        [e for e in explanations.values() if e["direction"] == "outperformer"],
+        key=lambda x: -(x.get("rank_gap") or 0)
+    )
+    underperformers = sorted(
+        [e for e in explanations.values() if e["direction"] == "underperformer"],
+        key=lambda x: (x.get("rank_gap") or 0)
+    )
+
+    print(f"  {len(outperformers)} outperformers, {len(underperformers)} underperformers, "
+          f"{len(explanations) - len(outperformers) - len(underperformers)} aligned")
+
+    return {
+        "latest_fy": latest_fy,
+        "all": explanations,
+        "top_outperformers": [e["slug"] for e in outperformers[:5]],
+        "top_underperformers": [e["slug"] for e in underperformers[:5]],
+    }
+
+
+# ---------------------------------------------------------------------------
+# Regional Analysis
+# ---------------------------------------------------------------------------
+
+def compute_regional_analysis(df: pd.DataFrame) -> dict:
+    """Compute regional aggregations and trends."""
+    print("Computing regional analysis...")
+
+    meta = load_state_metadata()
+    region_map = {row["canonical_name"]: row["region"] for _, row in meta.iterrows()}
+
+    scored = df[df["composite_score"].notna()].copy()
+    scored["region"] = scored["state"].map(region_map)
+    scored = scored[scored["region"].notna()]
+
+    if scored.empty:
+        return {}
+
+    # Per-region summary for latest FY
+    scored_fys = sorted(scored["fiscal_year"].unique())
+    latest_fy = scored_fys[-1]
+    latest = scored[scored["fiscal_year"] == latest_fy]
+
+    regions = {}
+    for region in sorted(latest["region"].unique()):
+        region_data = latest[latest["region"] == region]
+        regions[region] = {
+            "mean_composite": round(float(region_data["composite_score"].mean()), 4),
+            "median_composite": round(float(region_data["composite_score"].median()), 4),
+            "n_states": int(len(region_data)),
+            "states": sorted(region_data["state"].tolist()),
+            "best_state": region_data.loc[region_data["composite_score"].idxmax(), "state"],
+            "worst_state": region_data.loc[region_data["composite_score"].idxmin(), "state"],
+        }
+
+        # Add GSDP metrics if available
+        if "gsdp_rank" in region_data.columns:
+            gsdp_valid = region_data[region_data["gsdp_rank"].notna()]
+            if len(gsdp_valid) > 0:
+                regions[region]["mean_gsdp_rank"] = round(float(gsdp_valid["gsdp_rank"].mean()), 1)
+
+    # Regional trends over time
+    trends = {}
+    for region in sorted(scored["region"].unique()):
+        region_trend = []
+        for fy in scored_fys:
+            fy_region = scored[(scored["fiscal_year"] == fy) & (scored["region"] == region)]
+            if len(fy_region) > 0:
+                region_trend.append({
+                    "fiscal_year": fy,
+                    "mean_composite": round(float(fy_region["composite_score"].mean()), 4),
+                    "n_states": int(len(fy_region)),
+                })
+        trends[region] = region_trend
+
+    # Classify trend direction for each region
+    for region in regions:
+        trend_data = trends.get(region, [])
+        if len(trend_data) >= 3:
+            first_half = np.mean([t["mean_composite"] for t in trend_data[:len(trend_data)//2]])
+            second_half = np.mean([t["mean_composite"] for t in trend_data[len(trend_data)//2:]])
+            if second_half - first_half > 0.1:
+                regions[region]["trend"] = "rising"
+            elif first_half - second_half > 0.1:
+                regions[region]["trend"] = "declining"
+            else:
+                regions[region]["trend"] = "stable"
+
+    result = {
+        "latest_fy": latest_fy,
+        "regions": regions,
+        "trends": trends,
+    }
+
+    print(f"  {len(regions)} regions analyzed")
+    for r, data in sorted(regions.items(), key=lambda x: -x[1]["mean_composite"]):
+        print(f"    {r}: mean={data['mean_composite']:.3f}, n={data['n_states']}")
+
+    return result
+
+
+# ---------------------------------------------------------------------------
 # Key Findings Auto-Generation
 # ---------------------------------------------------------------------------
 
@@ -856,7 +1688,33 @@ def main():
     # Step 8: OLS Regression
     regression = compute_regression(df)
 
-    # Step 9: Key findings
+    # Step 9: Panel FE regression
+    panel_fe = compute_panel_fe_regression(df)
+    if not panel_fe.get("skipped"):
+        regression["panel_fe"] = panel_fe
+
+    # Step 10: Log-log regression
+    log_log = compute_log_log_regression(df)
+    if not log_log.get("skipped"):
+        regression["log_log"] = log_log
+
+    # Step 11: Lagged panel correlation
+    lagged = compute_lagged_correlation(df)
+    if not lagged.get("skipped"):
+        regression["lagged"] = lagged
+
+    # Step 12: PCA weights check
+    pca_result = compute_pca_weights(df)
+    if not pca_result.get("skipped"):
+        regression["pca"] = pca_result
+
+    # Step 13: State gap explanations
+    gap_explanations = generate_gap_explanations(df)
+
+    # Step 14: Regional analysis
+    regional_analysis = compute_regional_analysis(df)
+
+    # Step 15: Key findings
     key_findings = generate_key_findings(df, correlations)
 
     # Save insights parquet
@@ -951,6 +1809,8 @@ def main():
         "gsdp_comparison": gsdp_comparison,
         "covid_recovery": covid_recovery,
         "component_diagnostics": component_diagnostics,
+        "gap_explanations": gap_explanations,
+        "regional_analysis": regional_analysis,
     }
 
     write_json(insights_data, PUBLIC_DATA / "insights.json")
@@ -968,6 +1828,22 @@ def main():
         cs = regression.get("cross_sectional", {})
         for fy, data in cs.items():
             print(f"Regression (FY {fy}): R2={data['r_squared']}, F={data['f_statistic']}, N={data['n']}")
+    if "panel_fe" in regression:
+        pf = regression["panel_fe"]
+        print(f"Panel FE: within-R2={pf.get('within_r_squared')}, N={pf.get('n')}")
+    if "log_log" in regression:
+        ll = regression["log_log"]
+        cs_ll = ll.get("cross_sectional", {})
+        print(f"Log-log: R2={cs_ll.get('r_squared')}")
+    if "pca" in regression:
+        pc = regression["pca"]
+        print(f"PCA: PC1 explains {pc.get('pc1_variance_explained_pct')}%, rank corr={pc.get('rank_correlation_with_equal_weights')}")
+    if gap_explanations:
+        n_gaps = len(gap_explanations.get("all", {}))
+        print(f"Gap explanations: {n_gaps} states")
+    if regional_analysis:
+        n_regions = len(regional_analysis.get("regions", {}))
+        print(f"Regional analysis: {n_regions} regions")
 
     print("\n" + "=" * 70)
     print("Done!")

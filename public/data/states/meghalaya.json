@@ -731,5 +731,18 @@
     "elec_yoy_pct": -0.5228,
     "credit_yoy_pct": -54.8494,
     "epfo_yoy_pct": -22.0394
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0347,
+    "national_share_pct": 0.1263,
+    "elasticity": 1.9868,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.215
+  },
+  "gap_explanation": {
+    "direction": "underperformer",
+    "explanation": "Meghalaya ranks 5 positions lower on the activity index than on official GSDP. The gap likely reflects economic activity (agriculture, informal sector, government spending) that our four indicators do not capture.",
+    "key_drivers": [],
+    "key_drags": []
   }
 }

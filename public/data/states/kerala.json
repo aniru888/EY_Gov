@@ -731,5 +731,21 @@
     "elec_yoy_pct": 2.0024,
     "credit_yoy_pct": -42.6976,
     "epfo_yoy_pct": -1.3332
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0253,
+    "national_share_pct": 1.8334,
+    "elasticity": 2.0612,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2183
+  },
+  "gap_explanation": {
+    "direction": "underperformer",
+    "explanation": "Kerala ranks lower on our index than on official GSDP. Its economy is remittance-driven and services-heavy (tourism, healthcare, education) -- sectors that don't register strongly in GST collections or electricity demand. The index misses Kerala's large informal services sector and NRI remittance economy.",
+    "key_drivers": [],
+    "key_drags": [
+      "Remittance economy invisible to index",
+      "Services-heavy (low electricity intensity)"
+    ]
   }
 }

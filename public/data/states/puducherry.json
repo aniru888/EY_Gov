@@ -731,5 +731,18 @@
     "elec_yoy_pct": 2.3802,
     "credit_yoy_pct": -25.8712,
     "epfo_yoy_pct": null
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0684,
+    "national_share_pct": 0.2113,
+    "elasticity": 1.1973,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2443
+  },
+  "gap_explanation": {
+    "direction": "underperformer",
+    "explanation": "Puducherry ranks 3 positions lower on the activity index than on official GSDP. The gap likely reflects economic activity (agriculture, informal sector, government spending) that our four indicators do not capture.",
+    "key_drivers": [],
+    "key_drags": []
   }
 }

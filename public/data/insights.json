@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-14T14:31:24.558353",
+  "generated_at": "2026-02-14T16:07:08.837911",
   "latest_fy": "2024-25",
   "key_findings": [
     {
@@ -1232,6 +1232,833 @@
       "divergence_score": 0.2747335568468038,
       "diagnostic": "West Bengal: Balanced across all four components.",
       "brap_category": "Achiever"
+    }
+  },
+  "gap_explanations": {
+    "latest_fy": "2024-25",
+    "all": {
+      "andhra-pradesh": {
+        "state": "Andhra Pradesh",
+        "slug": "andhra-pradesh",
+        "index_rank": 12,
+        "gsdp_rank": 8,
+        "rank_gap": -4,
+        "direction": "underperformer",
+        "explanation": "Andhra Pradesh ranks 4 positions lower on the activity index than on official GSDP. The gap likely reflects economic activity (agriculture, informal sector, government spending) that our four indicators do not capture.",
+        "key_drivers": [],
+        "key_drags": [],
+        "strongest_component": "Electricity",
+        "weakest_component": "EPFO"
+      },
+      "arunachal-pradesh": {
+        "state": "Arunachal Pradesh",
+        "slug": "arunachal-pradesh",
+        "index_rank": 30,
+        "gsdp_rank": 25,
+        "rank_gap": -5,
+        "direction": "underperformer",
+        "explanation": "Arunachal Pradesh ranks much lower on our index than on GDP. Its economy is dominated by government expenditure and hydropower revenue that flow through channels our index doesn't fully capture. Very low formal sector presence limits EPFO and GST signals.",
+        "key_drivers": [],
+        "key_drags": [
+          "Government expenditure-driven",
+          "Hydropower revenue accounting",
+          "Minimal formal sector"
+        ],
+        "strongest_component": "Credit",
+        "weakest_component": "Electricity"
+      },
+      "assam": {
+        "state": "Assam",
+        "slug": "assam",
+        "index_rank": 20,
+        "gsdp_rank": 16,
+        "rank_gap": -4,
+        "direction": "underperformer",
+        "explanation": "Assam ranks 4 positions lower on the activity index than on official GSDP. The gap likely reflects economic activity (agriculture, informal sector, government spending) that our four indicators do not capture.",
+        "key_drivers": [],
+        "key_drags": [],
+        "strongest_component": "Credit",
+        "weakest_component": "Electricity"
+      },
+      "bihar": {
+        "state": "Bihar",
+        "slug": "bihar",
+        "index_rank": 17,
+        "gsdp_rank": 13,
+        "rank_gap": -4,
+        "direction": "underperformer",
+        "explanation": "Bihar ranks 4 positions lower on the activity index than on official GSDP. The gap likely reflects economic activity (agriculture, informal sector, government spending) that our four indicators do not capture.",
+        "key_drivers": [],
+        "key_drags": [],
+        "strongest_component": "Electricity",
+        "weakest_component": "EPFO"
+      },
+      "chhattisgarh": {
+        "state": "Chhattisgarh",
+        "slug": "chhattisgarh",
+        "index_rank": 16,
+        "gsdp_rank": 17,
+        "rank_gap": 1,
+        "direction": "aligned",
+        "explanation": "Chhattisgarh is closely aligned between the activity index and official GSDP rankings.",
+        "key_drivers": [],
+        "key_drags": [],
+        "strongest_component": "GST",
+        "weakest_component": "EPFO"
+      },
+      "delhi": {
+        "state": "Delhi",
+        "slug": "delhi",
+        "index_rank": 8,
+        "gsdp_rank": 11,
+        "rank_gap": 3,
+        "direction": "outperformer",
+        "explanation": "Delhi ranks higher on our index than on GSDP. As a city-state with near-zero agriculture, all four index components capture its activity well. High GST (services + retail), concentrated bank credit, and large formal workforce make it an index-friendly economy.",
+        "key_drivers": [
+          "All 4 components well-represented",
+          "No agriculture dilution"
+        ],
+        "key_drags": [],
+        "strongest_component": "EPFO",
+        "weakest_component": "Electricity"
+      },
+      "gujarat": {
+        "state": "Gujarat",
+        "slug": "gujarat",
+        "index_rank": 3,
+        "gsdp_rank": null,
+        "rank_gap": null,
+        "direction": "aligned",
+        "explanation": "Gujarat is well-aligned between index and GDP ranks. Its industrial economy -- refining, chemicals, textiles -- drives high electricity demand and GST collections. Strong formal sector presence shows in EPFO numbers.",
+        "key_drivers": [
+          "Electricity: heavy industry",
+          "GST: manufacturing + trade"
+        ],
+        "key_drags": [],
+        "strongest_component": "Electricity",
+        "weakest_component": "Credit"
+      },
+      "haryana": {
+        "state": "Haryana",
+        "slug": "haryana",
+        "index_rank": 6,
+        "gsdp_rank": 12,
+        "rank_gap": 6,
+        "direction": "outperformer",
+        "explanation": "Haryana ranks significantly higher on the activity index than on official GSDP. Its proximity to Delhi drives high formal employment (EPFO) and GST-registered commercial activity in the Gurgaon/NCR belt, while moderate agriculture suppresses official GSDP less than states like Punjab or MP.",
+        "key_drivers": [
+          "EPFO: NCR proximity drives formal employment",
+          "GST: Gurgaon commercial hub"
+        ],
+        "key_drags": [
+          "Moderate agricultural share not captured by index"
+        ],
+        "strongest_component": "EPFO",
+        "weakest_component": "Electricity"
+      },
+      "himachal-pradesh": {
+        "state": "Himachal Pradesh",
+        "slug": "himachal-pradesh",
+        "index_rank": 22,
+        "gsdp_rank": 21,
+        "rank_gap": -1,
+        "direction": "aligned",
+        "explanation": "Himachal Pradesh is closely aligned between the activity index and official GSDP rankings.",
+        "key_drivers": [],
+        "key_drags": [],
+        "strongest_component": "GST",
+        "weakest_component": "Electricity"
+      },
+      "jammu-kashmir": {
+        "state": "Jammu & Kashmir",
+        "slug": "jammu-kashmir",
+        "index_rank": 21,
+        "gsdp_rank": 20,
+        "rank_gap": -1,
+        "direction": "aligned",
+        "explanation": "Jammu & Kashmir is closely aligned between the activity index and official GSDP rankings.",
+        "key_drivers": [],
+        "key_drags": [],
+        "strongest_component": "Credit",
+        "weakest_component": "EPFO"
+      },
+      "jharkhand": {
+        "state": "Jharkhand",
+        "slug": "jharkhand",
+        "index_rank": 18,
+        "gsdp_rank": 18,
+        "rank_gap": 0,
+        "direction": "aligned",
+        "explanation": "Jharkhand is closely aligned between the activity index and official GSDP rankings.",
+        "key_drivers": [],
+        "key_drags": [],
+        "strongest_component": "GST",
+        "weakest_component": "Electricity"
+      },
+      "karnataka": {
+        "state": "Karnataka",
+        "slug": "karnataka",
+        "index_rank": 4,
+        "gsdp_rank": 4,
+        "rank_gap": 0,
+        "direction": "aligned",
+        "explanation": "Karnataka is roughly aligned between index and GDP. Bangalore's IT sector drives EPFO and GST, while southern Karnataka's industry supports electricity demand. Slight divergence possible as IT services are less electricity-intensive.",
+        "key_drivers": [
+          "EPFO: Bangalore IT employment",
+          "GST: services economy"
+        ],
+        "key_drags": [
+          "IT services less electricity-intensive"
+        ],
+        "strongest_component": "GST",
+        "weakest_component": "Electricity"
+      },
+      "kerala": {
+        "state": "Kerala",
+        "slug": "kerala",
+        "index_rank": 15,
+        "gsdp_rank": 10,
+        "rank_gap": -5,
+        "direction": "underperformer",
+        "explanation": "Kerala ranks lower on our index than on official GSDP. Its economy is remittance-driven and services-heavy (tourism, healthcare, education) -- sectors that don't register strongly in GST collections or electricity demand. The index misses Kerala's large informal services sector and NRI remittance economy.",
+        "key_drivers": [],
+        "key_drags": [
+          "Remittance economy invisible to index",
+          "Services-heavy (low electricity intensity)"
+        ],
+        "strongest_component": "Credit",
+        "weakest_component": "EPFO"
+      },
+      "madhya-pradesh": {
+        "state": "Madhya Pradesh",
+        "slug": "madhya-pradesh",
+        "index_rank": 11,
+        "gsdp_rank": 9,
+        "rank_gap": -2,
+        "direction": "underperformer",
+        "explanation": "Madhya Pradesh ranks lower on our index than on GSDP. Its large agricultural sector (~25% of GSDP) is invisible to our four indicators. Additionally, its economy has a significant informal component that GST and EPFO don't capture.",
+        "key_drivers": [],
+        "key_drags": [
+          "Large agricultural share (~25% GSDP)",
+          "Informal sector activity"
+        ],
+        "strongest_component": "Electricity",
+        "weakest_component": "EPFO"
+      },
+      "maharashtra": {
+        "state": "Maharashtra",
+        "slug": "maharashtra",
+        "index_rank": 1,
+        "gsdp_rank": 1,
+        "rank_gap": 0,
+        "direction": "aligned",
+        "explanation": "Maharashtra ranks #1 on both the activity index and official GSDP. Mumbai's role as India's financial capital inflates bank credit (corporate HQs book credit here), but its genuinely massive GST, electricity, and EPFO numbers make it the clear leader.",
+        "key_drivers": [
+          "All 4 components: dominant across the board"
+        ],
+        "key_drags": [
+          "Bank credit inflated by Mumbai financial hub effect"
+        ],
+        "strongest_component": "Credit",
+        "weakest_component": "Electricity"
+      },
+      "meghalaya": {
+        "state": "Meghalaya",
+        "slug": "meghalaya",
+        "index_rank": 28,
+        "gsdp_rank": 23,
+        "rank_gap": -5,
+        "direction": "underperformer",
+        "explanation": "Meghalaya ranks 5 positions lower on the activity index than on official GSDP. The gap likely reflects economic activity (agriculture, informal sector, government spending) that our four indicators do not capture.",
+        "key_drivers": [],
+        "key_drags": [],
+        "strongest_component": "Credit",
+        "weakest_component": "Electricity"
+      },
+      "odisha": {
+        "state": "Odisha",
+        "slug": "odisha",
+        "index_rank": 13,
+        "gsdp_rank": 14,
+        "rank_gap": 1,
+        "direction": "outperformer",
+        "explanation": "Odisha outperforms its GDP rank on our index. Its heavy industry base (steel, aluminium, mining) drives high electricity intensity, and industrial expansion shows in GST and credit growth.",
+        "key_drivers": [
+          "Electricity: heavy industry (steel, aluminium)",
+          "Credit: industrial investment"
+        ],
+        "key_drags": [],
+        "strongest_component": "GST",
+        "weakest_component": "EPFO"
+      },
+      "puducherry": {
+        "state": "Puducherry",
+        "slug": "puducherry",
+        "index_rank": 27,
+        "gsdp_rank": 24,
+        "rank_gap": -3,
+        "direction": "underperformer",
+        "explanation": "Puducherry ranks 3 positions lower on the activity index than on official GSDP. The gap likely reflects economic activity (agriculture, informal sector, government spending) that our four indicators do not capture.",
+        "key_drivers": [],
+        "key_drags": [],
+        "strongest_component": "Credit",
+        "weakest_component": "Electricity"
+      },
+      "punjab": {
+        "state": "Punjab",
+        "slug": "punjab",
+        "index_rank": 14,
+        "gsdp_rank": 15,
+        "rank_gap": 1,
+        "direction": "underperformer",
+        "explanation": "Punjab's GSDP rank exceeds its index rank because agriculture (which our index doesn't capture) contributes significantly to its economy. Farm power is subsidized and partly unmeasured, and agricultural transactions are largely GST-exempt.",
+        "key_drivers": [],
+        "key_drags": [
+          "Agriculture invisible to all 4 components",
+          "Subsidized farm electricity unmeasured"
+        ],
+        "strongest_component": "Electricity",
+        "weakest_component": "EPFO"
+      },
+      "rajasthan": {
+        "state": "Rajasthan",
+        "slug": "rajasthan",
+        "index_rank": 9,
+        "gsdp_rank": 6,
+        "rank_gap": -3,
+        "direction": "outperformer",
+        "explanation": "Rajasthan ranks higher on the activity index than on GDP. Strong mining and industrial activity drives electricity demand, while recent GST growth suggests increasing formalization of its economy.",
+        "key_drivers": [
+          "Electricity: mining and industrial activity",
+          "GST growth"
+        ],
+        "key_drags": [
+          "Large agricultural sector partially invisible to index"
+        ],
+        "strongest_component": "Electricity",
+        "weakest_component": "EPFO"
+      },
+      "tamil-nadu": {
+        "state": "Tamil Nadu",
+        "slug": "tamil-nadu",
+        "index_rank": 2,
+        "gsdp_rank": 2,
+        "rank_gap": 0,
+        "direction": "aligned",
+        "explanation": "Tamil Nadu is well-aligned between index and GDP ranks. Its diversified economy -- strong manufacturing (autos, electronics), services, and formal employment -- is well-captured by all four indicators.",
+        "key_drivers": [
+          "EPFO: #1 in formal employment",
+          "Diversified economy"
+        ],
+        "key_drags": [],
+        "strongest_component": "Credit",
+        "weakest_component": "GST"
+      },
+      "telangana": {
+        "state": "Telangana",
+        "slug": "telangana",
+        "index_rank": 7,
+        "gsdp_rank": 7,
+        "rank_gap": 0,
+        "direction": "outperformer",
+        "explanation": "Telangana outperforms its GSDP rank on our index. Hyderabad's IT corridor drives high GST collections and EPFO registrations, while the state's rapid industrialization shows in electricity demand growth.",
+        "key_drivers": [
+          "GST: Hyderabad services economy",
+          "EPFO: IT sector formalization"
+        ],
+        "key_drags": [],
+        "strongest_component": "EPFO",
+        "weakest_component": "GST"
+      },
+      "tripura": {
+        "state": "Tripura",
+        "slug": "tripura",
+        "index_rank": 29,
+        "gsdp_rank": 22,
+        "rank_gap": -7,
+        "direction": "underperformer",
+        "explanation": "Tripura shows the largest negative gap between GDP rank and index rank. As a small northeastern state, its economy relies heavily on government spending, agriculture, and informal activity -- none of which our four indicators capture well.",
+        "key_drivers": [],
+        "key_drags": [
+          "Government-spending driven",
+          "Agriculture",
+          "Very small formal sector"
+        ],
+        "strongest_component": "Credit",
+        "weakest_component": "Electricity"
+      },
+      "uttar-pradesh": {
+        "state": "Uttar Pradesh",
+        "slug": "uttar-pradesh",
+        "index_rank": 5,
+        "gsdp_rank": 3,
+        "rank_gap": -2,
+        "direction": "aligned",
+        "explanation": "Uttar Pradesh is roughly aligned despite being India's most populous state. Its sheer scale in electricity demand, GST, and EPFO numbers places it in the top 5, though per-capita metrics would tell a different story.",
+        "key_drivers": [
+          "Scale: India's largest population"
+        ],
+        "key_drags": [
+          "Per-capita metrics would rank much lower"
+        ],
+        "strongest_component": "Electricity",
+        "weakest_component": "EPFO"
+      },
+      "uttarakhand": {
+        "state": "Uttarakhand",
+        "slug": "uttarakhand",
+        "index_rank": 19,
+        "gsdp_rank": 19,
+        "rank_gap": 0,
+        "direction": "aligned",
+        "explanation": "Uttarakhand is closely aligned between the activity index and official GSDP rankings.",
+        "key_drivers": [],
+        "key_drags": [],
+        "strongest_component": "GST",
+        "weakest_component": "Electricity"
+      },
+      "west-bengal": {
+        "state": "West Bengal",
+        "slug": "west-bengal",
+        "index_rank": 10,
+        "gsdp_rank": 5,
+        "rank_gap": -5,
+        "direction": "underperformer",
+        "explanation": "West Bengal ranks lower on our index than on GDP. Its large informal economy, significant agricultural base, and small-enterprise-dominated manufacturing are underrepresented by formal indicators like GST and EPFO.",
+        "key_drivers": [],
+        "key_drags": [
+          "Large informal economy",
+          "Small-enterprise manufacturing",
+          "Agricultural base"
+        ],
+        "strongest_component": "Electricity",
+        "weakest_component": "EPFO"
+      }
+    },
+    "top_outperformers": [
+      "haryana",
+      "delhi",
+      "odisha",
+      "telangana",
+      "rajasthan"
+    ],
+    "top_underperformers": [
+      "tripura",
+      "arunachal-pradesh",
+      "kerala",
+      "meghalaya",
+      "west-bengal"
+    ]
+  },
+  "regional_analysis": {
+    "latest_fy": "2024-25",
+    "regions": {
+      "Central": {
+        "mean_composite": -0.0225,
+        "median_composite": -0.0225,
+        "n_states": 2,
+        "states": [
+          "Chhattisgarh",
+          "Madhya Pradesh"
+        ],
+        "best_state": "Madhya Pradesh",
+        "worst_state": "Chhattisgarh",
+        "mean_gsdp_rank": 13.0,
+        "trend": "stable"
+      },
+      "Eastern": {
+        "mean_composite": -0.1526,
+        "median_composite": -0.2221,
+        "n_states": 4,
+        "states": [
+          "Bihar",
+          "Jharkhand",
+          "Odisha",
+          "West Bengal"
+        ],
+        "best_state": "West Bengal",
+        "worst_state": "Jharkhand",
+        "mean_gsdp_rank": 12.5,
+        "trend": "stable"
+      },
+      "Islands": {
+        "mean_composite": -0.6485,
+        "median_composite": -0.6485,
+        "n_states": 1,
+        "states": [
+          "Andaman & Nicobar Islands"
+        ],
+        "best_state": "Andaman & Nicobar Islands",
+        "worst_state": "Andaman & Nicobar Islands",
+        "trend": "stable"
+      },
+      "North-Eastern": {
+        "mean_composite": -0.6803,
+        "median_composite": -0.7027,
+        "n_states": 8,
+        "states": [
+          "Arunachal Pradesh",
+          "Assam",
+          "Manipur",
+          "Meghalaya",
+          "Mizoram",
+          "Nagaland",
+          "Sikkim",
+          "Tripura"
+        ],
+        "best_state": "Assam",
+        "worst_state": "Mizoram",
+        "mean_gsdp_rank": 21.5,
+        "trend": "stable"
+      },
+      "Northern": {
+        "mean_composite": -0.0265,
+        "median_composite": -0.2959,
+        "n_states": 10,
+        "states": [
+          "Chandigarh",
+          "Delhi",
+          "Haryana",
+          "Himachal Pradesh",
+          "Jammu & Kashmir",
+          "Ladakh",
+          "Punjab",
+          "Rajasthan",
+          "Uttar Pradesh",
+          "Uttarakhand"
+        ],
+        "best_state": "Uttar Pradesh",
+        "worst_state": "Ladakh",
+        "mean_gsdp_rank": 13.4,
+        "trend": "stable"
+      },
+      "Southern": {
+        "mean_composite": 0.3807,
+        "median_composite": 0.3383,
+        "n_states": 6,
+        "states": [
+          "Andhra Pradesh",
+          "Karnataka",
+          "Kerala",
+          "Puducherry",
+          "Tamil Nadu",
+          "Telangana"
+        ],
+        "best_state": "Tamil Nadu",
+        "worst_state": "Puducherry",
+        "mean_gsdp_rank": 9.2,
+        "trend": "stable"
+      },
+      "Western": {
+        "mean_composite": 1.5683,
+        "median_composite": 1.3241,
+        "n_states": 3,
+        "states": [
+          "Goa",
+          "Gujarat",
+          "Maharashtra"
+        ],
+        "best_state": "Maharashtra",
+        "worst_state": "Goa",
+        "mean_gsdp_rank": 1.0,
+        "trend": "rising"
+      }
+    },
+    "trends": {
+      "Central": [
+        {
+          "fiscal_year": "2017-18",
+          "mean_composite": -0.0115,
+          "n_states": 2
+        },
+        {
+          "fiscal_year": "2018-19",
+          "mean_composite": -0.0155,
+          "n_states": 2
+        },
+        {
+          "fiscal_year": "2019-20",
+          "mean_composite": -0.0021,
+          "n_states": 2
+        },
+        {
+          "fiscal_year": "2020-21",
+          "mean_composite": 0.1195,
+          "n_states": 2
+        },
+        {
+          "fiscal_year": "2021-22",
+          "mean_composite": 0.003,
+          "n_states": 2
+        },
+        {
+          "fiscal_year": "2022-23",
+          "mean_composite": -0.0238,
+          "n_states": 2
+        },
+        {
+          "fiscal_year": "2023-24",
+          "mean_composite": -0.0465,
+          "n_states": 2
+        },
+        {
+          "fiscal_year": "2024-25",
+          "mean_composite": -0.0225,
+          "n_states": 2
+        }
+      ],
+      "Eastern": [
+        {
+          "fiscal_year": "2017-18",
+          "mean_composite": -0.1819,
+          "n_states": 4
+        },
+        {
+          "fiscal_year": "2018-19",
+          "mean_composite": -0.1483,
+          "n_states": 4
+        },
+        {
+          "fiscal_year": "2019-20",
+          "mean_composite": -0.1444,
+          "n_states": 4
+        },
+        {
+          "fiscal_year": "2020-21",
+          "mean_composite": -0.0947,
+          "n_states": 4
+        },
+        {
+          "fiscal_year": "2021-22",
+          "mean_composite": -0.1356,
+          "n_states": 4
+        },
+        {
+          "fiscal_year": "2022-23",
+          "mean_composite": -0.1404,
+          "n_states": 4
+        },
+        {
+          "fiscal_year": "2023-24",
+          "mean_composite": -0.1645,
+          "n_states": 4
+        },
+        {
+          "fiscal_year": "2024-25",
+          "mean_composite": -0.1526,
+          "n_states": 4
+        }
+      ],
+      "Islands": [
+        {
+          "fiscal_year": "2017-18",
+          "mean_composite": -0.6592,
+          "n_states": 1
+        },
+        {
+          "fiscal_year": "2018-19",
+          "mean_composite": -0.657,
+          "n_states": 1
+        },
+        {
+          "fiscal_year": "2019-20",
+          "mean_composite": -0.7061,
+          "n_states": 1
+        },
+        {
+          "fiscal_year": "2020-21",
+          "mean_composite": -0.7208,
+          "n_states": 1
+        },
+        {
+          "fiscal_year": "2021-22",
+          "mean_composite": -0.695,
+          "n_states": 1
+        },
+        {
+          "fiscal_year": "2022-23",
+          "mean_composite": -0.6204,
+          "n_states": 1
+        },
+        {
+          "fiscal_year": "2023-24",
+          "mean_composite": -0.6462,
+          "n_states": 1
+        },
+        {
+          "fiscal_year": "2024-25",
+          "mean_composite": -0.6485,
+          "n_states": 1
+        }
+      ],
+      "North-Eastern": [
+        {
+          "fiscal_year": "2017-18",
+          "mean_composite": -0.6754,
+          "n_states": 8
+        },
+        {
+          "fiscal_year": "2018-19",
+          "mean_composite": -0.6826,
+          "n_states": 8
+        },
+        {
+          "fiscal_year": "2019-20",
+          "mean_composite": -0.7195,
+          "n_states": 8
+        },
+        {
+          "fiscal_year": "2020-21",
+          "mean_composite": -0.7117,
+          "n_states": 8
+        },
+        {
+          "fiscal_year": "2021-22",
+          "mean_composite": -0.7113,
+          "n_states": 8
+        },
+        {
+          "fiscal_year": "2022-23",
+          "mean_composite": -0.6559,
+          "n_states": 8
+        },
+        {
+          "fiscal_year": "2023-24",
+          "mean_composite": -0.6769,
+          "n_states": 8
+        },
+        {
+          "fiscal_year": "2024-25",
+          "mean_composite": -0.6803,
+          "n_states": 8
+        }
+      ],
+      "Northern": [
+        {
+          "fiscal_year": "2017-18",
+          "mean_composite": 0.0289,
+          "n_states": 9
+        },
+        {
+          "fiscal_year": "2018-19",
+          "mean_composite": 0.1171,
+          "n_states": 9
+        },
+        {
+          "fiscal_year": "2019-20",
+          "mean_composite": 0.0416,
+          "n_states": 9
+        },
+        {
+          "fiscal_year": "2020-21",
+          "mean_composite": -0.037,
+          "n_states": 10
+        },
+        {
+          "fiscal_year": "2021-22",
+          "mean_composite": -0.0425,
+          "n_states": 10
+        },
+        {
+          "fiscal_year": "2022-23",
+          "mean_composite": -0.0478,
+          "n_states": 10
+        },
+        {
+          "fiscal_year": "2023-24",
+          "mean_composite": -0.0411,
+          "n_states": 10
+        },
+        {
+          "fiscal_year": "2024-25",
+          "mean_composite": -0.0265,
+          "n_states": 10
+        }
+      ],
+      "Southern": [
+        {
+          "fiscal_year": "2017-18",
+          "mean_composite": 0.405,
+          "n_states": 6
+        },
+        {
+          "fiscal_year": "2018-19",
+          "mean_composite": 0.4433,
+          "n_states": 6
+        },
+        {
+          "fiscal_year": "2019-20",
+          "mean_composite": 0.5274,
+          "n_states": 6
+        },
+        {
+          "fiscal_year": "2020-21",
+          "mean_composite": 0.5913,
+          "n_states": 6
+        },
+        {
+          "fiscal_year": "2021-22",
+          "mean_composite": 0.4539,
+          "n_states": 6
+        },
+        {
+          "fiscal_year": "2022-23",
+          "mean_composite": 0.3763,
+          "n_states": 6
+        },
+        {
+          "fiscal_year": "2023-24",
+          "mean_composite": 0.4183,
+          "n_states": 6
+        },
+        {
+          "fiscal_year": "2024-25",
+          "mean_composite": 0.3807,
+          "n_states": 6
+        }
+      ],
+      "Western": [
+        {
+          "fiscal_year": "2017-18",
+          "mean_composite": 0.9801,
+          "n_states": 4
+        },
+        {
+          "fiscal_year": "2018-19",
+          "mean_composite": 0.7093,
+          "n_states": 4
+        },
+        {
+          "fiscal_year": "2019-20",
+          "mean_composite": 1.3368,
+          "n_states": 3
+        },
+        {
+          "fiscal_year": "2020-21",
+          "mean_composite": 1.1324,
+          "n_states": 3
+        },
+        {
+          "fiscal_year": "2021-22",
+          "mean_composite": 1.5491,
+          "n_states": 3
+        },
+        {
+          "fiscal_year": "2022-23",
+          "mean_composite": 1.5639,
+          "n_states": 3
+        },
+        {
+          "fiscal_year": "2023-24",
+          "mean_composite": 1.5635,
+          "n_states": 3
+        },
+        {
+          "fiscal_year": "2024-25",
+          "mean_composite": 1.5683,
+          "n_states": 3
+        }
+      ]
     }
   }
 }

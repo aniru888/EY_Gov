@@ -727,8 +727,127 @@ export default function MethodologyPage() {
             </div>
           </Section>
 
-          {/* Section 10: Relationship with GSDP */}
-          <Section id="gsdp-relationship" title="10. Relationship with Official GSDP">
+          {/* Section 10: Panel Fixed Effects */}
+          <Section id="panel-fe" title="10. Panel Fixed Effects Regression">
+            <div className="space-y-4 text-gray-700">
+              <p>
+                The cross-sectional OLS in Section 9 shows that larger states have
+                more of everything. A more powerful test asks:{" "}
+                <strong>
+                  when a state&apos;s electricity demand rises, does its GSDP follow?
+                </strong>{" "}
+                This requires a panel regression with state fixed effects.
+              </p>
+
+              <div className="bg-white border border-gray-200 rounded-lg p-4">
+                <h4 className="font-semibold text-gray-900 text-sm mb-2">
+                  Model Specification
+                </h4>
+                <div className="font-mono text-xs bg-gray-50 border rounded p-3">
+                  GSDP_it = alpha_i + gamma_t + beta_1*GST_it + beta_2*Elec_it +
+                  beta_3*Credit_it + beta_4*EPFO_it + epsilon_it
+                </div>
+                <p className="text-sm text-gray-600 mt-2">
+                  Where alpha_i are state fixed effects (absorb time-invariant state
+                  characteristics like geography, population, industrial base) and
+                  gamma_t are year fixed effects (absorb national trends like
+                  inflation, policy changes). Clustered standard errors by state
+                  account for within-state correlation.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                    Within-R&sup2;
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    Measures how much of the <em>within-state variation</em> in GSDP
+                    is explained by changes in our indicators over time. A high
+                    within-R&sup2; means the indicators track state-level economic
+                    dynamics, not just cross-sectional size differences.
+                  </p>
+                </div>
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                    Hausman Test
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    Tests whether random effects (RE) or fixed effects (FE) is
+                    appropriate. A significant Hausman test indicates state-specific
+                    unobserved factors are correlated with the regressors, favoring
+                    FE. For Indian states, FE is almost always preferred due to
+                    heterogeneity.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm">
+                <strong>Caveat:</strong> Panel FE removes between-state variation.
+                With only 8 fiscal years per state, the within-state estimates rely
+                on limited time variation. Results should be interpreted as
+                corroborating the cross-sectional findings, not as standalone causal
+                evidence. See the{" "}
+                <a href="/insights" className="text-blue-600 hover:underline">
+                  Insights page
+                </a>{" "}
+                for full panel FE results.
+              </div>
+            </div>
+          </Section>
+
+          {/* Section 11: Log-Log & PCA */}
+          <Section id="loglog-pca" title="11. Log-Log Elasticities & PCA Robustness">
+            <div className="space-y-4 text-gray-700">
+              <div className="bg-white border border-gray-200 rounded-lg p-4">
+                <h4 className="font-semibold text-gray-900 text-sm mb-2">
+                  Log-Log Regression
+                </h4>
+                <div className="font-mono text-xs bg-gray-50 border rounded p-3">
+                  log(GSDP) ~ beta_1*log(GST) + beta_2*log(Elec) +
+                  beta_3*log(Credit) + beta_4*log(EPFO) + constant
+                </div>
+                <p className="text-sm text-gray-600 mt-2">
+                  In a log-log model, coefficients are directly interpretable as
+                  <strong> elasticities</strong>: a 1% increase in electricity
+                  demand is associated with a beta_2% increase in GSDP. The log
+                  transformation also compresses the Maharashtra outlier, reducing
+                  leverage effects and often improving fit.
+                </p>
+              </div>
+
+              <div className="bg-white border border-gray-200 rounded-lg p-4">
+                <h4 className="font-semibold text-gray-900 text-sm mb-2">
+                  PCA Weights Robustness Check
+                </h4>
+                <p className="text-sm text-gray-600">
+                  We run Principal Component Analysis (PCA) on the 4 z-score
+                  components to check whether our equal-weight assumption is
+                  reasonable. If PC1 explains a large share of variance and its
+                  loadings are roughly equal, equal weights are validated. If
+                  loadings are skewed (e.g., GST dominates), PCA suggests an
+                  alternative weighting that could improve the index.
+                </p>
+                <p className="text-sm text-gray-600 mt-2">
+                  We compute the Spearman rank correlation between equal-weight
+                  and PCA-weight rankings. If r &gt; 0.95, the weighting choice
+                  barely matters — the same states end up in the same positions
+                  regardless.
+                </p>
+              </div>
+
+              <p className="text-sm">
+                Full elasticity values and PCA loadings are shown on the{" "}
+                <a href="/insights" className="text-blue-600 hover:underline">
+                  Insights page
+                </a>
+                .
+              </p>
+            </div>
+          </Section>
+
+          {/* Section 12: Relationship with GSDP */}
+          <Section id="gsdp-relationship" title="12. Relationship with Official GSDP">
             <div className="space-y-4 text-gray-700">
               <p>
                 We compare our index rankings to official GSDP rankings (RBI
@@ -791,7 +910,7 @@ export default function MethodologyPage() {
           </Section>
 
           {/* Section 11: Additional Caveats */}
-          <Section id="updated-limitations" title="11. Additional Caveats">
+          <Section id="updated-limitations" title="13. Additional Caveats">
             <div className="space-y-3">
               {[
                 {

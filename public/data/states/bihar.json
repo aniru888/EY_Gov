@@ -731,5 +731,18 @@
     "elec_yoy_pct": 8.6297,
     "credit_yoy_pct": -38.454,
     "epfo_yoy_pct": -33.5335
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0449,
+    "national_share_pct": 2.8928,
+    "elasticity": 1.4669,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.3054
+  },
+  "gap_explanation": {
+    "direction": "underperformer",
+    "explanation": "Bihar ranks 4 positions lower on the activity index than on official GSDP. The gap likely reflects economic activity (agriculture, informal sector, government spending) that our four indicators do not capture.",
+    "key_drivers": [],
+    "key_drags": []
   }
 }

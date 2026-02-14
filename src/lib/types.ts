@@ -305,3 +305,205 @@ export interface EnrichedRankingEntry extends RankingEntry {
   rank_gap?: number | null;
   brap_category?: string | null;
 }
+
+// --- Electricity Analysis Types ---
+
+export interface ElectricityMonthlyGrowth {
+  month: string;
+  yoy_pct: number;
+}
+
+export interface ElectricitySeasonalityPoint {
+  month: number;
+  index: number;
+}
+
+export interface StateElectricityProfile {
+  intensity_mu_per_crore: number | null;
+  national_share_pct: number | null;
+  elasticity: number | null;
+  elasticity_label: string | null;
+  bivariate_residual_crore: number | null;
+  residual_label: string | null;
+  volatility_cov: number | null;
+  monthly_growth: ElectricityMonthlyGrowth[];
+  seasonality_index: ElectricitySeasonalityPoint[];
+}
+
+export interface ElectricityIntensityRanking {
+  state: string;
+  slug: string;
+  intensity: number;
+  gsdp_crore: number;
+  electricity_mu: number;
+}
+
+export interface ElectricityElasticityRanking {
+  state: string;
+  slug: string;
+  elasticity: number;
+  label: string;
+}
+
+export interface ElectricityScatterPoint {
+  state: string;
+  slug: string;
+  electricity_mu: number;
+  gsdp_crore: number;
+  elasticity_label: string | null;
+  residual_crore: number | null;
+}
+
+export interface ElectricityData {
+  generated_at: string;
+  national_summary: {
+    total_mu_latest_fy: number;
+    yoy_growth_pct: number;
+    gsdp_correlation_r: number;
+    latest_fy: string;
+  };
+  state_profiles: Record<string, StateElectricityProfile>;
+  rankings_by_intensity: ElectricityIntensityRanking[];
+  rankings_by_elasticity: ElectricityElasticityRanking[];
+  electricity_vs_gsdp_scatter: ElectricityScatterPoint[];
+  electricity_vs_gsdp_regression: {
+    r_squared: number;
+    n: number;
+    coef: number;
+    intercept: number;
+    latest_fy: string;
+  };
+}
+
+// --- Enhanced Insights Types ---
+
+export interface GapExplanationEntry {
+  state: string;
+  slug: string;
+  index_rank: number | null;
+  gsdp_rank: number | null;
+  rank_gap: number | null;
+  direction: string;
+  explanation: string;
+  key_drivers: string[];
+  key_drags: string[];
+  strongest_component: string | null;
+  weakest_component: string | null;
+}
+
+export interface GapExplanationsData {
+  latest_fy: string;
+  all: Record<string, GapExplanationEntry>;
+  top_outperformers: string[];
+  top_underperformers: string[];
+}
+
+export interface RegionSummary {
+  mean_composite: number;
+  median_composite: number;
+  n_states: number;
+  states: string[];
+  best_state: string;
+  worst_state: string;
+  mean_gsdp_rank?: number;
+  trend?: string;
+}
+
+export interface RegionalTrendPoint {
+  fiscal_year: string;
+  mean_composite: number;
+  n_states: number;
+}
+
+export interface RegionalAnalysisData {
+  latest_fy: string;
+  regions: Record<string, RegionSummary>;
+  trends: Record<string, RegionalTrendPoint[]>;
+}
+
+export interface PanelFEResult {
+  n: number;
+  n_states: number;
+  n_years: number;
+  within_r_squared: number;
+  between_r_squared: number | null;
+  overall_r_squared: number;
+  coefficients: Record<string, { coef: number; se: number; t: number; p: number }>;
+  hausman_test?: { stat?: number; p?: number; preferred?: string; note?: string };
+  note: string;
+  skipped?: boolean;
+}
+
+export interface LogLogResult {
+  cross_sectional?: {
+    n: number;
+    fiscal_year: string;
+    r_squared: number;
+    adj_r_squared: number;
+    elasticities: Record<string, { elasticity: number; p: number }>;
+    note: string;
+  };
+  panel?: {
+    n: number;
+    n_years: number;
+    r_squared: number;
+    elasticities: Record<string, { elasticity: number; p: number }>;
+    note: string;
+  };
+  skipped?: boolean;
+}
+
+export interface LaggedResult {
+  n: number;
+  n_states: number;
+  lag_years: number;
+  simple_correlation: { r: number; p: number };
+  panel_fe: { electricity_growth_coef: number; se: number; t: number; p: number };
+  interpretation: string;
+  note: string;
+  skipped?: boolean;
+}
+
+export interface PCAResult {
+  n: number;
+  fiscal_year: string;
+  pc1_loadings: Record<string, number>;
+  pc1_variance_explained_pct: number;
+  all_variance_explained_pct?: number[];
+  implied_weights: Record<string, number>;
+  rank_correlation_with_equal_weights: number;
+  rank_correlation_p: number;
+  interpretation: string;
+  skipped?: boolean;
+}
+
+// Extended RegressionData with new analysis types
+export interface EnhancedRegressionData extends RegressionData {
+  panel_fe?: PanelFEResult;
+  log_log?: LogLogResult;
+  lagged?: LaggedResult;
+  pca?: PCAResult;
+}
+
+// Extended InsightsData with new sections
+export interface EnhancedInsightsData extends InsightsData {
+  gap_explanations?: GapExplanationsData;
+  regional_analysis?: RegionalAnalysisData;
+}
+
+// Extended StateDetail with electricity + gap explanation
+export interface EnhancedStateDetail extends StateDetail {
+  electricity?: {
+    intensity_mu_per_crore: number | null;
+    national_share_pct: number | null;
+    elasticity: number | null;
+    elasticity_label: string | null;
+    volatility_cov: number | null;
+  };
+  gap_explanation?: {
+    direction: string;
+    explanation: string;
+    key_drivers: string[];
+    key_drags: string[];
+  };
+}

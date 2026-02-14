@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-14T14:31:24.542592",
+  "generated_at": "2026-02-14T16:07:08.451427",
   "note": "Cross-sectional OLS: GSDP regressed on 4 activity indicators. NOT a causal model.",
   "latest_fy_with_gsdp": "2024-25",
   "cross_sectional": {
@@ -133,5 +133,140 @@
     "f_pvalue": 0.0,
     "note": "Year dummies included to absorb national trends."
   },
-  "interpretation": "The four activity indicators jointly explain ~93% of cross-sectional variation in state GSDP (F=59.3, p<0.001). 1 of 3 additional components significantly improve fit (partial F-test, p<0.05). VIF values (3.2-26.1) indicate high multicollinearity; individual coefficient estimates are unreliable, but joint significance (F-test) remains valid. R-squared increases to 0.95 without Maharashtra, indicating it is an outlier that slightly worsens fit (likely due to Mumbai's inflated bank credit). These are associations, not causal relationships."
+  "interpretation": "The four activity indicators jointly explain ~93% of cross-sectional variation in state GSDP (F=59.3, p<0.001). 1 of 3 additional components significantly improve fit (partial F-test, p<0.05). VIF values (3.2-26.1) indicate high multicollinearity; individual coefficient estimates are unreliable, but joint significance (F-test) remains valid. R-squared increases to 0.95 without Maharashtra, indicating it is an outlier that slightly worsens fit (likely due to Mumbai's inflated bank credit). These are associations, not causal relationships.",
+  "panel_fe": {
+    "n": 233,
+    "n_states": 30,
+    "n_years": 8,
+    "within_r_squared": 0.9105,
+    "between_r_squared": 0.9175,
+    "overall_r_squared": 0.9191,
+    "coefficients": {
+      "gst_total": {
+        "coef": 6.2471,
+        "se": 1.3418,
+        "t": 4.6559,
+        "p": 6e-06
+      },
+      "electricity_mu": {
+        "coef": 15.45,
+        "se": 2.5619,
+        "t": 6.0307,
+        "p": 0.0
+      },
+      "bank_credit_yoy": {
+        "coef": -0.3235,
+        "se": 0.1788,
+        "t": -1.8094,
+        "p": 0.071947
+      },
+      "epfo_payroll": {
+        "coef": 0.0662,
+        "se": 0.0732,
+        "t": 0.9056,
+        "p": 0.366288
+      }
+    },
+    "note": "State FE absorbs time-invariant state characteristics. Year FE absorbs national trends. Clustered SEs by state.",
+    "hausman_test": {
+      "stat": 0.0056,
+      "p": 1.0,
+      "preferred": "RE",
+      "note": "p<0.05 favors FE (systematic differences between states)."
+    }
+  },
+  "log_log": {
+    "cross_sectional": {
+      "n": 24,
+      "fiscal_year": "2024-25",
+      "r_squared": 0.9692,
+      "adj_r_squared": 0.9627,
+      "elasticities": {
+        "gst_total": {
+          "elasticity": 0.2079,
+          "p": 0.240427
+        },
+        "electricity_mu": {
+          "elasticity": 0.3012,
+          "p": 0.0123
+        },
+        "bank_credit_yoy": {
+          "elasticity": 0.5182,
+          "p": 0.002689
+        },
+        "epfo_payroll": {
+          "elasticity": -0.1485,
+          "p": 0.196336
+        }
+      },
+      "note": "Log-log coefficients = elasticities. A 1% increase in X is associated with beta% increase in GSDP."
+    },
+    "panel": {
+      "n": 223,
+      "n_years": 8,
+      "r_squared": 0.9741,
+      "elasticities": {
+        "gst_total": {
+          "elasticity": 0.2776,
+          "p": 0.0
+        },
+        "electricity_mu": {
+          "elasticity": 0.4252,
+          "p": 0.0
+        },
+        "bank_credit_yoy": {
+          "elasticity": 0.224,
+          "p": 0.0
+        },
+        "epfo_payroll": {
+          "elasticity": -0.0764,
+          "p": 0.00083
+        }
+      },
+      "note": "Pooled log-log with year dummies."
+    }
+  },
+  "lagged": {
+    "n": 184,
+    "n_states": 32,
+    "lag_years": 1,
+    "simple_correlation": {
+      "r": 0.1576,
+      "p": 0.0326
+    },
+    "panel_fe": {
+      "electricity_growth_coef": 0.1493,
+      "se": 0.0755,
+      "t": 1.9777,
+      "p": 0.049777
+    },
+    "note": "Lagged correlation, not a causal test. Tests whether electricity growth in year t-1 is associated with GSDP growth in year t. Reverse causality remains possible.",
+    "interpretation": "States where electricity grew faster had significantly higher GSDP growth the following year (coef=0.15, p=0.050). This is consistent with electricity being a leading indicator, but is not a causal claim."
+  },
+  "pca": {
+    "n": 30,
+    "fiscal_year": "2024-25",
+    "pc1_loadings": {
+      "gst": 0.5216,
+      "electricity": 0.4578,
+      "credit": 0.5168,
+      "epfo": 0.5013
+    },
+    "pc1_variance_explained_pct": 92.7,
+    "all_variance_explained_pct": [
+      92.7,
+      5.9,
+      0.8,
+      0.5
+    ],
+    "implied_weights": {
+      "gst": 0.2611,
+      "electricity": 0.2292,
+      "credit": 0.2587,
+      "epfo": 0.2509
+    },
+    "rank_correlation_with_equal_weights": 1.0,
+    "rank_correlation_p": 0.0,
+    "interpretation": "PCA and equal weights produce nearly identical rankings (Spearman rho=1.000). The equal-weight approach is validated by the data."
+  }
 }

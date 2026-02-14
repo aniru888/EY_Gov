@@ -731,5 +731,18 @@
     "elec_yoy_pct": 2.491,
     "credit_yoy_pct": -6.243,
     "epfo_yoy_pct": 9.2925
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0774,
+    "national_share_pct": 1.2081,
+    "elasticity": 1.6902,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2295
+  },
+  "gap_explanation": {
+    "direction": "aligned",
+    "explanation": "Jammu & Kashmir is closely aligned between the activity index and official GSDP rankings.",
+    "key_drivers": [],
+    "key_drags": []
   }
 }

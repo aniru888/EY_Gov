@@ -731,5 +731,23 @@
     "elec_yoy_pct": -2.4459,
     "credit_yoy_pct": -37.2886,
     "epfo_yoy_pct": -2.1605
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0322,
+    "national_share_pct": 5.5717,
+    "elasticity": 1.9009,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2247
+  },
+  "gap_explanation": {
+    "direction": "aligned",
+    "explanation": "Karnataka is roughly aligned between index and GDP. Bangalore's IT sector drives EPFO and GST, while southern Karnataka's industry supports electricity demand. Slight divergence possible as IT services are less electricity-intensive.",
+    "key_drivers": [
+      "EPFO: Bangalore IT employment",
+      "GST: services economy"
+    ],
+    "key_drags": [
+      "IT services less electricity-intensive"
+    ]
   }
 }

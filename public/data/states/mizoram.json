@@ -731,5 +731,12 @@
     "elec_yoy_pct": 5.0835,
     "credit_yoy_pct": -6.3771,
     "epfo_yoy_pct": 33.1461
+  },
+  "electricity": {
+    "intensity_mu_per_crore": null,
+    "national_share_pct": 0.0461,
+    "elasticity": 1.8,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2135
   }
 }

@@ -731,5 +731,18 @@
     "elec_yoy_pct": 7.8827,
     "credit_yoy_pct": -31.244,
     "epfo_yoy_pct": -19.2389
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0448,
+    "national_share_pct": 1.0143,
+    "elasticity": 2.2378,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2419
+  },
+  "gap_explanation": {
+    "direction": "aligned",
+    "explanation": "Uttarakhand is closely aligned between the activity index and official GSDP rankings.",
+    "key_drivers": [],
+    "key_drags": []
   }
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getStateData, getAllStateSlugs, getRankings } from "@/lib/data";
+import { getEnhancedStateData, getAllStateSlugs, getRankings } from "@/lib/data";
 import { formatIndianNumber } from "@/lib/data";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import MetricCard from "@/components/common/MetricCard";
@@ -19,7 +19,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const data = getStateData(slug);
+  const data = getEnhancedStateData(slug);
   return {
     title: `${data.state} | State Economic Activity Index`,
     description: `Economic activity index for ${data.state}: composite score, GST, electricity, bank credit, and EPFO payroll trends.`,
@@ -32,7 +32,7 @@ export default async function StatePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const stateData = getStateData(slug);
+  const stateData = getEnhancedStateData(slug);
   const rankings = getRankings();
 
   // Find latest FY with a non-null composite score
@@ -182,6 +182,116 @@ export default async function StatePage({
           insights={stateData.insights}
           latestFy={latestFy}
         />
+      )}
+
+      {/* Electricity metrics + gap explanation */}
+      {(stateData.electricity || stateData.gap_explanation) && (
+        <div className="space-y-4 mb-8">
+          {/* Electricity row */}
+          {stateData.electricity && (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <div className="text-xs text-blue-600 font-medium">
+                  Elec Intensity
+                </div>
+                <div className="text-lg font-bold tabular-nums text-blue-900">
+                  {stateData.electricity.intensity_mu_per_crore !== null
+                    ? stateData.electricity.intensity_mu_per_crore.toFixed(3)
+                    : "--"}{" "}
+                  <span className="text-xs font-normal">MU/Cr</span>
+                </div>
+              </div>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <div className="text-xs text-blue-600 font-medium">
+                  National Share
+                </div>
+                <div className="text-lg font-bold tabular-nums text-blue-900">
+                  {stateData.electricity.national_share_pct !== null
+                    ? stateData.electricity.national_share_pct.toFixed(1)
+                    : "--"}
+                  %
+                </div>
+              </div>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <div className="text-xs text-blue-600 font-medium">
+                  Elasticity
+                </div>
+                <div className="text-lg font-bold tabular-nums text-blue-900">
+                  {stateData.electricity.elasticity !== null
+                    ? stateData.electricity.elasticity.toFixed(2)
+                    : "--"}
+                </div>
+              </div>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <div className="text-xs text-blue-600 font-medium">
+                  Classification
+                </div>
+                <div className="text-lg font-bold text-blue-900">
+                  {stateData.electricity.elasticity_label && (
+                    <span
+                      className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full ${
+                        stateData.electricity.elasticity_label === "industrial"
+                          ? "bg-red-100 text-red-700"
+                          : stateData.electricity.elasticity_label ===
+                              "services-transitioning"
+                            ? "bg-sky-100 text-sky-700"
+                            : "bg-amber-100 text-amber-700"
+                      }`}
+                    >
+                      {stateData.electricity.elasticity_label}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Gap explanation */}
+          {stateData.gap_explanation && stateData.gap_explanation.explanation && (
+            <div
+              className={`border rounded-lg p-4 ${
+                stateData.gap_explanation.direction === "outperformer"
+                  ? "border-emerald-200 bg-emerald-50"
+                  : stateData.gap_explanation.direction === "underperformer"
+                    ? "border-amber-200 bg-amber-50"
+                    : "border-gray-200 bg-gray-50"
+              }`}
+            >
+              <p
+                className={`text-sm ${
+                  stateData.gap_explanation.direction === "outperformer"
+                    ? "text-emerald-900"
+                    : stateData.gap_explanation.direction === "underperformer"
+                      ? "text-amber-900"
+                      : "text-gray-800"
+                }`}
+              >
+                {stateData.gap_explanation.explanation}
+              </p>
+              {(stateData.gap_explanation.key_drivers.length > 0 ||
+                stateData.gap_explanation.key_drags.length > 0) && (
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {stateData.gap_explanation.key_drivers.map((d) => (
+                    <span
+                      key={d}
+                      className="inline-block text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full"
+                    >
+                      {d}
+                    </span>
+                  ))}
+                  {stateData.gap_explanation.key_drags.map((d) => (
+                    <span
+                      key={d}
+                      className="inline-block text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full"
+                    >
+                      {d}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       )}
 
       {/* Charts */}

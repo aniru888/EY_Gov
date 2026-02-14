@@ -731,5 +731,18 @@
     "elec_yoy_pct": -1.6618,
     "credit_yoy_pct": -43.5273,
     "epfo_yoy_pct": -1.7405
+  },
+  "electricity": {
+    "intensity_mu_per_crore": 0.0499,
+    "national_share_pct": 4.7331,
+    "elasticity": 2.0503,
+    "elasticity_label": "industrial",
+    "volatility_cov": 0.2123
+  },
+  "gap_explanation": {
+    "direction": "underperformer",
+    "explanation": "Andhra Pradesh ranks 4 positions lower on the activity index than on official GSDP. The gap likely reflects economic activity (agriculture, informal sector, government spending) that our four indicators do not capture.",
+    "key_drivers": [],
+    "key_drags": []
   }
 }
