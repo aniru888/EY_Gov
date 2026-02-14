@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-02-14T11:48:27.612284",
+  "methodology": {
+    "name": "Li Keqiang Index for Indian States",
+    "version": "1.0",
+    "description": "Composite State Economic Activity Index using 4 hard data indicators",
+    "normalization": "Cross-sectional z-scores within each fiscal year",
+    "weights": "Equal weights (0.25 each)",
+    "min_components": 3,
+    "components": [
+      {
+        "name": "GST Collections",
+        "column": "gst_total",
+        "unit": "INR crore",
+        "type": "flow",
+        "frequency": "monthly",
+        "source": "gst.gov.in"
+      },
+      {
+        "name": "Electricity Demand",
+        "column": "electricity_mu",
+        "unit": "Million Units (MU)",
+        "type": "flow",
+        "frequency": "daily (aggregated to monthly)",
+        "source": "POSOCO/Grid India via Robbie Andrew",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "name": "Bank Credit (YoY Delta)",
+        "column": "bank_credit_yoy",
+        "unit": "INR crore (year-over-year change)",
+        "type": "stock-to-flow",
+        "frequency": "annual",
+        "source": "RBI Handbook of Statistics, Table 156"
+      },
+      {
+        "name": "EPFO Net Payroll",
+        "column": "epfo_payroll",
+        "unit": "Number of persons",
+        "type": "flow",
+        "frequency": "annual",
+        "source": "epfindia.gov.in"
+      }
+    ]
+  },
+  "data_coverage": {
+    "fiscal_years": [
+      "2017-18",
+      "2018-19",
+      "2019-20",
+      "2020-21",
+      "2021-22",
+      "2022-23",
+      "2023-24",
+      "2024-25",
+      "2025-26"
+    ],
+    "latest_fy": "2025-26",
+    "states_count": 36,
+    "states_with_4_components": 240
+  }
+}
